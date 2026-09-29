@@ -8,8 +8,10 @@ import StudentLayout from '../layouts/StudentLayout';
 
 // Auth Pages (optional/available directly)
 import Login from '../pages/auth/Login';
+import Register from '../pages/auth/Register';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import ResetPassword from '../pages/auth/ResetPassword';
+
 
 // Admin Pages
 import AdminDashboard from '../pages/admin/Dashboard';
@@ -85,8 +87,11 @@ const AppRoutes = () => {
 
       {/* Auth Pages */}
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Register />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+
 
       {/* Admin Routes (Directly Accessible) */}
       <Route path="/admin" element={<AdminLayout />}>

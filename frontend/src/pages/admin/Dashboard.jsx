@@ -41,36 +41,43 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-4 pb-6">
-      {/* 🌟 Compact Claymorphism Welcome Banner */}
-      <div className="clay-indigo p-4 sm:p-5 relative overflow-hidden">
+      {/* 🌟 Compact Claymorphism Welcome Banner (Green Admin Theme) */}
+      <div className="clay-emerald p-4 sm:p-5 relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-bold text-indigo-700 dark:text-indigo-300 mb-1.5 shadow-xs border border-indigo-200/60 dark:border-indigo-800/60">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-bold text-emerald-700 dark:text-emerald-300 mb-1.5 shadow-xs border border-emerald-200/60 dark:border-emerald-800/60">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
               <span>School Administration System • 2026-27</span>
             </div>
             <h1 className="text-lg sm:text-xl font-extrabold text-slate-800 dark:text-white tracking-tight">
               Welcome back, {user?.name || 'Administrator'}! 🏛️
             </h1>
             <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-              1,248 students enrolled across 32 sections. Today's overall attendance rate is <span className="font-bold text-indigo-600 dark:text-indigo-400">95.4%</span>.
+              1,248 students enrolled across 32 sections. Today's overall attendance rate is <span className="font-bold text-emerald-600 dark:text-emerald-400">95.4%</span>.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             <Link
-              to="/admin/students/add"
-              className="clay-btn-primary px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+              to="/admin/teachers/add"
+              className="clay-btn-emerald px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer shadow-md"
             >
               <UserPlus className="w-3.5 h-3.5" />
+              <span>+ Add Teacher</span>
+            </Link>
+            <Link
+              to="/admin/students/add"
+              className="clay-btn-secondary px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer text-slate-700 dark:text-slate-200"
+            >
+              <Users className="w-3.5 h-3.5 text-emerald-600" />
               <span>Add Student</span>
             </Link>
             <Link
-              to="/admin/fees/collect"
-              className="clay-btn-secondary px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+              to="/admin/attendance/teacher"
+              className="clay-btn-secondary px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer text-slate-700 dark:text-slate-200"
             >
-              <CreditCard className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-              <span>Collect Fees</span>
+              <CalendarCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Staff Attendance</span>
             </Link>
           </div>
         </div>

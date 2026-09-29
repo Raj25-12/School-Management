@@ -144,6 +144,84 @@
     inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.25);
 }
 
+/* Admin Theme Button (Green/Emerald) */
+.clay-btn-emerald {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 
+    3px 4px 12px rgba(5, 150, 105, 0.35),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.4),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-btn-emerald:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    4px 6px 14px rgba(5, 150, 105, 0.45),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.45);
+}
+
+.clay-btn-emerald:active {
+  transform: translateY(1px);
+  box-shadow: 
+    2px 2px 6px rgba(5, 150, 105, 0.35),
+    inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Teacher Theme Button (Red/Rose) */
+.clay-btn-rose {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 
+    3px 4px 12px rgba(225, 29, 72, 0.35),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.4),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-btn-rose:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    4px 6px 14px rgba(225, 29, 72, 0.45),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.45);
+}
+
+.clay-btn-rose:active {
+  transform: translateY(1px);
+  box-shadow: 
+    2px 2px 6px rgba(225, 29, 72, 0.35),
+    inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Student Theme Button (Blue/Sky) */
+.clay-btn-sky {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 
+    3px 4px 12px rgba(2, 132, 199, 0.35),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.4),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-btn-sky:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    4px 6px 14px rgba(2, 132, 199, 0.45),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.45);
+}
+
+.clay-btn-sky:active {
+  transform: translateY(1px);
+  box-shadow: 
+    2px 2px 6px rgba(2, 132, 199, 0.35),
+    inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.25);
+}
+
 /* Interactive Clay Button Secondary (Light) */
 .clay-btn-secondary {
   background-color: #ffffff;
@@ -313,4 +391,17 @@ html.dark .clay-progress-track {
     inset 2px 2px 4px rgba(0, 0, 0, 0.5),
     inset -1px -1px 2px rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+@keyframes toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.animate-toast-progress {
+  animation-name: toast-progress;
 }
