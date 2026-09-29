@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import logo from '../../assets/logo_clean.png';
 import {
-  GraduationCap,
+
   X,
   LogOut,
   LayoutDashboard,
@@ -15,6 +16,7 @@ import {
   Bell,
   CheckSquare
 } from 'lucide-react';
+
 
 const StudentSidebar = ({ isOpen, setIsOpen }) => {
   const { logout } = useAuth();
@@ -66,9 +68,8 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
     <>
       {/* Mobile Backdrop Overlay */}
       <div
-        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
         onClick={() => setIsOpen && setIsOpen(false)}
         aria-hidden="true"
       />
@@ -76,28 +77,31 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
       {/* Sidebar Drawer */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md border-r border-slate-200/80 dark:border-slate-800 
-        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
-          isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
-        }`}
+        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
+          }`}
       >
-        {/* Brand Header with Clay Logo Box */}
-        <div className="flex items-center justify-between px-5 py-5 border-b border-slate-200/70 dark:border-slate-800 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-teal-500 text-white flex items-center justify-center shadow-md clay-icon-pill">
-              <GraduationCap className="w-5 h-5" />
+        {/* Brand Header */}
+        <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-200/70 dark:border-slate-800 shrink-0">
+          <Link to="/student/dashboard" className="flex items-center gap-2.5 overflow-hidden group flex-1">
+            <div className="w-10 h-10 rounded-2xl bg-white/90 dark:bg-slate-800 clay-icon-pill p-1.5 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/80 shadow-xs shrink-0 group-hover:scale-105 transition-all">
+              <img
+                src={logo}
+                alt="School Management"
+                className="w-full h-full object-contain dark:brightness-0 dark:invert transition"
+              />
             </div>
-            <div>
-              <span className="text-base font-black text-slate-800 dark:text-white block leading-tight tracking-tight">
-                EduManage
+            <div className="flex flex-col truncate">
+              <span className="text-sm font-black text-slate-800 dark:text-white tracking-tight leading-none">
+                School Management
               </span>
-              <span className="text-xs font-bold text-teal-600 dark:text-teal-400">
+              <span className="text-[10px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider mt-1">
                 Student Portal
               </span>
             </div>
-          </div>
+          </Link>
           <button
             type="button"
-            className="lg:hidden clay-btn-secondary p-1.5 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition"
+            className="lg:hidden clay-btn-secondary p-1.5 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition shrink-0 ml-1"
             onClick={toggleSidebar}
             aria-label="Close sidebar"
           >
@@ -105,7 +109,9 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
           </button>
         </div>
 
-        {/* Navigation Links with 3D Clay Active State */}
+
+
+        {/* Navigation Links with Blue / Sky Active State */}
         <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
           {navLinks.map((link) => {
             const Icon = link.icon;
@@ -114,10 +120,9 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${
-                    isActive
-                      ? 'clay-btn-primary text-white shadow-md'
-                      : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800/80 hover:text-teal-600 dark:hover:text-teal-400 hover:shadow-xs'
+                  `flex items-center gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${isActive
+                    ? 'clay-btn-sky text-white shadow-md'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-sky-50/70 dark:hover:bg-sky-950/30 hover:text-sky-600 dark:hover:text-sky-400 hover:shadow-xs'
                   }`
                 }
               >

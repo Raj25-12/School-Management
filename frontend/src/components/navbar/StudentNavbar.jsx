@@ -57,7 +57,7 @@ const StudentNavbar = ({ toggleSidebar }) => {
 
           {/* Breadcrumb with Pastel Clay Pill */}
           <div className="flex items-center space-x-2 text-sm text-slate-500 dark:text-slate-400">
-            <span className="clay-emerald text-emerald-700 dark:text-emerald-300 px-2.5 py-1 rounded-xl font-bold text-xs">
+            <span className="clay-sky text-sky-700 dark:text-sky-300 px-2.5 py-1 rounded-xl font-bold text-xs">
               STUDENT
             </span>
             <span className="text-slate-400 font-bold">/</span>
@@ -73,13 +73,13 @@ const StudentNavbar = ({ toggleSidebar }) => {
           <button
             type="button"
             onClick={toggleTheme}
-            className="clay-btn-secondary p-2.5 rounded-xl text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-amber-400 transition cursor-pointer"
+            className="clay-btn-secondary p-2.5 rounded-xl text-slate-600 hover:text-sky-600 dark:text-slate-300 dark:hover:text-amber-400 transition cursor-pointer"
             title="Toggle Light/Dark Theme"
           >
             {theme === 'dark' ? (
               <Sun className="w-4 h-4 text-amber-400" />
             ) : (
-              <Moon className="w-4 h-4 text-indigo-600" />
+              <Moon className="w-4 h-4 text-sky-600" />
             )}
           </button>
 
@@ -88,7 +88,7 @@ const StudentNavbar = ({ toggleSidebar }) => {
             <div className="text-sm font-bold text-slate-800 dark:text-white leading-tight">
               {user?.name || 'Alex Johnson'}
             </div>
-            <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 capitalize">
+            <div className="text-xs font-semibold text-sky-600 dark:text-sky-400 capitalize">
               {user?.role || 'Student'} (Class 10-A)
             </div>
           </div>
@@ -101,10 +101,10 @@ const StudentNavbar = ({ toggleSidebar }) => {
               className="flex items-center gap-2 p-1 rounded-2xl hover:scale-105 transition cursor-pointer"
             >
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-teal-500 rounded-2xl flex items-center justify-center text-white font-bold text-sm shadow-md clay-icon-pill">
+                <div className="w-10 h-10 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-sm shadow-md clay-icon-pill">
                   {user?.name ? user.name.charAt(0).toUpperCase() : 'S'}
                 </div>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full shadow-xs"></span>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-sky-500 border-2 border-white dark:border-slate-900 rounded-full shadow-xs"></span>
               </div>
             </button>
 
@@ -126,9 +126,9 @@ const StudentNavbar = ({ toggleSidebar }) => {
                     setIsUserMenuOpen(false);
                     navigate('/student/profile');
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-xl transition cursor-pointer"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-sky-950/40 rounded-xl transition cursor-pointer"
                 >
-                  <User className="w-4 h-4 text-emerald-500" />
+                  <User className="w-4 h-4 text-sky-500" />
                   <span>My Profile</span>
                 </button>
 

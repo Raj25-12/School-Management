@@ -56,7 +56,7 @@ const TeacherNavbar = ({ toggleSidebar }) => {
 
           {/* Breadcrumb with Pastel Clay Pill */}
           <div className="flex items-center space-x-2 text-sm text-slate-500 dark:text-slate-400">
-            <span className="clay-indigo text-indigo-700 dark:text-indigo-300 px-2.5 py-1 rounded-xl font-bold text-xs">
+            <span className="clay-rose text-rose-700 dark:text-rose-300 px-2.5 py-1 rounded-xl font-bold text-xs">
               TEACHER
             </span>
             <span className="text-slate-400 font-bold">/</span>
@@ -72,13 +72,13 @@ const TeacherNavbar = ({ toggleSidebar }) => {
           <button
             type="button"
             onClick={toggleTheme}
-            className="clay-btn-secondary p-2.5 rounded-xl text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-amber-400 transition cursor-pointer"
+            className="clay-btn-secondary p-2.5 rounded-xl text-slate-600 hover:text-rose-600 dark:text-slate-300 dark:hover:text-amber-400 transition cursor-pointer"
             title="Toggle Light/Dark Theme"
           >
             {theme === 'dark' ? (
               <Sun className="w-4 h-4 text-amber-400" />
             ) : (
-              <Moon className="w-4 h-4 text-indigo-600" />
+              <Moon className="w-4 h-4 text-rose-600" />
             )}
           </button>
 
@@ -87,7 +87,7 @@ const TeacherNavbar = ({ toggleSidebar }) => {
             <div className="text-sm font-bold text-slate-800 dark:text-white leading-tight">
               {user?.name || 'Prof. Sharma'}
             </div>
-            <div className="text-xs font-medium text-indigo-600 dark:text-indigo-400 capitalize">
+            <div className="text-xs font-semibold text-rose-600 dark:text-rose-400 capitalize">
               {user?.role || 'Teacher'}
             </div>
           </div>
@@ -100,10 +100,10 @@ const TeacherNavbar = ({ toggleSidebar }) => {
               className="flex items-center gap-2 p-1 rounded-2xl hover:scale-105 transition cursor-pointer"
             >
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-sm shadow-md clay-icon-pill">
+                <div className="w-10 h-10 bg-gradient-to-br from-rose-500 to-rose-700 rounded-2xl flex items-center justify-center text-white font-bold text-sm shadow-md clay-icon-pill">
                   {user?.name ? user.name.charAt(0).toUpperCase() : 'T'}
                 </div>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full shadow-xs"></span>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-rose-500 border-2 border-white dark:border-slate-900 rounded-full shadow-xs"></span>
               </div>
             </button>
 
@@ -125,9 +125,9 @@ const TeacherNavbar = ({ toggleSidebar }) => {
                     setIsUserMenuOpen(false);
                     navigate('/teacher/profile');
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 rounded-xl transition cursor-pointer"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition cursor-pointer"
                 >
-                  <User className="w-4 h-4 text-indigo-500" />
+                  <User className="w-4 h-4 text-rose-500" />
                   <span>My Profile</span>
                 </button>
 
