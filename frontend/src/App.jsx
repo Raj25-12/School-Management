@@ -1,11 +1,19 @@
-import React from 'react'
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import AppRoutes from './routes/AppRoutes';
 
 const App = () => {
   return (
-    <div>
-      <h1 className='text-red-500 text-center text-3xl bg-blue-200 py-6'>Welcome to School Management System</h1>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
