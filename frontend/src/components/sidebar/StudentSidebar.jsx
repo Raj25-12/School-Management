@@ -1,204 +1,144 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import {
+  GraduationCap,
+  X,
+  LogOut,
   LayoutDashboard,
   User,
   CalendarCheck,
-  CalendarDays,
-  BookOpenCheck,
-  FileSpreadsheet,
-  GraduationCap,
+  Calendar,
+  FileText,
+  Award,
   CreditCard,
   Bell,
-  X,
-  BookMarked
+  CheckSquare
 } from 'lucide-react';
 
 const StudentSidebar = ({ isOpen, setIsOpen }) => {
-  const navItems = [
-    {
-      name: 'Dashboard',
-      path: '/student/dashboard',
-      icon: LayoutDashboard,
-    },
-    {
-      name: 'My Profile',
-      path: '/student/profile',
-      icon: User,
-    },
-    {
-      name: 'Attendance',
-      path: '/student/attendance',
-      icon: CalendarCheck,
-      badge: '96%',
-      badgeClass: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40',
-    },
-    {
-      name: 'Class Timetable',
-      path: '/student/timetable',
-      icon: CalendarDays,
-    },
-    {
-      name: 'Homework & Tasks',
-      path: '/student/homework',
-      icon: BookOpenCheck,
-      badge: '3 Due',
-      badgeClass: 'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400 border border-amber-200 dark:border-amber-800/40',
-    },
-    {
-      name: 'Exam Schedule',
-      path: '/student/exams',
-      icon: FileSpreadsheet,
-    },
-    {
-      name: 'Results & Grades',
-      path: '/student/results',
-      icon: GraduationCap,
-    },
-    {
-      name: 'Fee Payments',
-      path: '/student/fees',
-      icon: CreditCard,
-    },
-    {
-      name: 'Notice Board',
-      path: '/student/notices',
-      icon: Bell,
-      badge: '2 New',
-      badgeClass: 'bg-slate-100 text-slate-700 dark:bg-zinc-800 dark:text-zinc-300 border border-slate-200 dark:border-zinc-700',
-    },
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navLinks = [
+    { to: '/student/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/student/profile', label: 'My Profile', icon: User },
+    { to: '/student/attendance', label: 'My Attendance', icon: CalendarCheck },
+    { to: '/student/timetable', label: 'My Timetable', icon: Calendar },
+    { to: '/student/homework', label: 'My Homework', icon: FileText },
+    { to: '/student/exams', label: 'My Exams', icon: CheckSquare },
+    { to: '/student/results', label: 'My Results', icon: Award },
+    { to: '/student/fees', label: 'My Fees', icon: CreditCard },
+    { to: '/student/notices', label: 'Notices', icon: Bell },
   ];
 
-  const handleLinkClick = () => {
-    if (window.innerWidth < 1024 && setIsOpen) {
+  // Close sidebar on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, setIsOpen]);
+
+  // Close sidebar on route change on mobile
+  useEffect(() => {
+    if (window.innerWidth < 1024 && isOpen) {
       setIsOpen(false);
     }
+  }, [location.pathname]);
+
+  const toggleSidebar = () => {
+    if (setIsOpen) {
+      setIsOpen((prev) => !prev);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
     <>
-      {/* Mobile Backdrop */}
-      {isOpen && (
-        <div
-          onClick={() => setIsOpen(false)}
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-xs lg:hidden"
-        />
-      )}
+      {/* Mobile Backdrop Overlay */}
+      <div
+        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsOpen && setIsOpen(false)}
+        aria-hidden="true"
+      />
 
-      {/* Sidebar Container */}
+      {/* Sidebar Drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col bg-white dark:bg-[#121215] border-r border-slate-200 dark:border-zinc-800/80 transition-all duration-300 ease-in-out lg:static ${
-          isOpen ? 'w-64 translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-20'
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md border-r border-slate-200/80 dark:border-slate-800 
+        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
+          isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
         }`}
       >
-        {/* Branding Header */}
-        <div className="flex h-16 shrink-0 items-center justify-between px-5 border-b border-slate-200 dark:border-zinc-800/80">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-sm">
-              <GraduationCap className="h-5 w-5" />
+        {/* Brand Header with Clay Logo Box */}
+        <div className="flex items-center justify-between px-5 py-5 border-b border-slate-200/70 dark:border-slate-800 shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-teal-500 text-white flex items-center justify-center shadow-md clay-icon-pill">
+              <GraduationCap className="w-5 h-5" />
             </div>
-            {isOpen && (
-              <div className="flex flex-col truncate">
-                <span className="text-base font-bold text-slate-900 dark:text-zinc-100 tracking-tight">
-                  EduManage
-                </span>
-                <span className="text-xs font-semibold text-slate-500 dark:text-zinc-400">
-                  Student Portal
-                </span>
-              </div>
-            )}
+            <div>
+              <span className="text-base font-black text-slate-800 dark:text-white block leading-tight tracking-tight">
+                EduManage
+              </span>
+              <span className="text-xs font-bold text-teal-600 dark:text-teal-400">
+                Student Portal
+              </span>
+            </div>
           </div>
-
           <button
             type="button"
-            onClick={() => setIsOpen(false)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-zinc-400 dark:hover:bg-zinc-800 lg:hidden cursor-pointer"
+            className="lg:hidden clay-btn-secondary p-1.5 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition"
+            onClick={toggleSidebar}
+            aria-label="Close sidebar"
           >
-            <X className="h-4 w-4" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Navigation Items */}
-        <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
-          {isOpen && (
-            <p className="px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
-              Menu Navigation
-            </p>
-          )}
-
-          {navItems.map((item) => {
-            const Icon = item.icon;
+        {/* Navigation Links with 3D Clay Active State */}
+        <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+          {navLinks.map((link) => {
+            const Icon = link.icon;
             return (
               <NavLink
-                key={item.path}
-                to={item.path}
-                onClick={handleLinkClick}
+                key={link.to}
+                to={link.to}
                 className={({ isActive }) =>
-                  `group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-150 ${
+                  `flex items-center gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${
                     isActive
-                      ? 'bg-slate-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-xs'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100'
+                      ? 'clay-btn-primary text-white shadow-md'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800/80 hover:text-teal-600 dark:hover:text-teal-400 hover:shadow-xs'
                   }`
                 }
-                title={!isOpen ? item.name : undefined}
               >
-                {({ isActive }) => (
-                  <>
-                    <Icon
-                      className={`h-4.5 w-4.5 shrink-0 transition-transform group-hover:scale-105 ${
-                        isActive
-                          ? 'text-white dark:text-zinc-900'
-                          : 'text-slate-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-zinc-100'
-                      }`}
-                    />
-                    {isOpen && (
-                      <span className="truncate flex-1">{item.name}</span>
-                    )}
-
-                    {isOpen && item.badge && (
-                      <span
-                        className={`ml-auto px-2 py-0.5 text-[11px] font-bold rounded-full ${
-                          isActive
-                            ? 'bg-white/20 text-white dark:bg-black/10 dark:text-zinc-900'
-                            : item.badgeClass
-                        }`}
-                      >
-                        {item.badge}
-                      </span>
-                    )}
-
-                    {!isOpen && isActive && (
-                      <span className="absolute right-1 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-slate-900 dark:bg-zinc-100 ring-2 ring-white dark:ring-zinc-900" />
-                    )}
-                  </>
-                )}
+                <Icon className="w-4 h-4 shrink-0" />
+                <span className="truncate">{link.label}</span>
               </NavLink>
             );
           })}
-        </div>
+        </nav>
 
-        {/* Bottom Student Academic Summary */}
-        {isOpen && (
-          <div className="p-3.5 border-t border-slate-200 dark:border-zinc-800/80">
-            <div className="rounded-xl bg-slate-50 p-3 dark:bg-zinc-900 border border-slate-200/80 dark:border-zinc-800">
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-2">
-                  <BookMarked className="h-4 w-4 text-slate-700 dark:text-zinc-300" />
-                  <span className="text-xs font-bold text-slate-900 dark:text-zinc-100">
-                    Term 2 Progress
-                  </span>
-                </div>
-                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">96.4%</span>
-              </div>
-              <p className="text-[11px] text-slate-500 dark:text-zinc-400 font-medium">
-                Attendance rate is on track
-              </p>
-              <div className="mt-2 h-1.5 w-full bg-slate-200 dark:bg-zinc-800 rounded-full overflow-hidden">
-                <div className="h-full bg-emerald-500 rounded-full w-[96.4%]" />
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Footer with Clay Logout Button */}
+        <div className="p-3.5 border-t border-slate-200/70 dark:border-slate-800 shrink-0">
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="w-full clay-btn-secondary flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl text-xs font-bold text-red-600 hover:bg-rose-50 dark:text-red-400 dark:hover:bg-rose-950/40 transition cursor-pointer"
+          >
+            <LogOut className="w-4 h-4 shrink-0" />
+            <span>Logout</span>
+          </button>
+        </div>
       </aside>
     </>
   );
