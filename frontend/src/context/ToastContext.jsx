@@ -136,7 +136,7 @@ export const ToastProvider = ({ children }) => {
 
                 <div className="flex-1 min-w-0 pr-1">
                   {toast.title && (
-                    <h4 className={`text-xs font-black leading-tight ${style.title}`}>
+                    <h4 className={`text-xs font-semibold leading-tight ${style.title}`}>
                       {toast.title}
                     </h4>
                   )}

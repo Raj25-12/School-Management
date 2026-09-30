@@ -22,6 +22,8 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import logo from '../../../assets/logo_clean.png';
+import { getStoredTeachers, deleteStoredTeacher } from '../../../utils/teacherStorage';
+
 
 const initialTeachers = [
   {
@@ -117,34 +119,31 @@ const departments = [
   'English',
   'Social Science',
   'Computer Science',
-  'Languages',
+  'Languages (Hindi/Sanskrit)',
   'Physical Education & Sports'
 ];
 
+
 const TeacherList = () => {
   const navigate = useNavigate();
-  const [teachers, setTeachers] = useState([]);
+  const [teachers, setTeachers] = useState(() => getStoredTeachers());
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDept, setSelectedDept] = useState('All Departments');
   const [selectedStatus, setSelectedStatus] = useState('All Statuses');
   const [deleteId, setDeleteId] = useState(null);
   const [toastMsg, setToastMsg] = useState('');
 
-  // Load teachers from localStorage or defaults
+  // Load teachers and listen for reactive updates
   useEffect(() => {
-    const saved = localStorage.getItem('admin_teachers_list');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        // Combine initial and saved uniquely
-        const all = [...parsed, ...initialTeachers.filter(it => !parsed.some(p => p.employeeId === it.employeeId))];
-        setTeachers(all);
-      } catch (err) {
-        setTeachers(initialTeachers);
-      }
-    } else {
-      setTeachers(initialTeachers);
-    }
+    const handleUpdate = () => {
+      setTeachers(getStoredTeachers());
+    };
+    window.addEventListener('school_teachers_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('school_teachers_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
   }, []);
 
   const showToast = (msg) => {
@@ -156,10 +155,10 @@ const TeacherList = () => {
   const filteredTeachers = useMemo(() => {
     return teachers.filter((t) => {
       const matchSearch =
-        t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.employeeId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.primarySubject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.email.toLowerCase().includes(searchQuery.toLowerCase());
+        (t.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (t.employeeId || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (t.primarySubject || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (t.email || '').toLowerCase().includes(searchQuery.toLowerCase());
       const matchDept = selectedDept === 'All Departments' || t.department === selectedDept;
       const matchStatus = selectedStatus === 'All Statuses' || t.status === selectedStatus;
 
@@ -168,12 +167,12 @@ const TeacherList = () => {
   }, [teachers, searchQuery, selectedDept, selectedStatus]);
 
   const handleDelete = (id) => {
-    const updated = teachers.filter((t) => (t.id !== id && t.employeeId !== id));
+    const updated = deleteStoredTeacher(id);
     setTeachers(updated);
-    localStorage.setItem('admin_teachers_list', JSON.stringify(updated));
     setDeleteId(null);
     showToast('Teacher record removed from system');
   };
+
 
   return (
     <div className="space-y-4 pb-10">
@@ -430,6 +429,20 @@ const TeacherList = () => {
                 Exp: {teacher.experience || '5 Yrs'}
               </span>
               <div className="flex items-center gap-1.5">
+                <Link
+                  to={`/admin/teachers/details/${teacher.id || teacher.employeeId}`}
+                  className="clay-btn-secondary p-1.5 rounded-xl text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+                  title="View Details"
+                >
+                  <Building2 className="w-3.5 h-3.5" />
+                </Link>
+                <Link
+                  to={`/admin/teachers/edit/${teacher.id || teacher.employeeId}`}
+                  className="clay-btn-secondary p-1.5 rounded-xl text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition"
+                  title="Edit Teacher"
+                >
+                  <Edit2 className="w-3.5 h-3.5" />
+                </Link>
                 <button
                   type="button"
                   onClick={() => setDeleteId(teacher.id || teacher.employeeId)}

@@ -245,7 +245,7 @@ const TeacherAttendance = () => {
       };
       setAttendanceList([newItem, ...attendanceList]);
       showToast({
-        title: 'Attendance Recorded ✨',
+        title: 'Attendance Recorded',
         message: `${formData.name} attendance logged as ${formData.status}.`,
         type: 'emerald',
       });
@@ -254,7 +254,7 @@ const TeacherAttendance = () => {
         prev.map((item) => (item.id === formData.id ? { ...formData } : item))
       );
       showToast({
-        title: 'Attendance Updated ✏️',
+        title: 'Attendance Updated',
         message: `${formData.name} record updated successfully.`,
         type: 'info',
       });
@@ -268,7 +268,7 @@ const TeacherAttendance = () => {
     setAttendanceList((prev) => prev.filter((item) => item.id !== id));
     setDeleteConfirmId(null);
     showToast({
-      title: 'Record Removed 🗑️',
+      title: 'Record Removed',
       message: `Attendance log for ${deletedItem?.name || 'Staff'} deleted.`,
       type: 'rose',
     });

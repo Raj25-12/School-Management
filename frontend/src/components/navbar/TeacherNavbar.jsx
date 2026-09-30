@@ -1,20 +1,53 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { LogOut, Menu, User, Sun, Moon, Sparkles } from 'lucide-react';
+import { useToast } from '../../context/ToastContext';
+import { useNotifications } from '../../context/NotificationContext';
+import {
+  LogOut,
+  Menu,
+  User,
+  Sun,
+  Moon,
+  Bell,
+  CheckCheck,
+  Award,
+  FileText,
+  Mail,
+  CalendarCheck,
+  CreditCard,
+  ChevronRight,
+  Sparkles
+} from 'lucide-react';
 
 const TeacherNavbar = ({ toggleSidebar }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { showToast } = useToast();
+  const { getNotificationsForUser, markAsRead, markAllAsRead } = useNotifications();
   const location = useLocation();
   const navigate = useNavigate();
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
   const userMenuRef = useRef(null);
+  const notificationRef = useRef(null);
+
+  const notifications = getNotificationsForUser(user);
+  const unreadCount = notifications.filter(
+    (n) => !(n.read || (n.readBy && n.readBy.includes(user?.email)))
+  ).length;
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen((prev) => !prev);
+    if (isNotificationOpen) setIsNotificationOpen(false);
+  };
+
+  const toggleNotificationMenu = () => {
+    setIsNotificationOpen((prev) => !prev);
+    if (isUserMenuOpen) setIsUserMenuOpen(false);
   };
 
   // Close dropdown on click outside
@@ -22,6 +55,9 @@ const TeacherNavbar = ({ toggleSidebar }) => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false);
+      }
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setIsNotificationOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -32,6 +68,40 @@ const TeacherNavbar = ({ toggleSidebar }) => {
     setIsUserMenuOpen(false);
     logout();
     navigate('/login');
+  };
+
+  const handleMarkAllRead = () => {
+    markAllAsRead(user?.email || 'teacher@school.com');
+  };
+
+  const handleNotificationClick = (notif) => {
+    markAsRead(notif.id, user?.email || 'teacher@school.com');
+    setIsNotificationOpen(false);
+
+    showToast({
+      title: notif.title,
+      message: notif.message,
+      type: 'rose',
+      actionLabel: 'Open Notices & Mail',
+      onAction: () => navigate('/teacher/notices'),
+    });
+
+    navigate('/teacher/notices');
+  };
+
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case 'exam':
+        return { icon: Award, color: 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/80' };
+      case 'homework':
+        return { icon: FileText, color: 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/80' };
+      case 'mail':
+        return { icon: Mail, color: 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/80' };
+      case 'attendance':
+        return { icon: CalendarCheck, color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/80' };
+      default:
+        return { icon: Bell, color: 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/80' };
+    }
   };
 
   const getPageTitle = () => {
@@ -47,7 +117,7 @@ const TeacherNavbar = ({ toggleSidebar }) => {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            className="lg:hidden clay-btn-secondary p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-indigo-600 transition cursor-pointer"
+            className="lg:hidden clay-btn-secondary p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-rose-600 transition cursor-pointer"
             onClick={toggleSidebar}
             aria-label="Open sidebar"
           >
@@ -66,8 +136,130 @@ const TeacherNavbar = ({ toggleSidebar }) => {
           </div>
         </div>
 
-        {/* Right side: Theme toggle + User profile menu */}
-        <div className="flex items-center gap-3">
+        {/* Right side: Notification Bell + Theme toggle + User profile menu */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* 🔔 Notification Bell Button with Live Badge */}
+          <div className="relative" ref={notificationRef}>
+            <button
+              type="button"
+              onClick={toggleNotificationMenu}
+              className={`clay-btn-secondary p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 transition cursor-pointer relative ${
+                isNotificationOpen ? 'bg-rose-50 dark:bg-rose-950/60 text-rose-600' : ''
+              }`}
+              title="View Teacher Notifications"
+              aria-label="Notifications"
+            >
+              <Bell className="w-4 h-4" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-black text-white shadow-md animate-pulse">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            {/* 📬 Notification Dropdown */}
+            {isNotificationOpen && (
+              <div className="absolute right-0 top-14 w-80 sm:w-96 clay-card p-0 z-50 overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-150 border border-slate-200/80 dark:border-slate-800">
+                {/* Header */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/70">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 clay-icon-pill">
+                      <Bell className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs font-black text-slate-800 dark:text-white">
+                        Teacher Alerts & Circulars
+                      </h3>
+                      <p className="text-[10px] text-slate-400">
+                        {unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}
+                      </p>
+                    </div>
+                  </div>
+
+                  {unreadCount > 0 && (
+                    <button
+                      type="button"
+                      onClick={handleMarkAllRead}
+                      className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      <CheckCheck className="w-3.5 h-3.5" />
+                      <span>Mark all read</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Notification Items List */}
+                <div className="max-h-72 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800/60">
+                  {notifications.length === 0 ? (
+                    <div className="p-6 text-center text-slate-400 text-xs font-semibold">
+                      No notifications for you right now
+                    </div>
+                  ) : (
+                    notifications.map((notif) => {
+                      const iconData = getNotificationIcon(notif.type);
+                      const Icon = iconData.icon;
+                      const isRead = Boolean(notif.read || (notif.readBy && notif.readBy.includes(user?.email)));
+                      const timeString = notif.createdAt ? new Date(notif.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Recently';
+
+                      return (
+                        <div
+                          key={notif.id}
+                          onClick={() => handleNotificationClick(notif)}
+                          className={`flex items-start gap-3 p-3.5 hover:bg-slate-50/90 dark:hover:bg-slate-800/50 transition cursor-pointer relative ${
+                            !isRead ? 'bg-rose-50/40 dark:bg-rose-950/20' : ''
+                          }`}
+                        >
+                          <div className={`p-2 rounded-xl shrink-0 clay-icon-pill ${iconData.color}`}>
+                            <Icon className="w-4 h-4" />
+                          </div>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1">
+                              <h4 className="text-xs font-bold text-slate-800 dark:text-white truncate">
+                                {notif.title}
+                              </h4>
+                              <span className="text-[10px] font-medium text-slate-400 shrink-0">
+                                {timeString}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-snug mt-0.5 line-clamp-2">
+                              {notif.message}
+                            </p>
+                            <div className="mt-1 flex items-center gap-1.5 text-[9px] text-slate-400">
+                              <span className="font-semibold text-rose-600 dark:text-rose-400">
+                                {notif.senderName}
+                              </span>
+                              <span>•</span>
+                              <span>Target: {notif.targetClass || notif.targetAudience}</span>
+                            </div>
+                          </div>
+
+                          {!isRead && (
+                            <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0 self-center"></span>
+                          )}
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+
+                {/* Footer Link */}
+                <div className="p-2.5 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 text-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsNotificationOpen(false);
+                      navigate('/teacher/notices');
+                    }}
+                    className="text-xs font-bold text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
+                  >
+                    Open Teacher Notices & Messages Hub →
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Dark/Light mode toggle Clay Button */}
           <button
             type="button"

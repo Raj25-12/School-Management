@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useToast } from '../../context/ToastContext';
 import logo from '../../assets/logo_clean.png';
 import {
   ShieldCheck,
@@ -24,6 +25,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { showToast } = useToast();
 
   const [role, setRole] = useState('student'); // 'student' | 'teacher' | 'admin'
   const [formData, setFormData] = useState({
@@ -43,22 +45,37 @@ const Register = () => {
     setError('');
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      const errMsg = 'Passwords do not match. Please verify and try again.';
+      setError(errMsg);
+      showToast({
+        title: 'Validation Error',
+        message: errMsg,
+        type: 'error',
+      });
       return;
     }
 
     setIsLoading(true);
 
     setTimeout(() => {
+      const registeredName = formData.name || (role === 'student' ? 'Alex Johnson' : role === 'teacher' ? 'Prof. Sharma' : 'Admin User');
       login(
         {
-          name: formData.name || (role === 'student' ? 'Alex Johnson' : role === 'teacher' ? 'Prof. Sharma' : 'Admin User'),
+          name: registeredName,
           email: formData.email,
           role: role,
         },
         'sample-jwt-token'
       );
       setIsLoading(false);
+
+      showToast({
+        title: 'Account Created Successfully',
+        message: `Welcome to School Management, ${registeredName}!`,
+        type: role === 'admin' ? 'emerald' : role === 'teacher' ? 'rose' : 'sky',
+        duration: 5000,
+      });
+
       navigate(`/${role}/dashboard`);
     }, 400);
   };

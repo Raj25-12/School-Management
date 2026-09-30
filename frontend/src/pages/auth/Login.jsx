@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useToast } from '../../context/ToastContext';
 import logo from '../../assets/logo_clean.png';
 import {
   ShieldCheck,
@@ -22,6 +23,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { showToast } = useToast();
 
   const [role, setRole] = useState('admin'); // 'admin' | 'teacher' | 'student'
   const [formData, setFormData] = useState({
@@ -48,28 +50,46 @@ const Login = () => {
     setIsLoading(true);
 
     setTimeout(() => {
+      const userName = role === 'admin' ? 'Admin User' : role === 'teacher' ? 'Prof. Sharma' : 'Alex Johnson';
       login(
         {
-          name: role === 'admin' ? 'Admin User' : role === 'teacher' ? 'Prof. Sharma' : 'Alex Johnson',
+          name: userName,
           email: formData.email,
           role: role,
         },
         'sample-jwt-token'
       );
       setIsLoading(false);
+
+      showToast({
+        title: `Welcome back, ${userName}!`,
+        message: `Successfully signed in as ${role.toUpperCase()}`,
+        type: role === 'admin' ? 'emerald' : role === 'teacher' ? 'rose' : 'sky',
+        duration: 4500,
+      });
+
       navigate(`/${role}/dashboard`);
     }, 350);
   };
 
   const handleQuickLogin = (targetRole) => {
+    const userName = targetRole === 'admin' ? 'Admin User' : targetRole === 'teacher' ? 'Prof. Sharma' : 'Alex Johnson';
     login(
       {
-        name: targetRole === 'admin' ? 'Admin User' : targetRole === 'teacher' ? 'Prof. Sharma' : 'Alex Johnson',
+        name: userName,
         email: `${targetRole}@school.com`,
         role: targetRole,
       },
       'sample-jwt-token'
     );
+
+    showToast({
+      title: `Quick Access Activated`,
+      message: `Signed in as ${targetRole.toUpperCase()} (${userName})`,
+      type: targetRole === 'admin' ? 'emerald' : targetRole === 'teacher' ? 'rose' : 'sky',
+      duration: 4500,
+    });
+
     navigate(`/${targetRole}/dashboard`);
   };
 
@@ -263,8 +283,8 @@ const Login = () => {
 
           {/* 1-Click Fast Demo Access */}
           <div className="mt-5 pt-4 border-t border-slate-200/70 dark:border-slate-800 text-center">
-            <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-2">
-              ⚡ 1-Click Direct Demo Access
+            <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2">
+              1-Click Direct Demo Access
             </p>
             <div className="grid grid-cols-3 gap-2">
               <button

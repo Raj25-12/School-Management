@@ -29,21 +29,22 @@
   background-color: #ffffff;
   border-radius: 1.125rem;
   box-shadow: 
-    4px 6px 16px rgba(150, 168, 195, 0.22),
+    4px 6px 16px rgba(150, 168, 195, 0.18),
     -4px -4px 12px rgba(255, 255, 255, 0.95),
-    inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.9),
-    inset -1.5px -1.5px 3px rgba(140, 160, 190, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9),
+    inset -1px -1px 2px rgba(140, 160, 190, 0.1);
+  border: 1.5px solid #e2e8f0;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .clay-card:hover {
   transform: translateY(-1px);
+  border-color: #cbd5e1;
   box-shadow: 
-    6px 8px 18px rgba(140, 160, 190, 0.26),
+    6px 8px 18px rgba(140, 160, 190, 0.22),
     -5px -5px 14px rgba(255, 255, 255, 0.98),
-    inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.9),
-    inset -1.5px -1.5px 3px rgba(140, 160, 190, 0.12);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9),
+    inset -1px -1px 2px rgba(140, 160, 190, 0.1);
 }
 
 /* Pastel Indigo Clay */
@@ -51,11 +52,11 @@
   background-color: #eef2ff;
   border-radius: 1.125rem;
   box-shadow: 
-    4px 6px 14px rgba(165, 180, 225, 0.28),
+    4px 6px 14px rgba(165, 180, 225, 0.22),
     -4px -4px 12px rgba(255, 255, 255, 0.95),
     inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.95),
     inset -2px -2px 4px rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(224, 231, 255, 0.9);
+  border: 1.5px solid #c7d2fe;
 }
 
 /* Pastel Emerald/Mint Clay */
@@ -63,11 +64,11 @@
   background-color: #ecfdf5;
   border-radius: 1.125rem;
   box-shadow: 
-    4px 6px 14px rgba(150, 205, 180, 0.28),
+    4px 6px 14px rgba(150, 205, 180, 0.22),
     -4px -4px 12px rgba(255, 255, 255, 0.95),
     inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.95),
     inset -2px -2px 4px rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(209, 250, 229, 0.9);
+  border: 1.5px solid #a7f3d0;
 }
 
 /* Pastel Amber/Peach Clay */
@@ -75,11 +76,11 @@
   background-color: #fffbeb;
   border-radius: 1.125rem;
   box-shadow: 
-    4px 6px 14px rgba(220, 195, 140, 0.28),
+    4px 6px 14px rgba(220, 195, 140, 0.22),
     -4px -4px 12px rgba(255, 255, 255, 0.95),
     inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.95),
     inset -2px -2px 4px rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(254, 243, 199, 0.9);
+  border: 1.5px solid #fde68a;
 }
 
 /* Pastel Purple/Lavender Clay */
@@ -87,11 +88,11 @@
   background-color: #faf5ff;
   border-radius: 1.125rem;
   box-shadow: 
-    4px 6px 14px rgba(205, 175, 225, 0.28),
+    4px 6px 14px rgba(205, 175, 225, 0.22),
     -4px -4px 12px rgba(255, 255, 255, 0.95),
     inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.95),
     inset -2px -2px 4px rgba(168, 85, 247, 0.12);
-  border: 1px solid rgba(243, 232, 255, 0.9);
+  border: 1.5px solid #e9d5ff;
 }
 
 /* Pastel Sky/Blue Clay */
@@ -99,11 +100,11 @@
   background-color: #f0f9ff;
   border-radius: 1.125rem;
   box-shadow: 
-    4px 6px 14px rgba(155, 195, 230, 0.28),
+    4px 6px 14px rgba(155, 195, 230, 0.22),
     -4px -4px 12px rgba(255, 255, 255, 0.95),
     inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.95),
     inset -2px -2px 4px rgba(14, 165, 233, 0.12);
-  border: 1px solid rgba(224, 242, 254, 0.9);
+  border: 1.5px solid #bae6fd;
 }
 
 /* Pastel Rose/Coral Clay */
@@ -111,11 +112,11 @@
   background-color: #fff1f2;
   border-radius: 1.125rem;
   box-shadow: 
-    4px 6px 14px rgba(230, 170, 180, 0.28),
+    4px 6px 14px rgba(230, 170, 180, 0.22),
     -4px -4px 12px rgba(255, 255, 255, 0.95),
     inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.95),
     inset -2px -2px 4px rgba(244, 63, 94, 0.12);
-  border: 1px solid rgba(255, 228, 230, 0.9);
+  border: 1.5px solid #fecdd3;
 }
 
 /* Interactive Clay Button Primary */
@@ -228,20 +229,21 @@
   color: #334155;
   border-radius: 0.75rem;
   box-shadow: 
-    3px 4px 10px rgba(150, 168, 195, 0.2),
+    2px 3px 8px rgba(150, 168, 195, 0.18),
     -2px -2px 6px rgba(255, 255, 255, 0.9),
     inset 1px 1px 2px rgba(255, 255, 255, 0.9),
-    inset -1px -1px 2px rgba(140, 160, 190, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+    inset -1px -1px 2px rgba(140, 160, 190, 0.1);
+  border: 1.5px solid #cbd5e1;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .clay-btn-secondary:hover {
   transform: translateY(-1px);
-  color: #1e293b;
+  color: #0f172a;
+  border-color: #94a3b8;
   box-shadow: 
-    4px 5px 12px rgba(140, 160, 190, 0.28),
-    -3px -3px 8px rgba(255, 255, 255, 0.95);
+    3px 4px 10px rgba(140, 160, 190, 0.24),
+    -2px -2px 6px rgba(255, 255, 255, 0.95);
 }
 
 .clay-btn-secondary:active {
@@ -254,8 +256,9 @@
 /* Clay Icon Badge / Box */
 .clay-icon-pill {
   border-radius: 0.75rem;
+  border: 1.5px solid rgba(203, 213, 225, 0.7);
   box-shadow: 
-    2px 3px 8px rgba(150, 168, 195, 0.2),
+    2px 3px 8px rgba(150, 168, 195, 0.18),
     -2px -2px 6px rgba(255, 255, 255, 0.9),
     inset 1px 1px 2px rgba(255, 255, 255, 0.9),
     inset -1px -1px 2px rgba(0, 0, 0, 0.04);
@@ -263,31 +266,32 @@
 
 /* Clay Inset Input */
 .clay-input {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   border-radius: 0.75rem;
   box-shadow: 
-    inset 2px 2px 4px rgba(160, 175, 200, 0.2),
-    inset -2px -2px 4px rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+    inset 1.5px 1.5px 3px rgba(160, 175, 200, 0.18),
+    inset -1.5px -1.5px 3px rgba(255, 255, 255, 0.9);
+  border: 1.5px solid #cbd5e1;
   transition: all 0.15s ease;
 }
 
 .clay-input:focus {
   background-color: #ffffff;
+  border-color: #6366f1;
   box-shadow: 
-    0 0 0 2px rgba(99, 102, 241, 0.2),
-    inset 1.5px 1.5px 3px rgba(160, 175, 200, 0.15);
+    0 0 0 3px rgba(99, 102, 241, 0.15),
+    inset 1px 1px 2px rgba(160, 175, 200, 0.12);
   outline: none;
 }
 
 /* Clay Inset Progress Track */
 .clay-progress-track {
-  background-color: rgba(226, 232, 240, 0.85);
+  background-color: #e2e8f0;
   border-radius: 9999px;
   box-shadow: 
-    inset 1.5px 1.5px 3px rgba(150, 168, 195, 0.3),
+    inset 1.5px 1.5px 3px rgba(150, 168, 195, 0.25),
     inset -1px -1px 2px rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(226, 232, 240, 0.6);
+  border: 1px solid #cbd5e1;
   overflow: hidden;
 }
 
@@ -298,7 +302,7 @@
 
 html.dark .clay-card {
   background-color: #0f172a;
-  border: 1px solid rgba(51, 65, 85, 0.5);
+  border: 1.5px solid #334155;
   box-shadow: 
     4px 6px 16px rgba(0, 0, 0, 0.45),
     -2px -2px 8px rgba(255, 255, 255, 0.02),
@@ -306,9 +310,13 @@ html.dark .clay-card {
     inset -1px -1px 3px rgba(0, 0, 0, 0.35);
 }
 
+html.dark .clay-card:hover {
+  border-color: #475569;
+}
+
 html.dark .clay-indigo {
   background-color: #1e1b4b;
-  border: 1px solid rgba(99, 102, 241, 0.25);
+  border: 1.5px solid #4338ca;
   box-shadow: 
     4px 6px 14px rgba(0, 0, 0, 0.45),
     inset 1px 1px 2px rgba(255, 255, 255, 0.08),
@@ -317,7 +325,7 @@ html.dark .clay-indigo {
 
 html.dark .clay-emerald {
   background-color: #064e3b;
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  border: 1.5px solid #047857;
   box-shadow: 
     4px 6px 14px rgba(0, 0, 0, 0.45),
     inset 1px 1px 2px rgba(255, 255, 255, 0.08),
@@ -326,7 +334,7 @@ html.dark .clay-emerald {
 
 html.dark .clay-amber {
   background-color: #451a03;
-  border: 1px solid rgba(245, 158, 11, 0.25);
+  border: 1.5px solid #b45309;
   box-shadow: 
     4px 6px 14px rgba(0, 0, 0, 0.45),
     inset 1px 1px 2px rgba(255, 255, 255, 0.08),
@@ -335,7 +343,7 @@ html.dark .clay-amber {
 
 html.dark .clay-purple {
   background-color: #3b0764;
-  border: 1px solid rgba(168, 85, 247, 0.25);
+  border: 1.5px solid #7e22ce;
   box-shadow: 
     4px 6px 14px rgba(0, 0, 0, 0.45),
     inset 1px 1px 2px rgba(255, 255, 255, 0.08),
@@ -344,7 +352,7 @@ html.dark .clay-purple {
 
 html.dark .clay-sky {
   background-color: #082f49;
-  border: 1px solid rgba(14, 165, 233, 0.25);
+  border: 1.5px solid #0369a1;
   box-shadow: 
     4px 6px 14px rgba(0, 0, 0, 0.45),
     inset 1px 1px 2px rgba(255, 255, 255, 0.08),
@@ -353,7 +361,7 @@ html.dark .clay-sky {
 
 html.dark .clay-rose {
   background-color: #4c0519;
-  border: 1px solid rgba(244, 63, 94, 0.25);
+  border: 1.5px solid #be123c;
   box-shadow: 
     4px 6px 14px rgba(0, 0, 0, 0.45),
     inset 1px 1px 2px rgba(255, 255, 255, 0.08),
@@ -363,14 +371,19 @@ html.dark .clay-rose {
 html.dark .clay-btn-secondary {
   background-color: #1e293b;
   color: #e2e8f0;
-  border-color: rgba(51, 65, 85, 0.6);
+  border: 1.5px solid #475569;
   box-shadow: 
     3px 4px 10px rgba(0, 0, 0, 0.35),
     inset 1px 1px 2px rgba(255, 255, 255, 0.06),
     inset -1px -1px 2px rgba(0, 0, 0, 0.3);
 }
 
+html.dark .clay-btn-secondary:hover {
+  border-color: #64748b;
+}
+
 html.dark .clay-icon-pill {
+  border: 1.5px solid #334155;
   box-shadow: 
     2px 3px 8px rgba(0, 0, 0, 0.35),
     inset 1px 1px 2px rgba(255, 255, 255, 0.08),
@@ -379,10 +392,14 @@ html.dark .clay-icon-pill {
 
 html.dark .clay-input {
   background-color: #0f172a;
-  border-color: rgba(51, 65, 85, 0.5);
+  border: 1.5px solid #334155;
   box-shadow: 
     inset 2px 2px 4px rgba(0, 0, 0, 0.4),
     inset -1px -1px 2px rgba(255, 255, 255, 0.04);
+}
+
+html.dark .clay-input:focus {
+  border-color: #818cf8;
 }
 
 html.dark .clay-progress-track {
@@ -390,7 +407,7 @@ html.dark .clay-progress-track {
   box-shadow: 
     inset 2px 2px 4px rgba(0, 0, 0, 0.5),
     inset -1px -1px 2px rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(51, 65, 85, 0.6);
+  border: 1px solid #334155;
 }
 
 @keyframes toast-progress {
