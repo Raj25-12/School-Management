@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useToast } from '../../context/ToastContext';
-import { Button, Input, Card } from '../../components/common';
 import logo from '../../assets/logo_clean.png';
 import {
   ShieldCheck,
@@ -14,10 +13,13 @@ import {
   Eye,
   EyeOff,
   ArrowRight,
+  Sparkles,
   Sun,
   Moon,
+  IdCard,
   CheckCircle2
 } from 'lucide-react';
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    idOrRoll: '',
     agreeTerms: true,
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -77,14 +80,17 @@ const Register = () => {
     }, 400);
   };
 
-  const submitVariant = role === 'admin' ? 'emerald' : role === 'teacher' ? 'sand' : 'sky';
+  const getSubmitBtnClass = () => {
+    if (role === 'admin') return 'clay-btn-emerald';
+    if (role === 'teacher') return 'clay-btn-rose';
+    return 'clay-btn-sky';
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 relative overflow-hidden transition-colors duration-200">
       {/* Soft Pastel Background Ambient Accents based on active role */}
-      <div className={`absolute top-10 left-10 w-72 h-72 rounded-full blur-3xl pointer-events-none transition-all duration-500 ${
-        role === 'admin' ? 'bg-emerald-200/50 dark:bg-emerald-900/20' : role === 'teacher' ? 'bg-[#ebd5ab]/40 dark:bg-[#856326]/20' : 'bg-sky-200/50 dark:bg-sky-900/20'
-      }`} />
+      <div className={`absolute top-10 left-10 w-72 h-72 rounded-full blur-3xl pointer-events-none transition-all duration-500 ${role === 'admin' ? 'bg-emerald-200/50 dark:bg-emerald-900/20' : role === 'teacher' ? 'bg-rose-200/50 dark:bg-rose-900/20' : 'bg-sky-200/50 dark:bg-sky-900/20'
+        }`} />
       <div className="absolute bottom-10 right-10 w-80 h-80 bg-slate-200/40 dark:bg-slate-800/20 rounded-full blur-3xl pointer-events-none" />
 
       {/* Theme Toggle Button (Top Right) */}
@@ -105,7 +111,7 @@ const Register = () => {
 
       <div className="w-full max-w-md relative z-10">
         {/* Main Claymorphic Sign Up Card */}
-        <Card className="p-6 sm:p-8 shadow-xl">
+        <div className="clay-card p-6 sm:p-8">
           {/* Header Brand with Logo */}
           <div className="flex flex-col items-center justify-center text-center mb-5">
             <div className="w-14 h-14 rounded-2xl bg-white/90 dark:bg-slate-800 clay-icon-pill p-2 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/80 shadow-xs mb-2.5">
@@ -123,16 +129,17 @@ const Register = () => {
             </p>
           </div>
 
+
+
           {/* Role Switcher in Green / Red / Blue */}
           <div className="grid grid-cols-3 gap-1.5 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 mb-5">
             <button
               type="button"
               onClick={() => setRole('student')}
-              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                role === 'student'
-                  ? 'clay-btn-sky text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300'
-              }`}
+              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${role === 'student'
+                ? 'clay-btn-sky text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300'
+                }`}
             >
               <User className="w-3.5 h-3.5" />
               <span>Student</span>
@@ -140,11 +147,10 @@ const Register = () => {
             <button
               type="button"
               onClick={() => setRole('teacher')}
-              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                role === 'teacher'
-                  ? 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed] shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-[#8d6016] dark:hover:text-[#ebd5ab]'
-              }`}
+              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${role === 'teacher'
+                ? 'clay-btn-rose text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-300'
+                }`}
             >
               <UserCheck className="w-3.5 h-3.5" />
               <span>Teacher</span>
@@ -152,11 +158,10 @@ const Register = () => {
             <button
               type="button"
               onClick={() => setRole('admin')}
-              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                role === 'admin'
-                  ? 'clay-btn-emerald text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-300'
-              }`}
+              className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${role === 'admin'
+                ? 'clay-btn-emerald text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-300'
+                }`}
             >
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Admin</span>
@@ -171,25 +176,43 @@ const Register = () => {
 
           {/* Registration Form */}
           <form onSubmit={handleSubmit} className="space-y-3">
-            <Input
-              label="Full Name"
-              type="text"
-              required
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder={role === 'student' ? 'Alex Johnson' : role === 'teacher' ? 'Prof. R. Sharma' : 'Administrator'}
-              icon={User}
-            />
+            <div>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Full Name
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <User className="w-4 h-4" />
+                </div>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder={role === 'student' ? 'Alex Johnson' : role === 'teacher' ? 'Prof. R. Sharma' : 'Administrator'}
+                  className="clay-input w-full pl-9 pr-3 py-2 text-xs font-medium text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
+                />
+              </div>
+            </div>
 
-            <Input
-              label="Email Address"
-              type="email"
-              required
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="name@school.com"
-              icon={Mail}
-            />
+            <div>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Email Address
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="name@school.com"
+                  className="clay-input w-full pl-9 pr-3 py-2 text-xs font-medium text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
+                />
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
@@ -249,16 +272,20 @@ const Register = () => {
               <span>I agree to the School Academic Policies & Terms</span>
             </div>
 
-            <Button
+            <button
               type="submit"
-              variant={submitVariant}
-              loading={isLoading}
-              icon={ArrowRight}
-              iconPosition="right"
-              className="w-full mt-3"
+              disabled={isLoading}
+              className={`${getSubmitBtnClass()} w-full py-2.5 px-4 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer mt-3`}
             >
-              Create {role.charAt(0).toUpperCase() + role.slice(1)} Account
-            </Button>
+              {isLoading ? (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <>
+                  <span>Create {role.charAt(0).toUpperCase() + role.slice(1)} Account</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
           </form>
 
           {/* Direct Link to Login */}
@@ -273,7 +300,7 @@ const Register = () => {
               </Link>
             </p>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );
