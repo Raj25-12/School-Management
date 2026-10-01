@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {
   BookOpen,
-  UserCheck,
   Search,
   BookMarked,
-  CheckCircle2,
   Calendar
 } from 'lucide-react';
 import { initialClassesData } from './classData';
+import { Button, Input, Select, Badge, Card, EmptyState } from '../../../components/common';
 
 const SubjectList = () => {
   const [classes] = useState(() => {
@@ -45,10 +44,15 @@ const SubjectList = () => {
     );
   });
 
+  const classFilterOptions = [
+    { value: 'All Classes', label: 'All Classes' },
+    ...classes.map(c => ({ value: c.name, label: c.name }))
+  ];
+
   return (
     <div className="space-y-4 pb-12">
       {/* Top Header */}
-      <div className="clay-emerald p-4 sm:p-5 relative overflow-hidden">
+      <Card variant="emerald" className="p-4 sm:p-5 relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 mb-1.5 shadow-xs border border-emerald-200/60 dark:border-emerald-800/60">
@@ -65,114 +69,96 @@ const SubjectList = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="clay-card px-4 py-2 text-center">
+            <Card className="px-4 py-2 text-center">
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Total Courses</div>
               <div className="text-lg font-bold text-emerald-700 dark:text-emerald-400">{allSubjects.length}</div>
-            </div>
+            </Card>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Search & Filter */}
-      <div className="clay-card p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3">
-        <div className="relative w-full md:w-80">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
+      <Card className="p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="w-full md:w-80">
+          <Input
             placeholder="Search subject name, code, teacher..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="clay-input w-full pl-9 pr-3 py-1.5 text-xs text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
+            icon={Search}
           />
         </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto text-xs">
           <span className="text-slate-500 dark:text-slate-400 font-semibold shrink-0">Filter Class:</span>
-          <select
+          <Select
             value={selectedClassFilter}
             onChange={(e) => setSelectedClassFilter(e.target.value)}
-            className="clay-input px-3 py-1.5 text-xs font-medium text-slate-800 dark:text-white"
-          >
-            <option value="All Classes">All Classes</option>
-            {classes.map(c => (
-              <option key={c.id} value={c.name}>{c.name}</option>
-            ))}
-          </select>
+            options={classFilterOptions}
+          />
         </div>
-      </div>
+      </Card>
 
-      {/* Subjects Table */}
-      <div className="clay-card overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-700">
-              <tr>
-                <th className="py-3 px-4">Subject Name & Code</th>
-                <th className="py-3 px-4">Class & Wing</th>
-                <th className="py-3 px-4">Assigned Subject Teacher</th>
-                <th className="py-3 px-4">Type</th>
-                <th className="py-3 px-4">Periods / Wk</th>
-                <th className="py-3 px-4">Syllabus Completion</th>
-                <th className="py-3 px-4 text-right">Prescribed Book</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {filteredSubjects.map((sub) => (
-                <tr key={`${sub.classId}-${sub.id}`} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
-                  <td className="py-3.5 px-4">
-                    <div className="font-semibold text-slate-800 dark:text-white text-xs">
-                      {sub.name}
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
-                      {sub.code}
+      {/* Subject Cards Grid */}
+      {filteredSubjects.length === 0 ? (
+        <Card className="py-12">
+          <EmptyState
+            icon={BookOpen}
+            title="No Subjects Found"
+            description="Try changing your search term or selecting a different class filter."
+          />
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          {filteredSubjects.map((sub, idx) => (
+            <Card key={idx} className="p-4 space-y-3 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span className="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                      {sub.code || 'SUB-00'}
                     </span>
-                  </td>
+                    <Badge variant="emerald" size="sm">
+                      {sub.className}
+                    </Badge>
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-white leading-snug">{sub.name}</h3>
+                </div>
+                <Badge variant={sub.type === 'Practical' ? 'amber' : 'sky'} size="sm">
+                  {sub.type || 'Theory'}
+                </Badge>
+              </div>
 
-                  <td className="py-3.5 px-4">
-                    <div className="font-semibold text-slate-800 dark:text-white">{sub.className}</div>
-                    <span className="text-[10px] text-slate-400 font-normal">{sub.wing}</span>
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    <div className="font-medium text-slate-800 dark:text-white flex items-center gap-1.5">
-                      <UserCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                      {sub.teacher}
+              <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5 text-xs">
+                <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                  <span className="text-slate-400">Faculty Incharge:</span>
+                  <span className="font-semibold text-slate-800 dark:text-white">{sub.teacher || 'Unassigned'}</span>
+                </div>
+                <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                  <span className="text-slate-400">Weekly Lectures:</span>
+                  <span className="font-semibold text-slate-800 dark:text-white flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+                    {sub.periods || '5'} Periods/wk
+                  </span>
+                </div>
+                {sub.syllabusProgress !== undefined && (
+                  <div className="space-y-1 pt-1">
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-slate-400">Syllabus Progress:</span>
+                      <span className="font-bold text-emerald-700 dark:text-emerald-400">{sub.syllabusProgress}%</span>
                     </div>
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200/50">
-                      {sub.type}
-                    </span>
-                  </td>
-
-                  <td className="py-3.5 px-4 font-semibold text-slate-800 dark:text-white">
-                    {sub.periodsPerWeek} periods/wk
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-20 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-emerald-500 rounded-full"
-                          style={{ width: `${sub.syllabusProgress || 75}%` }}
-                        ></div>
-                      </div>
-                      <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                        {sub.syllabusProgress || 75}%
-                      </span>
+                    <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                      <div
+                        className="h-full bg-emerald-500 rounded-full"
+                        style={{ width: `${sub.syllabusProgress}%` }}
+                      />
                     </div>
-                  </td>
-
-                  <td className="py-3.5 px-4 text-right text-[11px] text-slate-500 dark:text-slate-400 font-normal">
-                    {sub.textbook || 'NCERT / Prescribed Guide'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </div>
+                )}
+              </div>
+            </Card>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNotifications } from '../../../context/NotificationContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useToast } from '../../../context/ToastContext';
@@ -27,7 +27,7 @@ import {
   ShieldAlert
 } from 'lucide-react';
 
-const AdminNotices = () => {
+const AdminNotices = ({ initialTab = 'feed' }) => {
   const { user } = useAuth();
   const { showToast } = useToast();
   const {
@@ -41,9 +41,15 @@ const AdminNotices = () => {
     markAsRead
   } = useNotifications();
 
-  const [activeTab, setActiveTab] = useState('feed'); // 'feed' | 'compose' | 'mail'
+  const [activeTab, setActiveTab] = useState(initialTab); // 'feed' | 'compose' | 'mail'
   const [filterCategory, setFilterCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   // Form states for broadcasting notification
   const [broadcastData, setBroadcastData] = useState({
@@ -324,47 +330,6 @@ const AdminNotices = () => {
         </div>
       </div>
 
-      {/* 🧭 Tabs Switcher */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
-        <button
-          type="button"
-          onClick={() => setActiveTab('feed')}
-          className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
-            activeTab === 'feed'
-              ? 'clay-btn-emerald text-white shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:text-emerald-600'
-          }`}
-        >
-          <Bell className="w-3.5 h-3.5" />
-          <span>Notice Board & Feed</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('compose')}
-          className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
-            activeTab === 'compose'
-              ? 'clay-btn-emerald text-white shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:text-emerald-600'
-          }`}
-        >
-          <Send className="w-3.5 h-3.5" />
-          <span>Broadcast New Notice</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('mail')}
-          className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
-            activeTab === 'mail'
-              ? 'clay-btn-emerald text-white shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:text-emerald-600'
-          }`}
-        >
-          <Mail className="w-3.5 h-3.5" />
-          <span>Direct Mail & Replies ({totalMails})</span>
-        </button>
-      </div>
 
       {/* TAB 1: NOTICES FEED */}
       {activeTab === 'feed' && (
@@ -722,7 +687,7 @@ const AdminNotices = () => {
           {/* Direct Mail Composer */}
           <div className="clay-card p-5 sm:p-6">
             <div className="flex items-center gap-2 mb-4">
-              <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 clay-icon-pill">
+              <div className="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 clay-icon-pill">
                 <Mail className="w-4 h-4" />
               </div>
               <div>
@@ -793,7 +758,7 @@ const AdminNotices = () => {
 
               <button
                 type="submit"
-                className="clay-btn-primary w-full py-2.5 px-4 text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                className="clay-btn-emerald w-full py-2.5 px-4 text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md"
               >
                 <Mail className="w-3.5 h-3.5" />
                 <span>Send Official Mail</span>
@@ -857,7 +822,7 @@ const AdminNotices = () => {
                   <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-800 dark:text-white mb-1">
                       <span>Subject: {msg.subject}</span>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
                         {msg.category}
                       </span>
                     </div>

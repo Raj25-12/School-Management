@@ -2,22 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   GraduationCap,
-  Save,
   ArrowLeft,
   User,
   Phone,
   Mail,
-  Calendar,
   MapPin,
   Sparkles,
   ShieldCheck,
-  CheckCircle2,
+  Save,
   AlertCircle
 } from 'lucide-react';
 import { useToast } from '../../../context/ToastContext';
 import { getStudentById, updateStoredStudent } from '../../../utils/studentStorage';
 import { MaleIcon, FemaleIcon } from '../../../components/common/GenderIcons';
+import { Button, Input, Select, Card, EmptyState } from '../../../components/common';
 
+const classOptions = [
+  { value: 'Class 10', label: 'Class 10' },
+  { value: 'Class 9', label: 'Class 9' },
+  { value: 'Class 8', label: 'Class 8' },
+  { value: 'Class 7', label: 'Class 7' },
+  { value: 'Class 6', label: 'Class 6' },
+  { value: 'Class 11', label: 'Class 11' },
+  { value: 'Class 12', label: 'Class 12' },
+];
+
+const genderOptions = [
+  { value: 'Male', label: 'Male' },
+  { value: 'Female', label: 'Female' },
+  { value: 'Other', label: 'Other' },
+];
+
+const statusOptions = [
+  { value: 'Active', label: 'Active' },
+  { value: 'Approved', label: 'Approved' },
+  { value: 'Pending Review', label: 'Pending Review' },
+  { value: 'Fees Pending', label: 'Fees Pending' },
+];
 
 const EditStudent = () => {
   const { id } = useParams();
@@ -78,9 +99,9 @@ const EditStudent = () => {
       setIsLoading(false);
 
       showToast({
-        title: 'Student Updated Successfully',
-        message: `Updated profile details for ${formData.name} (Roll: ${formData.rollNo}).`,
-        type: 'success',
+        title: 'Student Profile Updated',
+        message: `${formData.name}'s profile and credentials updated successfully.`,
+        type: 'emerald',
       });
 
       navigate('/admin/students');
@@ -89,19 +110,15 @@ const EditStudent = () => {
 
   if (notFound) {
     return (
-      <div className="clay-card p-8 text-center space-y-4 max-w-md mx-auto my-12">
-        <AlertCircle className="w-12 h-12 text-rose-500 mx-auto" />
-        <h2 className="text-lg font-bold text-slate-800 dark:text-white">Student Record Not Found</h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          The student with ID <span className="font-mono font-bold text-slate-700">{id}</span> does not exist or was deleted.
-        </p>
-        <Link
-          to="/admin/students"
-          className="clay-btn-emerald inline-flex items-center gap-2 px-4 py-2 text-xs font-bold"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Students List</span>
-        </Link>
+      <div className="py-12">
+        <EmptyState
+          icon={AlertCircle}
+          title="Student Record Not Found"
+          description={`No student profile exists with ID #${id}.`}
+          actionLabel="Back to Student Directory"
+          actionIcon={ArrowLeft}
+          onAction={() => navigate('/admin/students')}
+        />
       </div>
     );
   }
@@ -109,35 +126,33 @@ const EditStudent = () => {
   return (
     <div className="space-y-4 pb-8 max-w-4xl mx-auto">
       {/* Header Banner */}
-      <div className="clay-emerald p-4 sm:p-5 relative overflow-hidden">
+      <Card variant="emerald" className="p-4 sm:p-5 relative overflow-hidden">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 mb-1.5 shadow-xs border border-emerald-200/60 dark:border-emerald-800/60">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Student Profile Editor • ID: {id}</span>
+              <span>Modify Student Record • ID #{id}</span>
             </div>
             <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white tracking-tight">
-              Edit Student Information
+              Edit Student Profile
             </h1>
             <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 font-normal">
-              Update student name, roll number, class, parents details, and contact info.
+              Update credentials, contact information, class assignment, and academic status.
             </p>
           </div>
 
-          <Link
-            to="/admin/students"
-            className="clay-btn-secondary px-3.5 py-2 text-xs font-bold inline-flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Cancel & Back</span>
+          <Link to="/admin/students">
+            <Button variant="secondary" size="sm" icon={ArrowLeft}>
+              Back to Directory
+            </Button>
           </Link>
         </div>
-      </div>
+      </Card>
 
-      {/* 📝 Edit Student Form */}
-      <div className="clay-card p-5 sm:p-7">
+      {/* 📝 Form */}
+      <Card className="p-5 sm:p-7">
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Section 1: Academic & Basic Information */}
+          {/* Section 1: Academic & Student Details */}
           <div>
             <h3 className="text-xs font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-3 pb-1.5 border-b border-slate-200/80 dark:border-slate-800 flex items-center gap-1.5">
               <GraduationCap className="w-4 h-4" />
@@ -145,100 +160,50 @@ const EditStudent = () => {
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Full Student Name *
-                </label>
-                <div className="relative">
-                  <User className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. Rohan Sharma"
-                    className="clay-input w-full pl-9 pr-3 py-2 text-xs font-semibold text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
-                  />
-                </div>
-              </div>
+              <Input
+                label="Full Student Name *"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="e.g. Rohan Sharma"
+                icon={User}
+              />
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Roll Number *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.rollNo}
-                  onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
-                  placeholder="e.g. 10A-01"
-                  className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
-                />
-              </div>
+              <Input
+                label="Roll Number *"
+                required
+                value={formData.rollNo}
+                onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
+                placeholder="e.g. 10A-01"
+              />
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Class
-                </label>
-                <select
-                  value={formData.class}
-                  onChange={(e) => setFormData({ ...formData, class: e.target.value })}
-                  className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                >
-                  <option value="Class 10">Class 10</option>
-                  <option value="Class 9">Class 9</option>
-                  <option value="Class 8">Class 8</option>
-                  <option value="Class 7">Class 7</option>
-                  <option value="Class 6">Class 6</option>
-                  <option value="Class 11">Class 11</option>
-                  <option value="Class 12">Class 12</option>
-                </select>
-              </div>
+              <Select
+                label="Class"
+                value={formData.class}
+                onChange={(e) => setFormData({ ...formData, class: e.target.value })}
+                options={classOptions}
+              />
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Section
-                </label>
-                <input
-                  type="text"
-                  value={formData.section}
-                  onChange={(e) => setFormData({ ...formData, section: e.target.value })}
-                  placeholder="e.g. A or Science"
-                  className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white focus:outline-none"
-                />
-              </div>
+              <Input
+                label="Section"
+                value={formData.section}
+                onChange={(e) => setFormData({ ...formData, section: e.target.value })}
+                placeholder="e.g. A"
+              />
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Gender
-                </label>
-                <select
-                  value={formData.gender}
-                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                  className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+              <Select
+                label="Gender"
+                value={formData.gender}
+                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                options={genderOptions}
+              />
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Admission Status
-                </label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                >
-                  <option value="Active">Active / Enrolled</option>
-                  <option value="Approved">Approved</option>
-                  <option value="Pending Review">Pending Review</option>
-                  <option value="Fees Pending">Fees Pending</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-              </div>
+              <Select
+                label="Admission Status"
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                options={statusOptions}
+              />
             </div>
           </div>
 
@@ -281,7 +246,7 @@ const EditStudent = () => {
             </div>
           </div>
 
-          {/* Section 3: Contact & Communication */}
+          {/* Section 3: Contact & Address Details */}
           <div>
             <h3 className="text-xs font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-3 pb-1.5 border-b border-slate-200/80 dark:border-slate-800 flex items-center gap-1.5">
               <Phone className="w-4 h-4" />
@@ -289,38 +254,24 @@ const EditStudent = () => {
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Primary Contact / Phone Number *
-                </label>
-                <div className="relative">
-                  <Phone className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="tel"
-                    required
-                    value={formData.contact}
-                    onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                    placeholder="e.g. +91 98765 43210"
-                    className="clay-input w-full pl-9 pr-3 py-2 text-xs font-semibold text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
-                  />
-                </div>
-              </div>
+              <Input
+                label="Primary Contact / Phone Number *"
+                type="tel"
+                required
+                value={formData.contact}
+                onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                placeholder="e.g. +91 98765 43210"
+                icon={Phone}
+              />
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Registered Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="e.g. student@school.com"
-                    className="clay-input w-full pl-9 pr-3 py-2 text-xs font-semibold text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
-                  />
-                </div>
-              </div>
+              <Input
+                label="Registered Email Address"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="e.g. student@school.com"
+                icon={Mail}
+              />
 
               <div className="sm:col-span-2">
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
@@ -342,30 +293,23 @@ const EditStudent = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200/80 dark:border-slate-800">
-            <Link
-              to="/admin/students"
-              className="clay-btn-secondary px-5 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-300"
-            >
-              Cancel
+            <Link to="/admin/students">
+              <Button variant="secondary" size="md">
+                Cancel
+              </Button>
             </Link>
 
-            <button
+            <Button
               type="submit"
-              disabled={isLoading}
-              className="clay-btn-emerald px-6 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-md"
+              variant="emerald"
+              loading={isLoading}
+              icon={Save}
             >
-              {isLoading ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <>
-                  <Save className="w-4 h-4" />
-                  <span>Save Changes</span>
-                </>
-              )}
-            </button>
+              Save Changes
+            </Button>
           </div>
         </form>
-      </div>
+      </Card>
     </div>
   );
 };

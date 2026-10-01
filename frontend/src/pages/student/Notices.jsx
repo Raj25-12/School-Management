@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNotifications } from '../../context/NotificationContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -15,7 +15,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 
-const StudentNotices = () => {
+const StudentNotices = ({ initialTab = 'board' }) => {
   const { user } = useAuth();
   const { showToast } = useToast();
   const {
@@ -24,9 +24,15 @@ const StudentNotices = () => {
     getNotificationsForUser
   } = useNotifications();
 
-  const [activeTab, setActiveTab] = useState('board'); // 'board' | 'compose' | 'inbox'
+  const [activeTab, setActiveTab] = useState(initialTab); // 'board' | 'compose' | 'inbox'
   const [filterCategory, setFilterCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   // Form state for student sending mail/doubt to teacher or admin
   const [mailData, setMailData] = useState({
@@ -193,47 +199,6 @@ const StudentNotices = () => {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
-        <button
-          type="button"
-          onClick={() => setActiveTab('board')}
-          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-2 cursor-pointer ${
-            activeTab === 'board'
-              ? 'clay-btn-sky text-white shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:text-sky-600'
-          }`}
-        >
-          <Bell className="w-3.5 h-3.5" />
-          <span>Notice Board ({filteredNotifications.length})</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('compose')}
-          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-2 cursor-pointer ${
-            activeTab === 'compose'
-              ? 'clay-btn-sky text-white shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:text-sky-600'
-          }`}
-        >
-          <Send className="w-3.5 h-3.5" />
-          <span>Mail / Ask Doubt to Teacher</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('inbox')}
-          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-2 cursor-pointer ${
-            activeTab === 'inbox'
-              ? 'clay-btn-sky text-white shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:text-sky-600'
-          }`}
-        >
-          <Mail className="w-3.5 h-3.5" />
-          <span>My Inquiries & Replies ({studentMessages.length})</span>
-        </button>
-      </div>
 
       {/* TAB 1: NOTICE BOARD */}
       {activeTab === 'board' && (

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useToast } from './ToastContext';
 
 const NotificationContext = createContext(null);
@@ -169,7 +169,7 @@ export const NotificationProvider = ({ children }) => {
   }, [messages]);
 
   // Send Broadcast Notification (Admin or Teacher)
-  const sendNotification = ({
+  const sendNotification = useCallback(({
     title,
     message,
     targetAudience = 'all', // 'all', 'teachers', 'students', 'class-10-a'
@@ -210,10 +210,10 @@ export const NotificationProvider = ({ children }) => {
     });
 
     return newNotif;
-  };
+  }, [showToast]);
 
   // Send Direct Mail / Message (Student <-> Teacher <-> Admin)
-  const sendMailMessage = ({
+  const sendMailMessage = useCallback(({
     subject,
     message,
     category = 'General Query',
@@ -277,10 +277,10 @@ export const NotificationProvider = ({ children }) => {
     });
 
     return newMsg;
-  };
+  }, [showToast]);
 
   // Reply to a message
-  const replyToMessage = (messageId, replyText, replierName = 'Teacher') => {
+  const replyToMessage = useCallback((messageId, replyText, replierName = 'Teacher') => {
     let targetMsg = null;
     const cleanReply = stripEmojis(replyText);
 
@@ -322,10 +322,10 @@ export const NotificationProvider = ({ children }) => {
         type: 'success',
       });
     }
-  };
+  }, [showToast]);
 
   // Filter notifications relevant to current user role & email
-  const getNotificationsForUser = (currentUser) => {
+  const getNotificationsForUser = useCallback((currentUser) => {
     if (!currentUser) return notifications;
 
     const role = currentUser.role || 'student';
@@ -354,10 +354,10 @@ export const NotificationProvider = ({ children }) => {
 
       return false;
     });
-  };
+  }, [notifications]);
 
   // Mark a single notification as read
-  const markAsRead = (notificationId, userEmail = '') => {
+  const markAsRead = useCallback((notificationId, userEmail = '') => {
     setNotifications((prev) =>
       prev.map((notif) => {
         if (notif.id === notificationId) {
@@ -370,10 +370,10 @@ export const NotificationProvider = ({ children }) => {
         return notif;
       })
     );
-  };
+  }, []);
 
   // Mark all notifications for user as read
-  const markAllAsRead = (userEmail = '') => {
+  const markAllAsRead = useCallback((userEmail = '') => {
     setNotifications((prev) =>
       prev.map((notif) => {
         const currentReadBy = notif.readBy || [];
@@ -390,43 +390,54 @@ export const NotificationProvider = ({ children }) => {
       message: 'All notifications marked as read',
       type: 'success',
     });
-  };
+  }, [showToast]);
 
   // Delete notification
-  const deleteNotification = (notificationId) => {
+  const deleteNotification = useCallback((notificationId) => {
     setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
     showToast({
       title: 'Notification Removed',
       message: 'Notification was deleted from history',
       type: 'info',
     });
-  };
+  }, [showToast]);
 
   // Delete message
-  const deleteMessage = (messageId) => {
+  const deleteMessage = useCallback((messageId) => {
     setMessages((prev) => prev.filter((m) => m.id !== messageId));
     showToast({
       title: 'Message Deleted',
       message: 'Message was removed from records',
       type: 'info',
     });
-  };
+  }, [showToast]);
+
+  const value = useMemo(() => ({
+    notifications,
+    messages,
+    sendNotification,
+    sendMailMessage,
+    replyToMessage,
+    getNotificationsForUser,
+    markAsRead,
+    markAllAsRead,
+    deleteNotification,
+    deleteMessage,
+  }), [
+    notifications,
+    messages,
+    sendNotification,
+    sendMailMessage,
+    replyToMessage,
+    getNotificationsForUser,
+    markAsRead,
+    markAllAsRead,
+    deleteNotification,
+    deleteMessage,
+  ]);
 
   return (
-    <NotificationContext.Provider
-      value={{
-        notifications,
-        messages,
-        sendNotification,
-        sendMailMessage,
-        replyToMessage,
-        getNotificationsForUser,
-        markAsRead,
-        markAllAsRead,
-        deleteNotification,
-        deleteMessage,
-      }}
-    >
+    <NotificationContext.Provider value={value}>
       {children}
     </NotificationContext.Provider>
   );

@@ -4,22 +4,18 @@ import {
   UserCheck,
   Save,
   ArrowLeft,
-  User,
-  Phone,
   Mail,
+  Phone,
   GraduationCap,
   Sparkles,
-  Building2,
-  Calendar,
+  ShieldCheck,
   AlertCircle,
-  IdCard,
-  Briefcase,
-  MapPin,
-  Lock
+  Building2
 } from 'lucide-react';
 import { useToast } from '../../../context/ToastContext';
 import { getTeacherById, updateStoredTeacher } from '../../../utils/teacherStorage';
 import logo from '../../../assets/logo_clean.png';
+import { Button, Input, Select, Badge, Card, EmptyState } from '../../../components/common';
 
 const departments = [
   'Mathematics',
@@ -40,6 +36,26 @@ const availableClasses = [
   'Class 10-A', 'Class 10-B',
   'Class 11-Science', 'Class 11-Commerce', 'Class 11-Humanities',
   'Class 12-Science', 'Class 12-Commerce', 'Class 12-Humanities'
+];
+
+const genderOptions = [
+  { value: 'Male', label: 'Male' },
+  { value: 'Female', label: 'Female' },
+  { value: 'Other', label: 'Other' },
+];
+
+const departmentOptions = departments.map((d) => ({ value: d, label: d }));
+
+const contractOptions = [
+  { value: 'Full-Time', label: 'Full-Time (Permanent)' },
+  { value: 'Contract', label: 'Contractual' },
+  { value: 'Part-Time', label: 'Part-Time / Visiting' },
+];
+
+const statusOptions = [
+  { value: 'Active', label: 'Active' },
+  { value: 'On Leave', label: 'On Leave' },
+  { value: 'Inactive', label: 'Inactive' },
 ];
 
 const EditTeacher = () => {
@@ -106,11 +122,6 @@ const EditTeacher = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim()) {
-      showToast({ title: 'Validation Error', message: 'Teacher Name and Email are required.', type: 'error' });
-      return;
-    }
-
     setIsLoading(true);
 
     setTimeout(() => {
@@ -119,308 +130,263 @@ const EditTeacher = () => {
 
       showToast({
         title: 'Teacher Profile Updated',
-        message: `Successfully updated credentials & info for ${formData.name}.`,
-        type: 'success',
+        message: `${formData.name}'s faculty records have been updated.`,
+        type: 'emerald',
       });
 
       navigate('/admin/teachers');
-    }, 300);
+    }, 400);
   };
 
   if (notFound) {
     return (
-      <div className="clay-card p-8 text-center space-y-4 max-w-md mx-auto my-12">
-        <AlertCircle className="w-12 h-12 text-rose-500 mx-auto" />
-        <h2 className="text-lg font-bold text-slate-800 dark:text-white">Faculty Record Not Found</h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          The teacher with ID <span className="font-mono font-bold text-slate-700">{id}</span> does not exist.
-        </p>
-        <Link
-          to="/admin/teachers"
-          className="clay-btn-emerald inline-flex items-center gap-2 px-4 py-2 text-xs font-bold"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Teachers Directory</span>
-        </Link>
+      <div className="py-12">
+        <EmptyState
+          icon={AlertCircle}
+          title="Faculty Profile Not Found"
+          description={`No teacher was found with ID: ${id}.`}
+          actionLabel="Back to Teachers"
+          actionIcon={ArrowLeft}
+          onAction={() => navigate('/admin/teachers')}
+        />
       </div>
     );
   }
 
   return (
-    <div className="space-y-4 pb-8 max-w-5xl mx-auto">
+    <div className="space-y-4 pb-10">
       {/* Header Banner */}
-      <div className="clay-emerald p-4 sm:p-5 relative overflow-hidden">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 mb-1.5 shadow-xs border border-emerald-200/60 dark:border-emerald-800/60">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Teacher Profile Editor • Employee ID: {formData.employeeId || id}</span>
+      <Card variant="emerald" className="p-4 sm:p-5 relative overflow-hidden">
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <Link to="/admin/teachers">
+              <Button variant="secondary" size="sm" icon={ArrowLeft} />
+            </Link>
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-bold text-emerald-700 dark:text-emerald-300 mb-1 shadow-xs border border-emerald-200/60 dark:border-emerald-800/60">
+                <UserCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Faculty Profile Editor • {formData.employeeId || id}</span>
+              </div>
+              <h1 className="text-lg sm:text-xl font-extrabold text-slate-800 dark:text-white tracking-tight">
+                Edit Faculty Details
+              </h1>
+              <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                Update teaching assignments, salary, contact details, and departmental roles.
+              </p>
             </div>
-            <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white tracking-tight">
-              Edit Faculty Profile
-            </h1>
-            <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 font-normal">
-              Update teacher credentials, subject assignments, assigned classes, and contact details.
-            </p>
           </div>
 
-          <Link
-            to="/admin/teachers"
-            className="clay-btn-secondary px-3.5 py-2 text-xs font-bold inline-flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Cancel & Back</span>
+          <Link to="/admin/teachers">
+            <Button variant="secondary" size="sm">
+              Cancel
+            </Button>
           </Link>
         </div>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Left 2 Columns: Edit Form */}
-        <div className="lg:col-span-2">
-          <div className="clay-card p-5 sm:p-6">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Section 1: Personal & Contact */}
-              <div>
-                <h3 className="text-xs font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-3 pb-1.5 border-b border-slate-200/80 dark:border-slate-800 flex items-center gap-1.5">
+        {/* Left 2 Columns: Multi-section Edit Form */}
+        <div className="lg:col-span-2 space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Section 1: Basic Personal Info */}
+            <Card className="p-5 space-y-3.5">
+              <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100 dark:border-slate-800">
+                <div className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 clay-icon-pill">
                   <UserCheck className="w-4 h-4" />
-                  <span>1. Personal & Contact Information</span>
-                </h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Full Name *
-                    </label>
-                    <div className="relative">
-                      <User className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="e.g. Dr. Sunita Verma"
-                        className="clay-input w-full pl-9 pr-3 py-2 text-xs font-semibold text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Employee ID *
-                    </label>
-                    <div className="relative">
-                      <IdCard className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input
-                        type="text"
-                        required
-                        value={formData.employeeId}
-                        onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
-                        placeholder="e.g. TCH-1002"
-                        className="clay-input w-full pl-9 pr-3 py-2 text-xs font-semibold text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none font-mono"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Email Address *
-                    </label>
-                    <div className="relative">
-                      <Mail className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="e.g. sunita.verma@school.com"
-                        className="clay-input w-full pl-9 pr-3 py-2 text-xs font-semibold text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Phone Number *
-                    </label>
-                    <div className="relative">
-                      <Phone className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="e.g. +91 98222 33445"
-                        className="clay-input w-full pl-9 pr-3 py-2 text-xs font-semibold text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Gender
-                    </label>
-                    <select
-                      value={formData.gender}
-                      onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                      className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                    >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Employment Status
-                    </label>
-                    <select
-                      value={formData.status}
-                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                      className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                    >
-                      <option value="Active">Active</option>
-                      <option value="On Leave">On Leave</option>
-                      <option value="Suspended">Suspended</option>
-                      <option value="Resigned">Resigned</option>
-                    </select>
-                  </div>
                 </div>
+                <h2 className="text-sm font-black text-slate-800 dark:text-white">
+                  1. Personal & Contact Information
+                </h2>
               </div>
 
-              {/* Section 2: Department & Academic Details */}
-              <div>
-                <h3 className="text-xs font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-3 pb-1.5 border-b border-slate-200/80 dark:border-slate-800 flex items-center gap-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <Input
+                  label="Full Name *"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                />
+
+                <Input
+                  label="Employee ID *"
+                  required
+                  value={formData.employeeId}
+                  onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
+                />
+
+                <Input
+                  label="Email Address *"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  icon={Mail}
+                />
+
+                <Input
+                  label="Phone Number *"
+                  type="tel"
+                  required
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  icon={Phone}
+                />
+
+                <Select
+                  label="Gender"
+                  value={formData.gender}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                  options={genderOptions}
+                />
+
+                <Select
+                  label="Status"
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  options={statusOptions}
+                />
+              </div>
+
+              <Input
+                label="Residential Address"
+                value={formData.address}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              />
+            </Card>
+
+            {/* Section 2: Department & Academic Details */}
+            <Card className="p-5 space-y-3.5">
+              <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100 dark:border-slate-800">
+                <div className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 clay-icon-pill">
                   <GraduationCap className="w-4 h-4" />
-                  <span>2. Department & Subject Assignment</span>
-                </h3>
+                </div>
+                <h2 className="text-sm font-black text-slate-800 dark:text-white">
+                  2. Academic Department & Teaching Subject
+                </h2>
+              </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Department
-                    </label>
-                    <select
-                      value={formData.department}
-                      onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                      className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                    >
-                      {departments.map((dept) => (
-                        <option key={dept} value={dept}>
-                          {dept}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <Select
+                  label="Department *"
+                  value={formData.department}
+                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  options={departmentOptions}
+                />
 
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Primary Subject
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.primarySubject}
-                      onChange={(e) => setFormData({ ...formData, primarySubject: e.target.value })}
-                      placeholder="e.g. Physics & Optics"
-                      className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                    />
-                  </div>
+                <Input
+                  label="Primary Subject *"
+                  required
+                  value={formData.primarySubject}
+                  onChange={(e) => setFormData({ ...formData, primarySubject: e.target.value })}
+                />
 
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Qualification
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.qualification}
-                      onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
-                      placeholder="e.g. Ph.D. Physics, M.Sc."
-                      className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                    />
-                  </div>
+                <Input
+                  label="Highest Qualification"
+                  value={formData.qualification}
+                  onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
+                />
 
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Experience
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.experience}
-                      onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                      placeholder="e.g. 9 Years"
-                      className="clay-input w-full px-3 py-2 text-xs font-semibold text-slate-800 dark:text-white"
-                    />
-                  </div>
+                <Input
+                  label="Teaching Experience"
+                  value={formData.experience}
+                  onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+                />
+              </div>
 
-                  <div className="sm:col-span-2">
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                      Assigned Teaching Classes
-                    </label>
-                    <div className="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
-                      {availableClasses.map((cls) => {
-                        const isSelected = formData.assignedClasses.includes(cls);
-                        return (
-                          <button
-                            key={cls}
-                            type="button"
-                            onClick={() => handleClassToggle(cls)}
-                            className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition cursor-pointer ${
-                              isSelected
-                                ? 'clay-btn-emerald text-white shadow-xs'
-                                : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80 hover:border-emerald-500'
-                            }`}
-                          >
-                            {cls} {isSelected && '✓'}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
+              {/* Assigned Classes */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                  Assign Teaching Classes (Click to Select)
+                </label>
+                <div className="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
+                  {availableClasses.map((cls) => {
+                    const isSelected = formData.assignedClasses.includes(cls);
+                    return (
+                      <button
+                        key={cls}
+                        type="button"
+                        onClick={() => handleClassToggle(cls)}
+                        className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition cursor-pointer ${
+                          isSelected
+                            ? 'clay-btn-emerald text-white shadow-xs'
+                            : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80 hover:border-emerald-500'
+                        }`}
+                      >
+                        {cls} {isSelected && '✓'}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
+            </Card>
 
-              {/* Action Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200/80 dark:border-slate-800">
-                <Link
-                  to="/admin/teachers"
-                  className="clay-btn-secondary px-5 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-300"
-                >
-                  Cancel
-                </Link>
-
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="clay-btn-emerald px-6 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-md"
-                >
-                  {isLoading ? (
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <Save className="w-4 h-4" />
-                      <span>Save Teacher Changes</span>
-                    </>
-                  )}
-                </button>
+            {/* Section 3: Joining & Contract */}
+            <Card className="p-5 space-y-3.5">
+              <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100 dark:border-slate-800">
+                <div className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 clay-icon-pill">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <h2 className="text-sm font-black text-slate-800 dark:text-white">
+                  3. Employment & Contract
+                </h2>
               </div>
-            </form>
-          </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                <Select
+                  label="Contract Type"
+                  value={formData.contractType}
+                  onChange={(e) => setFormData({ ...formData, contractType: e.target.value })}
+                  options={contractOptions}
+                />
+
+                <Input
+                  label="Date of Joining"
+                  type="date"
+                  value={formData.joiningDate}
+                  onChange={(e) => setFormData({ ...formData, joiningDate: e.target.value })}
+                />
+
+                <Input
+                  label="Monthly Salary / Scale"
+                  value={formData.salary}
+                  onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                />
+              </div>
+            </Card>
+
+            {/* Submit & Save Button Bar */}
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <Link to="/admin/teachers">
+                <Button variant="secondary" size="md">
+                  Cancel
+                </Button>
+              </Link>
+              <Button
+                type="submit"
+                variant="emerald"
+                loading={isLoading}
+                icon={Save}
+              >
+                Save Changes
+              </Button>
+            </div>
+          </form>
         </div>
 
-        {/* Right 1 Column: Live Card Preview */}
+        {/* Right 1 Column: Live Real-Time ID Card Preview */}
         <div className="space-y-4">
-          <div className="clay-card p-5 space-y-4 sticky top-20">
+          <Card className="p-5 space-y-4 sticky top-20">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
               <span className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                Live Preview
+                Live ID Card Preview
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
-                Updated Profile
-              </span>
+              <Badge variant="emerald">
+                Staff Card
+              </Badge>
             </div>
 
-            {/* Teacher Card Preview */}
-            <div className="clay-emerald p-4 rounded-2xl space-y-3 relative overflow-hidden border border-emerald-300 dark:border-emerald-800">
+            {/* Simulated School ID Card */}
+            <Card variant="emerald" className="p-4 rounded-2xl space-y-3 relative overflow-hidden border border-emerald-300 dark:border-emerald-800">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 p-1 flex items-center justify-center clay-icon-pill">
@@ -447,7 +413,7 @@ const EditTeacher = () => {
                 </div>
                 <div className="truncate">
                   <h3 className="text-sm font-black text-slate-900 dark:text-white truncate">
-                    {formData.name || 'Teacher Name'}
+                    {formData.name || 'Teacher Full Name'}
                   </h3>
                   <div className="text-xs font-bold text-emerald-700 dark:text-emerald-300 truncate mt-0.5">
                     {formData.primarySubject || 'Primary Subject'}
@@ -472,13 +438,23 @@ const EditTeacher = () => {
                 </div>
                 <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
                   <span className="text-slate-500 dark:text-slate-400">Status:</span>
-                  <span className="px-1.5 py-0.5 rounded-md bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 font-extrabold text-[10px]">
+                  <Badge variant="emerald" size="sm">
                     {formData.status}
-                  </span>
+                  </Badge>
                 </div>
               </div>
+            </Card>
+
+            <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-1">
+              <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-white">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Notice</span>
+              </div>
+              <p className="text-[11px] leading-relaxed">
+                Modifications to assigned classes and departments will reflect dynamically in the timetable and teacher dashboards.
+              </p>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </div>

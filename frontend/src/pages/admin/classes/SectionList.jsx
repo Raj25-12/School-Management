@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
   Layers,
-  Users,
   Search,
   UserCheck
 } from 'lucide-react';
 import { initialClassesData } from './classData';
+import { Button, Input, Select, Badge, Card, EmptyState } from '../../../components/common';
 
 const SectionList = () => {
   const [classes] = useState(() => {
@@ -46,10 +46,15 @@ const SectionList = () => {
   const totalSections = allSections.length;
   const totalStudents = allSections.reduce((s, sec) => s + (Number(sec.studentCount) || 0), 0);
 
+  const classFilterOptions = [
+    { value: 'All Classes', label: 'All Classes' },
+    ...classes.map(c => ({ value: c.name, label: c.name }))
+  ];
+
   return (
     <div className="space-y-4 pb-12">
       {/* Top Banner */}
-      <div className="clay-emerald p-4 sm:p-5 relative overflow-hidden">
+      <Card variant="emerald" className="p-4 sm:p-5 relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 mb-1.5 shadow-xs border border-emerald-200/60 dark:border-emerald-800/60">
@@ -66,128 +71,90 @@ const SectionList = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="clay-card px-4 py-2 text-center">
+            <Card className="px-4 py-2 text-center">
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Total Sections</div>
               <div className="text-lg font-bold text-emerald-700 dark:text-emerald-400">{totalSections}</div>
-            </div>
-            <div className="clay-card px-4 py-2 text-center">
+            </Card>
+            <Card className="px-4 py-2 text-center">
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Total Students</div>
               <div className="text-lg font-bold text-slate-800 dark:text-white">{totalStudents}</div>
-            </div>
+            </Card>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Filter & Search Bar */}
-      <div className="clay-card p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3">
-        <div className="relative w-full md:w-80">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
+      <Card className="p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="w-full md:w-80">
+          <Input
             placeholder="Search section, room, incharge..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="clay-input w-full pl-9 pr-3 py-1.5 text-xs text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none"
+            icon={Search}
           />
         </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto text-xs">
           <span className="text-slate-500 dark:text-slate-400 font-semibold shrink-0">Filter Class:</span>
-          <select
+          <Select
             value={selectedClassFilter}
             onChange={(e) => setSelectedClassFilter(e.target.value)}
-            className="clay-input px-3 py-1.5 text-xs font-medium text-slate-800 dark:text-white"
-          >
-            <option value="All Classes">All Classes</option>
-            {classes.map(c => (
-              <option key={c.id} value={c.name}>{c.name}</option>
-            ))}
-          </select>
+            options={classFilterOptions}
+          />
         </div>
-      </div>
+      </Card>
 
-      {/* Sections Table */}
-      <div className="clay-card overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-700">
-              <tr>
-                <th className="py-3 px-4">Section & Class</th>
-                <th className="py-3 px-4">Room / Location</th>
-                <th className="py-3 px-4">Section Incharge</th>
-                <th className="py-3 px-4">Students (Boys / Girls)</th>
-                <th className="py-3 px-4">Capacity Utilization</th>
-                <th className="py-3 px-4">Class Monitor (CR)</th>
-                <th className="py-3 px-4 text-right">Today's Attendance</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {filteredSections.map((sec) => (
-                <tr key={sec.id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
-                  <td className="py-3.5 px-4">
-                    <div className="font-semibold text-slate-800 dark:text-white text-xs">
-                      {sec.className} - {sec.name}
-                    </div>
-                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
-                      {sec.wing}
-                    </span>
-                  </td>
+      {/* Sections Grid */}
+      {filteredSections.length === 0 ? (
+        <Card className="py-12">
+          <EmptyState
+            icon={Layers}
+            title="No Sections Found"
+            description="Try changing your search query or filter selection."
+          />
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          {filteredSections.map((sec, idx) => (
+            <Card key={idx} className="p-4 space-y-3 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold text-sm">
+                    {sec.name}
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-800 dark:text-white">{sec.className} - Section {sec.name}</h3>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Wing: {sec.wing || 'Main'}</p>
+                  </div>
+                </div>
+                <Badge variant="emerald">
+                  {sec.studentCount || 0} Students
+                </Badge>
+              </div>
 
-                  <td className="py-3.5 px-4">
-                    <span className="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200/50">
-                      {sec.room}
-                    </span>
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    <div className="font-medium text-slate-800 dark:text-white flex items-center gap-1.5">
-                      <UserCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                      {sec.sectionTeacher}
-                    </div>
-                    <div className="text-[10px] text-slate-400 font-normal">Class Head: {sec.classTeacher}</div>
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    <div className="font-semibold text-slate-800 dark:text-white text-xs">
-                      {sec.studentCount} Students
-                    </div>
-                    <div className="text-[10px] text-slate-500 font-normal">
-                      {sec.boys} Boys • {sec.girls} Girls
-                    </div>
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-24 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-emerald-500 rounded-full"
-                          style={{ width: `${Math.min(100, Math.round((sec.studentCount / sec.capacity) * 100))}%` }}
-                        ></div>
-                      </div>
-                      <span className="font-semibold text-slate-700 dark:text-slate-300">
-                        {Math.round((sec.studentCount / sec.capacity) * 100)}%
-                      </span>
-                    </div>
-                    <span className="text-[10px] text-slate-400 font-normal">Max: {sec.capacity} seats</span>
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    <span className="font-normal text-slate-700 dark:text-slate-300">
-                      {sec.cr || 'Not assigned'}
-                    </span>
-                  </td>
-
-                  <td className="py-3.5 px-4 text-right">
-                    <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
-                      {sec.attendanceToday || '96.5%'}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5 text-xs">
+                <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                  <span className="text-slate-400">Section Incharge:</span>
+                  <span className="font-semibold text-slate-800 dark:text-white flex items-center gap-1">
+                    <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
+                    {sec.sectionTeacher || 'Unassigned'}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                  <span className="text-slate-400">Room Number:</span>
+                  <span className="font-semibold text-slate-800 dark:text-white">{sec.room || 'TBD'}</span>
+                </div>
+                {sec.cr && (
+                  <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                    <span className="text-slate-400">Class Rep (CR):</span>
+                    <span className="font-semibold text-slate-800 dark:text-white">{sec.cr}</span>
+                  </div>
+                )}
+              </div>
+            </Card>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -294,33 +294,30 @@ const AdminDashboard = () => {
                   <button
                     type="button"
                     onClick={() => setQuickAudience('all')}
-                    className={`py-1.5 px-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                      quickAudience === 'all'
+                    className={`py-1.5 px-2 rounded-xl text-xs font-semibold transition cursor-pointer ${quickAudience === 'all'
                         ? 'clay-btn-emerald text-white shadow-xs'
                         : 'clay-btn-secondary text-slate-600 dark:text-slate-300'
-                    }`}
+                      }`}
                   >
                     Everyone
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickAudience('teachers')}
-                    className={`py-1.5 px-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                      quickAudience === 'teachers'
+                    className={`py-1.5 px-2 rounded-xl text-xs font-semibold transition cursor-pointer ${quickAudience === 'teachers'
                         ? 'clay-btn-emerald text-white shadow-xs'
                         : 'clay-btn-secondary text-slate-600 dark:text-slate-300'
-                    }`}
+                      }`}
                   >
                     Teachers
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickAudience('students')}
-                    className={`py-1.5 px-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                      quickAudience === 'students'
+                    className={`py-1.5 px-2 rounded-xl text-xs font-semibold transition cursor-pointer ${quickAudience === 'students'
                         ? 'clay-btn-emerald text-white shadow-xs'
                         : 'clay-btn-secondary text-slate-600 dark:text-slate-300'
-                    }`}
+                      }`}
                   >
                     Students
                   </button>
@@ -498,13 +495,12 @@ const AdminDashboard = () => {
                     </td>
                     <td className="px-3 py-2.5">
                       <span
-                        className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-                          st.status === 'Active' || st.status === 'Approved'
+                        className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${st.status === 'Active' || st.status === 'Approved'
                             ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
                             : st.status === 'Fees Pending'
-                            ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300'
-                            : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300'
-                        }`}
+                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300'
+                              : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300'
+                          }`}
                       >
                         {st.status}
                       </span>

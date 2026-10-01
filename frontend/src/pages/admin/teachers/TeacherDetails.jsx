@@ -1,59 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {
-  UserCheck,
   ArrowLeft,
   Mail,
   Phone,
-  GraduationCap,
-  Calendar,
-  Building2,
   Edit2,
   Sparkles,
-  IdCard,
-  Briefcase,
-  MapPin,
-  Clock,
-  ShieldCheck,
-  CheckCircle2
+  MapPin
 } from 'lucide-react';
 import { getTeacherById } from '../../../utils/teacherStorage';
-import logo from '../../../assets/logo_clean.png';
+import {
+  Button,
+  Badge,
+  Card
+} from '../../../components/common';
 
 const TeacherDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [teacher, setTeacher] = useState(null);
+  const [teacher, setTeacher] = useState(() => getTeacherById(id));
 
   useEffect(() => {
-    const found = getTeacherById(id);
-    if (found) {
-      setTeacher(found);
-    }
+    setTeacher(getTeacherById(id));
   }, [id]);
 
   if (!teacher) {
     return (
-      <div className="clay-card p-8 text-center space-y-4 max-w-md mx-auto my-12">
+      <Card className="p-8 text-center space-y-4 max-w-md mx-auto my-12">
         <h2 className="text-lg font-bold text-slate-800 dark:text-white">Faculty Record Not Found</h2>
         <p className="text-xs text-slate-500 dark:text-slate-400">
           No faculty record matching ID {id}.
         </p>
-        <Link
-          to="/admin/teachers"
-          className="clay-btn-emerald inline-flex items-center gap-2 px-4 py-2 text-xs font-bold"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Teachers Directory</span>
+        <Link to="/admin/teachers">
+          <Button variant="emerald" icon={ArrowLeft}>
+            Back to Teachers Directory
+          </Button>
         </Link>
-      </div>
+      </Card>
     );
   }
 
   return (
     <div className="space-y-4 pb-8 max-w-5xl mx-auto">
       {/* Header Banner */}
-      <div className="clay-emerald p-4 sm:p-5 relative overflow-hidden">
+      <Card variant="emerald">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <Link
@@ -77,31 +66,29 @@ const TeacherDetails = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Link
-              to={`/admin/teachers/edit/${teacher.id || teacher.employeeId}`}
-              className="clay-btn-emerald px-4 py-2 text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-md"
-            >
-              <Edit2 className="w-3.5 h-3.5" />
-              <span>Edit Teacher</span>
-            </Link>
-          </div>
+          <Link to={`/admin/teachers/edit/${teacher.id || teacher.employeeId}`}>
+            <Button variant="emerald" icon={Edit2}>
+              Edit Teacher
+            </Button>
+          </Link>
         </div>
-      </div>
+      </Card>
 
       {/* Profile Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Left ID & Quick Info */}
-        <div className="clay-card p-5 space-y-4">
+        <Card padding="p-5" className="space-y-4">
           <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/60">
             <div className="w-20 h-20 rounded-3xl bg-emerald-600 text-white flex items-center justify-center text-2xl font-black shadow-lg clay-icon-pill mb-3">
               {teacher.name.charAt(0)}
             </div>
             <h2 className="text-base font-black text-slate-800 dark:text-white">{teacher.name}</h2>
             <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{teacher.employeeId}</div>
-            <span className="mt-2 px-3 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
-              {teacher.status || 'Active'}
-            </span>
+            <div className="mt-2">
+              <Badge variant={teacher.status === 'Active' ? 'emerald' : 'amber'}>
+                {teacher.status || 'Active'}
+              </Badge>
+            </div>
           </div>
 
           <div className="space-y-2.5 text-xs">
@@ -118,10 +105,10 @@ const TeacherDetails = () => {
               <span>{teacher.address || 'Campus Staff Quarters'}</span>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Right Details Grid */}
-        <div className="lg:col-span-2 clay-card p-5 sm:p-6 space-y-4">
+        <Card padding="p-5 sm:p-6" className="lg:col-span-2 space-y-4">
           <h3 className="text-xs font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400 pb-2 border-b border-slate-100 dark:border-slate-800">
             Academic & Employment Summary
           </h3>
@@ -161,7 +148,7 @@ const TeacherDetails = () => {
               ))}
             </div>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

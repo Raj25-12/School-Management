@@ -105,11 +105,11 @@ const MyStudents = () => {
   return (
     <div className="space-y-4 pb-8">
       {/* Header Banner */}
-      <div className="clay-rose p-4 sm:p-5 relative overflow-hidden">
+      <div className="clay-sand p-4 sm:p-5 relative overflow-hidden">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-semibold text-rose-800 dark:text-rose-300 mb-1.5 shadow-xs border border-rose-200/60 dark:border-rose-800/60">
-              <Sparkles className="w-3.5 h-3.5 text-rose-600" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-bold text-[#775010] dark:text-[#ebd5ab] mb-1.5 shadow-xs border border-[#ebd5ab] dark:border-[#856326]">
+              <Sparkles className="w-3.5 h-3.5 text-[#b88628]" />
               <span>Teacher Portal • Enrolled Students Directory</span>
             </div>
             <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white tracking-tight">
@@ -123,7 +123,7 @@ const MyStudents = () => {
           <div className="flex items-center gap-2">
             <Link
               to="/teacher/notices"
-              className="clay-btn-rose px-3.5 py-2 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer shadow-sm text-white"
+              className="clay-btn-sand px-3.5 py-2 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer shadow-sm text-[#2b1804] dark:text-[#fff9ed]"
             >
               <Send className="w-3.5 h-3.5" />
               <span>Send Class Notice</span>
@@ -185,13 +185,13 @@ const MyStudents = () => {
                   <tr key={st.id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition">
                     <td className="px-3 py-2.5">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center justify-center border border-slate-200 dark:border-slate-700 clay-icon-pill shrink-0">
+                        <div className="w-8 h-8 rounded-xl bg-[#ebd5ab]/40 dark:bg-[#856326]/50 text-[#775010] dark:text-[#ebd5ab] font-bold text-xs flex items-center justify-center clay-icon-pill shrink-0">
                           {st.avatar}
                         </div>
                         <div>
                           <div className="font-semibold text-slate-800 dark:text-white leading-snug">{st.name}</div>
                           <div className="flex items-center gap-1 mt-0.5">
-                            <span className="text-[10px] font-medium px-1.5 py-0.2 rounded bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/60">
+                            <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#ebd5ab]/40 text-[#775010] dark:bg-[#856326]/50 dark:text-[#ebd5ab] border border-[#ebd5ab] dark:border-[#856326]">
                               Roll: {st.rollNo}
                             </span>
                             <span className="text-[10px] text-slate-400 font-mono">({st.id})</span>
@@ -215,7 +215,7 @@ const MyStudents = () => {
 
                     <td className="px-3 py-2.5">
                       <div className="text-xs font-normal text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-                        <FemaleIcon className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                        <FemaleIcon className="w-3.5 h-3.5 text-[#9c6f21] shrink-0" />
                         <span>{st.motherName}</span>
                       </div>
                     </td>
@@ -223,7 +223,7 @@ const MyStudents = () => {
                     <td className="px-3 py-2.5">
                       <a
                         href={`tel:${st.contact}`}
-                        className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-700 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 bg-slate-50 dark:bg-slate-800/60 px-2 py-1 rounded-lg border border-slate-200/60 dark:border-slate-700/60 transition"
+                        className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-700 dark:text-slate-300 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] bg-slate-50 dark:bg-slate-800/60 px-2 py-1 rounded-lg border border-slate-200/60 dark:border-slate-700/60 transition"
                       >
                         <Phone className="w-3 h-3 text-slate-500" />
                         <span>{st.contact}</span>
@@ -239,7 +239,7 @@ const MyStudents = () => {
                     <td className="px-3 py-2.5 text-right">
                       <Link
                         to="/teacher/notices"
-                        className="clay-btn-secondary px-2 py-1 rounded-lg text-[11px] font-semibold text-rose-600 hover:bg-rose-50 inline-flex items-center gap-1"
+                        className="clay-btn-secondary px-2 py-1 rounded-lg text-[11px] font-bold text-[#8d6016] dark:text-[#ebd5ab] hover:bg-[#ebd5ab]/20 inline-flex items-center gap-1"
                       >
                         <Mail className="w-3 h-3" />
                         <span>Mail</span>

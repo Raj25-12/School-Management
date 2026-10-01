@@ -33,9 +33,9 @@ const TeacherDashboard = () => {
       progress: 80,
       icon: BookOpen,
       clayClass: 'clay-card',
-      iconColor: 'text-rose-600 dark:text-rose-400',
-      pillBg: 'bg-rose-100 dark:bg-rose-950/60',
-      barColor: 'bg-rose-600 dark:bg-rose-500'
+      iconColor: 'text-[#9c6f21] dark:text-[#ebd5ab]',
+      pillBg: 'bg-[#ebd5ab]/40 dark:bg-[#856326]/50',
+      barColor: 'bg-[#c49646] dark:bg-[#dfbc7c]'
     },
     {
       title: 'Total Students',
@@ -44,9 +44,9 @@ const TeacherDashboard = () => {
       progress: 96.2,
       icon: Users,
       clayClass: 'clay-card',
-      iconColor: 'text-rose-600 dark:text-rose-400',
-      pillBg: 'bg-rose-100 dark:bg-rose-950/60',
-      barColor: 'bg-rose-600 dark:bg-rose-500'
+      iconColor: 'text-[#9c6f21] dark:text-[#ebd5ab]',
+      pillBg: 'bg-[#ebd5ab]/40 dark:bg-[#856326]/50',
+      barColor: 'bg-[#c49646] dark:bg-[#dfbc7c]'
     },
     {
       title: "Today's Attendance",
@@ -55,9 +55,9 @@ const TeacherDashboard = () => {
       progress: 66.6,
       icon: CalendarCheck,
       clayClass: 'clay-card',
-      iconColor: 'text-rose-600 dark:text-rose-400',
-      pillBg: 'bg-rose-100 dark:bg-rose-950/60',
-      barColor: 'bg-rose-600 dark:bg-rose-500'
+      iconColor: 'text-[#9c6f21] dark:text-[#ebd5ab]',
+      pillBg: 'bg-[#ebd5ab]/40 dark:bg-[#856326]/50',
+      barColor: 'bg-[#c49646] dark:bg-[#dfbc7c]'
     },
     {
       title: 'Pending Reviews',
@@ -66,9 +66,9 @@ const TeacherDashboard = () => {
       progress: 72,
       icon: FileText,
       clayClass: 'clay-card',
-      iconColor: 'text-rose-600 dark:text-rose-400',
-      pillBg: 'bg-rose-100 dark:bg-rose-950/60',
-      barColor: 'bg-rose-600 dark:bg-rose-500'
+      iconColor: 'text-[#9c6f21] dark:text-[#ebd5ab]',
+      pillBg: 'bg-[#ebd5ab]/40 dark:bg-[#856326]/50',
+      barColor: 'bg-[#c49646] dark:bg-[#dfbc7c]'
     },
   ];
 
@@ -143,18 +143,18 @@ const TeacherDashboard = () => {
   return (
     <div className="space-y-4 pb-6">
       {/* Welcome Banner */}
-      <div className="clay-rose p-4 sm:p-5 relative overflow-hidden">
+      <div className="clay-sand p-4 sm:p-5 relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-semibold text-rose-700 dark:text-rose-300 mb-1.5 shadow-xs border border-rose-200/60 dark:border-rose-800/60">
-              <Sparkles className="w-3.5 h-3.5 text-rose-500" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-bold text-[#775010] dark:text-[#ebd5ab] mb-1.5 shadow-xs border border-[#ebd5ab] dark:border-[#856326]">
+              <Sparkles className="w-3.5 h-3.5 text-[#b88628]" />
               <span>Academic Year 2026-27 • Semester 1</span>
             </div>
             <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white tracking-tight">
               Good Morning, {user?.name || 'Prof. Sharma'}!
             </h1>
             <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-              You have <span className="font-semibold text-rose-600 dark:text-rose-400">4 lectures</span> scheduled today.
+              You have <span className="font-bold text-[#9c6f21] dark:text-[#ebd5ab]">4 lectures</span> scheduled today.
               Class 10-A attendance is recorded.
             </p>
           </div>
@@ -163,7 +163,7 @@ const TeacherDashboard = () => {
           <div className="flex items-center gap-2 shrink-0">
             <Link
               to="/teacher/attendance"
-              className="clay-btn-rose px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer text-white"
+              className="clay-btn-sand px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer text-[#2b1804] dark:text-[#fff9ed]"
             >
               <CalendarCheck className="w-3.5 h-3.5" />
               <span>Attendance</span>
@@ -172,7 +172,7 @@ const TeacherDashboard = () => {
               to="/teacher/homework"
               className="clay-btn-secondary px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
             >
-              <PlusCircle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
+              <PlusCircle className="w-3.5 h-3.5 text-[#9c6f21] dark:text-[#ebd5ab]" />
               <span>Homework</span>
             </Link>
           </div>
@@ -225,7 +225,7 @@ const TeacherDashboard = () => {
       <div className="clay-card p-4 sm:p-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400 clay-icon-pill">
+            <div className="p-1.5 rounded-lg bg-[#ebd5ab]/40 text-[#9c6f21] dark:bg-[#856326]/60 dark:text-[#ebd5ab] clay-icon-pill">
               <BookOpen className="w-4 h-4" />
             </div>
             <div>
@@ -235,7 +235,7 @@ const TeacherDashboard = () => {
               <p className="text-[11px] text-slate-400">Term 1 syllabus completion status across sections</p>
             </div>
           </div>
-          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#ebd5ab]/40 text-[#775010] dark:bg-[#856326]/50 dark:text-[#ebd5ab] border border-[#ebd5ab] dark:border-[#856326]">
             Mid-Term Target: 70%
           </span>
         </div>
@@ -248,13 +248,13 @@ const TeacherDashboard = () => {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-slate-800 dark:text-slate-100">{item.subject}</span>
-                <span className="text-xs font-bold text-rose-600 dark:text-rose-400">{item.completed}%</span>
+                <span className="text-xs font-bold text-[#9c6f21] dark:text-[#ebd5ab]">{item.completed}%</span>
               </div>
               <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{item.currentTopic}</p>
               {/* Progress bar */}
               <div className="clay-progress-track h-2 w-full mt-2">
                 <div
-                  className="h-full rounded-full bg-rose-600 dark:bg-rose-500 transition-all duration-500"
+                  className="h-full rounded-full bg-[#c49646] dark:bg-[#dfbc7c] transition-all duration-500"
                   style={{ width: `${item.completed}%` }}
                 />
               </div>
@@ -273,7 +273,7 @@ const TeacherDashboard = () => {
         <div className="lg:col-span-2 clay-card p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3.5">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400 clay-icon-pill">
+              <div className="p-1.5 rounded-lg bg-[#ebd5ab]/40 text-[#9c6f21] dark:bg-[#856326]/60 dark:text-[#ebd5ab] clay-icon-pill">
                 <Clock className="w-4 h-4" />
               </div>
               <div>
@@ -287,7 +287,7 @@ const TeacherDashboard = () => {
             </div>
             <Link
               to="/teacher/timetable"
-              className="text-xs font-semibold text-rose-600 hover:text-rose-700 dark:text-rose-400 inline-flex items-center gap-0.5 hover:underline"
+              className="text-xs font-bold text-[#9c6f21] hover:text-[#775010] dark:text-[#ebd5ab] inline-flex items-center gap-0.5 hover:underline"
             >
               <span>Full Week</span>
               <ArrowUpRight className="w-3 h-3" />
@@ -302,7 +302,7 @@ const TeacherDashboard = () => {
                 className="clay-card p-2.5 sm:p-3 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 border border-slate-200/70 dark:border-slate-800"
               >
                 <div className="flex items-start gap-2.5">
-                  <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 shrink-0 font-semibold text-xs border border-slate-200 dark:border-slate-700 clay-icon-pill flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#9c6f21] dark:text-[#ebd5ab] shrink-0 font-semibold text-xs border border-slate-200 dark:border-slate-700 clay-icon-pill flex items-center justify-center">
                     <span className="font-bold text-xs">{lecture.period}</span>
                   </div>
                   <div>
@@ -310,7 +310,7 @@ const TeacherDashboard = () => {
                       <h3 className="text-xs font-semibold text-slate-800 dark:text-white">
                         {lecture.subject}
                       </h3>
-                      <span className="text-[10px] px-1.5 py-0.2 rounded font-medium bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 border border-rose-200/50 dark:border-rose-800/50">
+                      <span className="text-[10px] px-1.5 py-0.2 rounded font-bold bg-[#ebd5ab]/40 text-[#775010] dark:bg-[#856326]/50 dark:text-[#ebd5ab] border border-[#ebd5ab] dark:border-[#856326]">
                         {lecture.className}
                       </span>
                     </div>
@@ -329,7 +329,7 @@ const TeacherDashboard = () => {
                       lecture.status === 'Completed'
                         ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                         : lecture.status === 'In Progress'
-                        ? 'bg-rose-600 text-white shadow-xs'
+                        ? 'bg-[#c49646] text-[#261704] font-bold shadow-xs'
                         : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                     }`}
                   >
@@ -344,15 +344,15 @@ const TeacherDashboard = () => {
         {/* Right Column: Attendance Marker & Tools */}
         <div className="space-y-4">
           {/* Quick Attendance Widget */}
-          <div className="clay-card p-4 border border-rose-200/60 dark:border-rose-900/40">
+          <div className="clay-card p-4 border border-[#ebd5ab] dark:border-[#856326]">
             <div className="flex items-center justify-between mb-2.5">
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+                <CheckCircle2 className="w-4 h-4 text-[#9c6f21] dark:text-[#ebd5ab]" />
                 <h3 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">
                   Quick Attendance
                 </h3>
               </div>
-              <span className="text-[10px] font-semibold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-200/60 dark:border-rose-800/60">
+              <span className="text-[10px] font-bold text-[#775010] dark:text-[#ebd5ab] bg-[#ebd5ab]/40 dark:bg-[#856326]/60 px-1.5 py-0.5 rounded border border-[#ebd5ab] dark:border-[#856326]">
                 Today
               </span>
             </div>
@@ -379,7 +379,7 @@ const TeacherDashboard = () => {
                       className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all flex items-center gap-1 cursor-pointer ${
                         isDone
                           ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                          : 'clay-btn-rose text-white'
+                          : 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed]'
                       }`}
                     >
                       {isDone ? (
@@ -400,20 +400,20 @@ const TeacherDashboard = () => {
           {/* Quick Exam Tools */}
           <div className="clay-card p-4">
             <h3 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white mb-2 flex items-center gap-1.5">
-              <Award className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+              <Award className="w-4 h-4 text-[#9c6f21] dark:text-[#ebd5ab]" />
               <span>Exam & Marks</span>
             </h3>
             <div className="space-y-1.5">
               <Link
                 to="/teacher/marks"
-                className="w-full clay-btn-secondary p-2 text-xs font-semibold flex items-center justify-between text-slate-700 dark:text-slate-200 hover:text-rose-600 transition"
+                className="w-full clay-btn-secondary p-2 text-xs font-semibold flex items-center justify-between text-slate-700 dark:text-slate-200 hover:text-[#8d6016] transition"
               >
                 <span>Upload Unit Test Marks</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
               </Link>
               <Link
                 to="/teacher/exams"
-                className="w-full clay-btn-secondary p-2 text-xs font-semibold flex items-center justify-between text-slate-700 dark:text-slate-200 hover:text-rose-600 transition"
+                className="w-full clay-btn-secondary p-2 text-xs font-semibold flex items-center justify-between text-slate-700 dark:text-slate-200 hover:text-[#8d6016] transition"
               >
                 <span>View Exam Schedules</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
@@ -429,7 +429,7 @@ const TeacherDashboard = () => {
         <div className="lg:col-span-2 clay-card p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3.5">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400 clay-icon-pill">
+              <div className="p-1.5 rounded-lg bg-[#ebd5ab]/40 text-[#9c6f21] dark:bg-[#856326]/60 dark:text-[#ebd5ab] clay-icon-pill">
                 <FileText className="w-4 h-4" />
               </div>
               <div>
@@ -443,7 +443,7 @@ const TeacherDashboard = () => {
             </div>
             <Link
               to="/teacher/homework"
-              className="text-xs font-semibold text-rose-600 hover:text-rose-700 dark:text-rose-400 hover:underline"
+              className="text-xs font-bold text-[#9c6f21] hover:text-[#775010] dark:text-[#ebd5ab] hover:underline"
             >
               View All 18
             </Link>
@@ -453,7 +453,7 @@ const TeacherDashboard = () => {
             {pendingSubmissions.map((item, idx) => (
               <div
                 key={idx}
-                className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 hover:border-rose-300 dark:hover:border-rose-600/50 transition"
+                className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 hover:border-[#ebd5ab] dark:hover:border-[#856326] transition"
               >
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center justify-center border border-slate-200 dark:border-slate-700 clay-icon-pill shrink-0 shadow-xs">
@@ -464,7 +464,7 @@ const TeacherDashboard = () => {
                       {item.student}{' '}
                       <span className="text-[10px] font-normal text-slate-400">({item.roll})</span>
                     </h4>
-                    <p className="text-[11px] font-medium text-rose-600 dark:text-rose-400">
+                    <p className="text-[11px] font-bold text-[#9c6f21] dark:text-[#ebd5ab]">
                       {item.assignment}
                     </p>
                   </div>
@@ -474,7 +474,7 @@ const TeacherDashboard = () => {
                   <span className="text-[10px] text-slate-400 hidden sm:inline">{item.date}</span>
                   <Link
                     to="/teacher/homework"
-                    className="clay-btn-secondary px-2.5 py-1 text-[11px] font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 transition"
+                    className="clay-btn-secondary px-2.5 py-1 text-[11px] font-bold text-[#9c6f21] dark:text-[#ebd5ab] hover:bg-[#ebd5ab]/20 transition"
                   >
                     Review
                   </Link>
@@ -489,7 +489,7 @@ const TeacherDashboard = () => {
           <div>
             <div className="flex items-center justify-between mb-3.5">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400 clay-icon-pill">
+                <div className="p-1.5 rounded-lg bg-[#ebd5ab]/40 text-[#9c6f21] dark:bg-[#856326]/60 dark:text-[#ebd5ab] clay-icon-pill">
                   <AlertCircle className="w-4 h-4" />
                 </div>
                 <h2 className="text-sm sm:text-base font-bold text-slate-800 dark:text-white">
@@ -498,7 +498,7 @@ const TeacherDashboard = () => {
               </div>
               <Link
                 to="/teacher/notices"
-                className="text-xs font-semibold text-rose-600 hover:text-rose-700 dark:text-rose-400 hover:underline"
+                className="text-xs font-bold text-[#9c6f21] hover:text-[#775010] dark:text-[#ebd5ab] hover:underline"
               >
                 See All
               </Link>
@@ -527,7 +527,7 @@ const TeacherDashboard = () => {
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
             <Link
               to="/teacher/notices"
-              className="clay-btn-rose w-full py-2 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer text-white"
+              className="clay-btn-sand w-full py-2 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer text-[#2b1804] dark:text-[#fff9ed]"
             >
               <PlusCircle className="w-3.5 h-3.5" />
               <span>Broadcast Notice</span>

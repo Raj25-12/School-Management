@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/logo_clean.png';
 import {
-
   X,
   LogOut,
   LayoutDashboard,
@@ -15,7 +14,9 @@ import {
   Award,
   Bell,
   UserCheck,
-  Sparkles
+  ChevronDown,
+  Sparkles,
+  CheckSquare
 } from 'lucide-react';
 
 const TeacherSidebar = ({ isOpen, setIsOpen }) => {
@@ -23,18 +24,90 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const navLinks = [
-    { to: '/teacher/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/teacher/classes', label: 'My Classes', icon: BookOpen },
-    { to: '/teacher/students', label: 'My Students', icon: Users },
-    { to: '/teacher/attendance', label: 'Attendance', icon: CalendarCheck },
-    { to: '/teacher/timetable', label: 'Timetable', icon: Calendar },
-    { to: '/teacher/homework', label: 'Homework', icon: FileText },
-    { to: '/teacher/exams', label: 'Exams', icon: Award },
-    { to: '/teacher/marks', label: 'Marks', icon: Award },
-    { to: '/teacher/notices', label: 'Notices', icon: Bell },
-    { to: '/teacher/profile', label: 'Profile', icon: UserCheck },
+  // Navigation structure: only categories with multiple features have accordion sub-menus
+  const navItems = [
+    {
+      to: '/teacher/dashboard',
+      label: 'Dashboard',
+      icon: LayoutDashboard,
+    },
+    {
+      label: 'Classes & Students',
+      icon: BookOpen,
+      basePath: '/teacher/classes',
+      subItems: [
+        { to: '/teacher/classes', label: 'My Assigned Classes', exact: true },
+        { to: '/teacher/students', label: 'Student Directory' },
+      ],
+    },
+    {
+      to: '/teacher/attendance',
+      label: 'Attendance Desk',
+      icon: CalendarCheck,
+    },
+    {
+      to: '/teacher/timetable',
+      label: 'My Timetable Routine',
+      icon: Calendar,
+    },
+    {
+      label: 'Homework & Exams',
+      icon: FileText,
+      basePath: '/teacher/homework',
+      subItems: [
+        { to: '/teacher/homework', label: 'Homework Desk', exact: true },
+        { to: '/teacher/exams', label: 'Exam Datesheet' },
+        { to: '/teacher/marks', label: 'Marks Entry Sheet' },
+      ],
+    },
+    {
+      label: 'Notices & Circulars',
+      icon: Bell,
+      basePath: '/teacher/notices',
+      subItems: [
+        { to: '/teacher/notices', label: 'Faculty Notice Board', exact: true },
+        { to: '/teacher/notices/send', label: 'Send Notice to Class' },
+        { to: '/teacher/notices/doubts', label: 'Student Doubts & Mail' },
+      ],
+    },
+    {
+      to: '/teacher/profile',
+      label: 'Faculty Profile',
+      icon: UserCheck,
+    },
   ];
+
+  // Manage open accordion state
+  const [openMenus, setOpenMenus] = useState(() => {
+    const activeStates = {};
+    navItems.forEach((item) => {
+      if (item.subItems && item.basePath) {
+        if (location.pathname.startsWith(item.basePath) || (item.subItems && item.subItems.some(sub => location.pathname.startsWith(sub.to)))) {
+          activeStates[item.label] = true;
+        }
+      }
+    });
+    return activeStates;
+  });
+
+  // Auto-expand accordion when navigating to a child page
+  useEffect(() => {
+    navItems.forEach((item) => {
+      if (item.subItems) {
+        const isMatched = (item.basePath && location.pathname.startsWith(item.basePath)) || item.subItems.some(sub => location.pathname.startsWith(sub.to));
+        if (isMatched) {
+          setOpenMenus((prev) => ({ ...prev, [item.label]: true }));
+        }
+      }
+    });
+  }, [location.pathname]);
+
+  const toggleMenu = (label) => {
+    setOpenMenus((prev) => ({
+      ...prev,
+      [label]: !prev[label],
+    }));
+  };
 
   // Close sidebar on ESC key
   useEffect(() => {
@@ -69,8 +142,9 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
     <>
       {/* Mobile Backdrop Overlay with smooth fade */}
       <div
-        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}
+        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
         onClick={() => setIsOpen && setIsOpen(false)}
         aria-hidden="true"
       />
@@ -78,8 +152,9 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
       {/* Sidebar Drawer */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md border-r border-slate-200/80 dark:border-slate-800 
-        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
-          }`}
+        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
+          isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
+        }`}
       >
         {/* Brand Header */}
         <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-200/70 dark:border-slate-800 shrink-0">
@@ -95,7 +170,7 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
               <span className="text-sm font-black text-slate-800 dark:text-white tracking-tight leading-none">
                 School Management
               </span>
-              <span className="text-[10px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-wider mt-1">
+              <span className="text-[10px] font-extrabold text-[#9c6f21] dark:text-[#ebd5ab] uppercase tracking-wider mt-1">
                 Teacher Portal
               </span>
             </div>
@@ -110,28 +185,83 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
           </button>
         </div>
 
+        {/* Navigation Links with Warm Sand / Gold (#EBD5AB) Accordions */}
+        <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto custom-scrollbar">
+          {navItems.map((item) => {
+            const Icon = item.icon;
 
+            // Direct link (no sub-items)
+            if (!item.subItems) {
+              return (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${
+                      isActive
+                        ? 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed] shadow-md'
+                        : 'text-slate-600 dark:text-slate-300 hover:bg-[#ebd5ab]/25 dark:hover:bg-[#856326]/30 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] hover:shadow-xs'
+                    }`
+                  }
+                >
+                  <Icon className="w-4 h-4 shrink-0" />
+                  <span className="truncate">{item.label}</span>
+                </NavLink>
+              );
+            }
 
+            // Accordion Item with Sub-options
+            const isMenuOpen = !!openMenus[item.label];
+            const isChildActive =
+              (item.basePath && location.pathname.startsWith(item.basePath)) ||
+              item.subItems.some((sub) => location.pathname.startsWith(sub.to));
 
-
-        {/* Navigation Links with Red / Rose Active State */}
-        <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
-          {navLinks.map((link) => {
-            const Icon = link.icon;
             return (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${isActive
-                    ? 'clay-btn-rose text-white shadow-md'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-rose-50/70 dark:hover:bg-rose-950/30 hover:text-rose-600 dark:hover:text-rose-400 hover:shadow-xs'
-                  }`
-                }
-              >
-                <Icon className="w-4 h-4 shrink-0" />
-                <span className="truncate">{link.label}</span>
-              </NavLink>
+              <div key={item.label} className="space-y-1">
+                {/* Parent Trigger Button */}
+                <button
+                  type="button"
+                  onClick={() => toggleMenu(item.label)}
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                    isChildActive
+                      ? 'bg-[#ebd5ab]/30 text-[#61410b] dark:bg-[#856326]/40 dark:text-[#ebd5ab] border border-[#ebd5ab]/70 dark:border-[#856326]/70'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 truncate">
+                    <Icon className={`w-4 h-4 shrink-0 ${isChildActive ? 'text-[#8d6016] dark:text-[#ebd5ab]' : ''}`} />
+                    <span className="truncate">{item.label}</span>
+                  </div>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${
+                      isMenuOpen ? 'rotate-180 text-[#8d6016] dark:text-[#ebd5ab]' : ''
+                    }`}
+                  />
+                </button>
+
+                {/* Sub-items dropdown list */}
+                {isMenuOpen && (
+                  <div className="pl-4 pr-1 py-1 space-y-1 border-l-2 border-[#ebd5ab] dark:border-[#856326] ml-5 my-0.5 animate-in fade-in slide-in-from-top-1 duration-150">
+                    {item.subItems.map((sub) => (
+                      <NavLink
+                        key={sub.to}
+                        to={sub.to}
+                        end={sub.exact}
+                        className={({ isActive }) =>
+                          `flex items-center gap-2 px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all ${
+                            isActive
+                              ? 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed] shadow-xs font-bold'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] hover:bg-[#ebd5ab]/20 dark:hover:bg-[#856326]/25'
+                          }`
+                        }
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-current shrink-0 opacity-60"></span>
+                        <span className="truncate">{sub.label}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>
