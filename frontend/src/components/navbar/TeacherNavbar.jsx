@@ -124,7 +124,7 @@ const TeacherNavbar = ({ toggleSidebar }) => {
             <Menu className="w-5 h-5" />
           </button>
 
-          {/* Breadcrumb with Pastel Clay Pill */}
+          {/* Breadcrumb with Warm Sand / Gold Clay Pill */}
           <div className="flex items-center space-x-2 text-sm text-slate-500 dark:text-slate-400">
             <span className="clay-sand text-[#775010] dark:text-[#ebd5ab] px-2.5 py-1 rounded-xl font-bold text-xs border border-[#ebd5ab] dark:border-[#856326]">
               TEACHER

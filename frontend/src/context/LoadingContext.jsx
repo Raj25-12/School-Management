@@ -6,34 +6,35 @@ export const LoadingContext = createContext(null);
 
 export const LoadingProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
-  // Starts active immediately on initial site visit & browser reload
+  const [loadingText, setLoadingText] = useState('');
+  // Start active immediately from the very first frame on page reload / initial load
   const [isNavigating, setIsNavigating] = useState(true);
   const location = useLocation();
   const initialMount = useRef(true);
 
-  // Initial visit & browser reload transition
+  // Initial load / reload transition
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsNavigating(false);
       initialMount.current = false;
-    }, 420);
+    }, 450);
 
     return () => clearTimeout(timer);
   }, []);
 
-  // Route navigation transition on every pathname or search change
+  // Subsequent route navigation transition
   useEffect(() => {
     if (!initialMount.current) {
       setIsNavigating(true);
       const timer = setTimeout(() => {
         setIsNavigating(false);
-      }, 360);
+      }, 350);
 
       return () => clearTimeout(timer);
     }
   }, [location.pathname, location.search]);
 
-  // Immediate global interceptor for all internal link clicks (Navbar, Sidebar, Buttons, Cards)
+  // Instant feedback on any link clicks
   useEffect(() => {
     const handleAnchorClick = (e) => {
       const target = e.target.closest('a');
@@ -52,16 +53,18 @@ export const LoadingProvider = ({ children }) => {
     return () => document.removeEventListener('click', handleAnchorClick, true);
   }, []);
 
-  const startLoading = () => {
+  const startLoading = (text = '') => {
+    setLoadingText(text);
     setIsLoading(true);
   };
 
   const stopLoading = () => {
     setIsLoading(false);
+    setLoadingText('');
   };
 
-  const withLoading = async (asyncFn) => {
-    startLoading();
+  const withLoading = async (asyncFn, text = '') => {
+    startLoading(text);
     try {
       const result = await asyncFn();
       return result;
@@ -74,21 +77,22 @@ export const LoadingProvider = ({ children }) => {
     <LoadingContext.Provider
       value={{
         isLoading,
+        loadingText,
         startLoading,
         stopLoading,
         withLoading,
       }}
     >
       {/* 
-        Global Icon Morph Loader (Dribbble shot 4397553).
-        Dead center on screen with strong background blur + dimmed overlay.
-        Disables background clicks while active.
+        Compact Dribbble Icon Morph Loader in the exact dead center of the screen
+        with soft background blur running from the very start of page reload to end!
       */}
       {(isNavigating || isLoading) && (
         <Loader
           fullScreen
           size="md"
           variant="primary"
+          text={loadingText || ''}
         />
       )}
 

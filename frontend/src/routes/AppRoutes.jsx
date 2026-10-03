@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from '../layouts/AdminLayout';
 import TeacherLayout from '../layouts/TeacherLayout';
 import StudentLayout from '../layouts/StudentLayout';
+import Loader from '../components/common/Loader';
 
 import Loader from '../components/common/Loader';
 
@@ -58,6 +59,8 @@ const Receipts = lazy(() => import('../pages/admin/fees/Receipts'));
 
 const AdminHomework = lazy(() => import('../pages/admin/homework/Homework'));
 const AdminNotices = lazy(() => import('../pages/admin/notices/Notices'));
+const AdminBroadcast = lazy(() => import('../pages/admin/notices/AdminBroadcast'));
+const AdminMailbox = lazy(() => import('../pages/admin/notices/AdminMailbox'));
 const AdminReports = lazy(() => import('../pages/admin/reports/Reports'));
 const AdminSettings = lazy(() => import('../pages/admin/settings/Settings'));
 
@@ -71,6 +74,8 @@ const TeacherHomework = lazy(() => import('../pages/teacher/Homework'));
 const TeacherExams = lazy(() => import('../pages/teacher/Exams'));
 const TeacherMarks = lazy(() => import('../pages/teacher/Marks'));
 const TeacherNotices = lazy(() => import('../pages/teacher/Notices'));
+const TeacherBroadcast = lazy(() => import('../pages/teacher/notices/TeacherBroadcast'));
+const TeacherDoubts = lazy(() => import('../pages/teacher/notices/TeacherDoubts'));
 const TeacherProfile = lazy(() => import('../pages/teacher/Profile'));
 
 // Student Pages (Lazy)
@@ -83,6 +88,8 @@ const MyExams = lazy(() => import('../pages/student/MyExams'));
 const MyResults = lazy(() => import('../pages/student/MyResults'));
 const MyFees = lazy(() => import('../pages/student/MyFees'));
 const StudentNotices = lazy(() => import('../pages/student/Notices'));
+const AskDoubt = lazy(() => import('../pages/student/notices/AskDoubt'));
+const MyInquiries = lazy(() => import('../pages/student/notices/MyInquiries'));
 
 // Common Pages (Lazy)
 const NotFound = lazy(() => import('../pages/NotFound'));
@@ -91,8 +98,8 @@ const AppRoutes = () => {
   return (
     <Suspense fallback={<RouteLoader />}>
       <Routes>
-          {/* Root redirect to Login page */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* Root redirect to Login page */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
 
         {/* Auth Pages */}
         <Route path="/login" element={<Login />} />
@@ -152,9 +159,9 @@ const AppRoutes = () => {
 
           {/* Homework, Notices, Reports, Settings */}
           <Route path="homework" element={<AdminHomework />} />
-          <Route path="notices" element={<AdminNotices initialTab="feed" />} />
-          <Route path="notices/broadcast" element={<AdminNotices initialTab="compose" />} />
-          <Route path="notices/mail" element={<AdminNotices initialTab="mail" />} />
+          <Route path="notices" element={<AdminNotices />} />
+          <Route path="notices/broadcast" element={<AdminBroadcast />} />
+          <Route path="notices/mailbox" element={<AdminMailbox />} />
           <Route path="reports" element={<AdminReports />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
@@ -170,9 +177,9 @@ const AppRoutes = () => {
           <Route path="homework" element={<TeacherHomework />} />
           <Route path="exams" element={<TeacherExams />} />
           <Route path="marks" element={<TeacherMarks />} />
-          <Route path="notices" element={<TeacherNotices initialTab="feed" />} />
-          <Route path="notices/send" element={<TeacherNotices initialTab="broadcast" />} />
-          <Route path="notices/doubts" element={<TeacherNotices initialTab="mail" />} />
+          <Route path="notices" element={<TeacherNotices />} />
+          <Route path="notices/broadcast" element={<TeacherBroadcast />} />
+          <Route path="notices/doubts" element={<TeacherDoubts />} />
           <Route path="profile" element={<TeacherProfile />} />
         </Route>
 
@@ -187,9 +194,9 @@ const AppRoutes = () => {
           <Route path="exams" element={<MyExams />} />
           <Route path="results" element={<MyResults />} />
           <Route path="fees" element={<MyFees />} />
-          <Route path="notices" element={<StudentNotices initialTab="board" />} />
-          <Route path="notices/ask" element={<StudentNotices initialTab="compose" />} />
-          <Route path="notices/inbox" element={<StudentNotices initialTab="inbox" />} />
+          <Route path="notices" element={<StudentNotices />} />
+          <Route path="notices/ask-doubt" element={<AskDoubt />} />
+          <Route path="notices/inquiries" element={<MyInquiries />} />
         </Route>
 
         {/* 404 Catch-All */}

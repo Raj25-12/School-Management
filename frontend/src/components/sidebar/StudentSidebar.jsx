@@ -15,7 +15,9 @@ import {
   Bell,
   CheckSquare,
   BookOpen,
-  ChevronDown
+  ChevronDown,
+  Send,
+  Mail
 } from 'lucide-react';
 
 const StudentSidebar = ({ isOpen, setIsOpen }) => {
@@ -55,13 +57,13 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
       icon: CreditCard,
     },
     {
-      label: 'Notices & Circulars',
+      label: 'Notices & Doubts',
       icon: Bell,
       basePath: '/student/notices',
       subItems: [
         { to: '/student/notices', label: 'Notice Board', exact: true },
-        { to: '/student/notices/ask', label: 'Mail / Ask Doubt' },
-        { to: '/student/notices/inbox', label: 'My Inquiries & Replies' },
+        { to: '/student/notices/ask-doubt', label: 'Mail / Ask Doubt' },
+        { to: '/student/notices/inquiries', label: 'My Inquiries & Replies' },
       ],
     },
     {
@@ -124,7 +126,7 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
     if (window.innerWidth < 1024 && isOpen) {
       setIsOpen(false);
     }
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
   const toggleSidebar = () => {
     if (setIsOpen) {
@@ -270,7 +272,7 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
           <button
             type="button"
             onClick={handleLogout}
-            className="w-full clay-btn-secondary flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl text-xs font-bold text-red-600 hover:bg-rose-50 dark:text-red-400 dark:hover:bg-rose-950/40 transition cursor-pointer"
+            className="w-full clay-btn-secondary flex items-center justify-center gap-2.5 py-2 px-3 rounded-xl text-xs font-bold text-red-600 hover:bg-rose-50 dark:text-red-400 dark:hover:bg-rose-950/40 transition cursor-pointer"
           >
             <LogOut className="w-4 h-4 shrink-0" />
             <span>Logout</span>
