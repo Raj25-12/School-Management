@@ -33,12 +33,14 @@ import { Link } from 'react-router-dom';
 import { getStoredStudents, updateStoredStudent } from '../../utils/studentStorage';
 import { getStoredParents, updateStoredParent } from '../../utils/parentStorage';
 import { MaleIcon, FemaleIcon } from '../../components/common/GenderIcons';
+import StatAnalyticsModal from '../../components/analytics/StatAnalyticsModal';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
   const { notifications, sendNotification } = useNotifications();
   const { showToast } = useToast();
 
+  const [selectedStatKey, setSelectedStatKey] = useState(null); // 'students' | 'teachers' | 'fees' | 'attendance'
   const [isQuickBroadcastOpen, setIsQuickBroadcastOpen] = useState(false);
   const [quickTitle, setQuickTitle] = useState('');
   const [quickMessage, setQuickMessage] = useState('');
@@ -185,10 +187,10 @@ const AdminDashboard = () => {
   };
 
   const stats = [
-    { title: 'Total Students', value: '1,248', icon: GraduationCap, detail: '1,248 / 1,500 target', progress: 83.2, clayClass: 'clay-card', iconColor: 'text-emerald-700 dark:text-emerald-400', pillBg: 'bg-emerald-50 dark:bg-emerald-950/70', barColor: 'bg-emerald-600 dark:bg-emerald-500' },
-    { title: 'Total Teachers', value: '64', icon: UserCheck, detail: '64 / 70 staffing', progress: 91.4, clayClass: 'clay-card', iconColor: 'text-emerald-700 dark:text-emerald-400', pillBg: 'bg-emerald-50 dark:bg-emerald-950/70', barColor: 'bg-emerald-600 dark:bg-emerald-500' },
-    { title: 'Fee Collection', value: '₹14.2 L', icon: CreditCard, detail: '₹14.2L / ₹16.5L', progress: 86.0, clayClass: 'clay-card', iconColor: 'text-emerald-700 dark:text-emerald-400', pillBg: 'bg-emerald-50 dark:bg-emerald-950/70', barColor: 'bg-emerald-600 dark:bg-emerald-500' },
-    { title: "Today's Attendance", value: '95.4%', icon: CalendarCheck, detail: '1,191 of 1,248 present', progress: 95.4, clayClass: 'clay-card', iconColor: 'text-emerald-700 dark:text-emerald-400', pillBg: 'bg-emerald-50 dark:bg-emerald-950/70', barColor: 'bg-emerald-600 dark:bg-emerald-500' },
+    { id: 'students', title: 'Total Students', value: '1,248', icon: GraduationCap, detail: '1,248 / 1,500 target', progress: 83.2, clayClass: 'clay-card', iconColor: 'text-emerald-700 dark:text-emerald-400', pillBg: 'bg-emerald-50 dark:bg-emerald-950/70', barColor: 'bg-emerald-600 dark:bg-emerald-500' },
+    { id: 'teachers', title: 'Total Teachers', value: '64', icon: UserCheck, detail: '64 / 70 staffing', progress: 91.4, clayClass: 'clay-card', iconColor: 'text-emerald-700 dark:text-emerald-400', pillBg: 'bg-emerald-50 dark:bg-emerald-950/70', barColor: 'bg-emerald-600 dark:bg-emerald-500' },
+    { id: 'fees', title: 'Fee Collection', value: '₹14.2 L', icon: CreditCard, detail: '₹14.2L / ₹16.5L', progress: 86.0, clayClass: 'clay-card', iconColor: 'text-emerald-700 dark:text-emerald-400', pillBg: 'bg-emerald-50 dark:bg-emerald-950/70', barColor: 'bg-emerald-600 dark:bg-emerald-500' },
+    { id: 'attendance', title: "Today's Attendance", value: '95.4%', icon: CalendarCheck, detail: '1,191 of 1,248 present', progress: 95.4, clayClass: 'clay-card', iconColor: 'text-emerald-700 dark:text-emerald-400', pillBg: 'bg-emerald-50 dark:bg-emerald-950/70', barColor: 'bg-emerald-600 dark:bg-emerald-500' },
   ];
 
   const institutionalGoals = [
@@ -373,20 +375,29 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* KPI Stat Cards with Progress Bars */}
+      {/* KPI Stat Cards with Progress Bars & Interactive Graphs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {stats.map((item, idx) => {
           const Icon = item.icon;
           return (
             <div
               key={idx}
-              className={`${item.clayClass} p-3.5 flex flex-col justify-between transition-transform duration-150 hover:-translate-y-0.5`}
+              role="button"
+              tabIndex={0}
+              onClick={() => setSelectedStatKey(item.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setSelectedStatKey(item.id);
+                }
+              }}
+              className={`${item.clayClass} p-3.5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer group border border-transparent hover:border-emerald-300/80 dark:hover:border-emerald-700/80 select-none`}
+              title="Click to view detailed analytics graph and distribution"
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
                   {item.title}
                 </span>
-                <div className={`p-1.5 rounded-lg ${item.pillBg} ${item.iconColor} clay-icon-pill`}>
+                <div className={`p-1.5 rounded-lg ${item.pillBg} ${item.iconColor} clay-icon-pill group-hover:scale-110 transition-transform`}>
                   <Icon className="w-3.5 h-3.5" />
                 </div>
               </div>
@@ -406,8 +417,12 @@ const AdminDashboard = () => {
                     style={{ width: `${item.progress}%` }}
                   />
                 </div>
-                <div className="text-[10px] font-medium text-slate-500 dark:text-slate-400 mt-1">
-                  {item.detail}
+                <div className="flex items-center justify-between text-[10px] font-medium text-slate-500 dark:text-slate-400 mt-1.5">
+                  <span className="truncate">{item.detail}</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5 shrink-0 ml-1">
+                    <span>Graph</span>
+                    <ArrowUpRight className="w-2.5 h-2.5" />
+                  </span>
                 </div>
               </div>
             </div>
@@ -1063,6 +1078,13 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
+
+      {/* Interactive Stat Analytics & Graph Modal */}
+      <StatAnalyticsModal
+        statType={selectedStatKey}
+        isOpen={!!selectedStatKey}
+        onClose={() => setSelectedStatKey(null)}
+      />
     </div>
   );
 };

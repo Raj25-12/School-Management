@@ -19,12 +19,10 @@ import {
   BarChart3,
   Settings,
   ChevronDown,
-  UserPlus,
-  ArrowRight,
-  Receipt,
-  FileSpreadsheet,
+  Mail,
+  Send,
   Layers,
-  Sparkles
+  Receipt
 } from 'lucide-react';
 
 const AdminSidebar = ({ isOpen, setIsOpen }) => {
@@ -46,6 +44,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
       subItems: [
         { to: '/admin/students', label: 'Student Directory', exact: true },
         { to: '/admin/students/add', label: 'Add New Student' },
+        { to: '/admin/parents', label: 'Parents Directory' },
         { to: '/admin/students/promotion', label: 'Batch Promotion' },
       ]
     },
@@ -57,11 +56,6 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
         { to: '/admin/teachers', label: 'Faculty Directory', exact: true },
         { to: '/admin/teachers/add', label: 'Add New Teacher' },
       ]
-    },
-    {
-      to: '/admin/parents',
-      label: 'Parents & Guardians',
-      icon: Users
     },
     {
       label: 'Classes & Subjects',
@@ -78,8 +72,8 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
       icon: CalendarCheck,
       basePath: '/admin/attendance',
       subItems: [
-        { to: '/admin/attendance/teacher', label: 'Teacher Attendance' },
         { to: '/admin/attendance/student', label: 'Student Attendance' },
+        { to: '/admin/attendance/teacher', label: 'Teacher Attendance' },
         { to: '/admin/attendance/report', label: 'Attendance Audit Report' },
       ]
     },
@@ -128,7 +122,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
       subItems: [
         { to: '/admin/notices', label: 'Circulars Bulletin', exact: true },
         { to: '/admin/notices/broadcast', label: 'Broadcast Circular' },
-        { to: '/admin/notices/mail', label: 'Direct Mail & Inquiries' },
+        { to: '/admin/notices/mailbox', label: 'Mailbox & Queries' },
       ],
     },
     {
@@ -148,7 +142,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
     const activeStates = {};
     navItems.forEach((item) => {
       if (item.subItems && item.basePath) {
-        if (location.pathname.startsWith(item.basePath)) {
+        if (location.pathname.startsWith(item.basePath) || item.subItems.some(sub => location.pathname.startsWith(sub.to))) {
           activeStates[item.label] = true;
         }
       }
@@ -159,8 +153,11 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
   // Auto-expand accordion when navigating to a child page
   useEffect(() => {
     navItems.forEach((item) => {
-      if (item.subItems && item.basePath && location.pathname.startsWith(item.basePath)) {
-        setOpenMenus((prev) => ({ ...prev, [item.label]: true }));
+      if (item.subItems) {
+        const isMatched = (item.basePath && location.pathname.startsWith(item.basePath)) || item.subItems.some(sub => location.pathname.startsWith(sub.to));
+        if (isMatched) {
+          setOpenMenus((prev) => ({ ...prev, [item.label]: true }));
+        }
       }
     });
   }, [location.pathname]);
@@ -230,10 +227,10 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
               />
             </div>
             <div className="flex flex-col truncate">
-              <span className="text-sm font-black text-slate-800 dark:text-white tracking-tight leading-none">
+              <span className="text-sm font-bold text-slate-800 dark:text-white tracking-tight leading-none">
                 School Management
               </span>
-              <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mt-1">
+              <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mt-1">
                 Admin Portal
               </span>
             </div>
@@ -275,7 +272,9 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
 
             // Accordion Item with Sub-options
             const isMenuOpen = !!openMenus[item.label];
-            const isChildActive = location.pathname.startsWith(item.basePath);
+            const isChildActive =
+              (item.basePath && location.pathname.startsWith(item.basePath)) ||
+              item.subItems.some((sub) => location.pathname.startsWith(sub.to));
 
             return (
               <div key={item.label} className="space-y-1">
@@ -328,13 +327,13 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
         </nav>
 
         {/* Footer with Clay Logout Button */}
-        <div className="p-3.5 border-t border-slate-200/70 dark:border-slate-800 shrink-0">
+        <div className="p-3 border-t border-slate-200/70 dark:border-slate-800 shrink-0">
           <button
             type="button"
             onClick={handleLogout}
-            className="w-full clay-btn-secondary flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl text-xs font-bold text-red-600 hover:bg-rose-50 dark:text-red-400 dark:hover:bg-rose-950/40 transition cursor-pointer"
+            className="w-full clay-btn-secondary flex items-center justify-center gap-2 py-2 px-3.5 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40 transition cursor-pointer"
           >
-            <LogOut className="w-4 h-4 shrink-0" />
+            <LogOut className="w-3.5 h-3.5 shrink-0" />
             <span>Logout</span>
           </button>
         </div>

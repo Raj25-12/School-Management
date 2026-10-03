@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo_clean.png';
 import { Mail, ArrowLeft, ArrowRight, CheckCircle2, Sparkles, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import Loader from '../../components/common/Loader';
 
 const ForgotPassword = () => {
   const { theme, toggleTheme } = useTheme();
@@ -103,7 +104,7 @@ const ForgotPassword = () => {
                 className="clay-btn-primary w-full py-2.5 px-4 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer mt-2"
               >
                 {isLoading ? (
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <Loader size="xs" variant="white" />
                 ) : (
                   <>
                     <span>Send Reset Instructions</span>

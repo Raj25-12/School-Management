@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useToast } from '../../context/ToastContext';
 import logo from '../../assets/logo_clean.png';
+import Loader from '../../components/common/Loader';
 import {
   ShieldCheck,
   UserCheck,
@@ -19,7 +20,6 @@ import {
   IdCard,
   CheckCircle2
 } from 'lucide-react';
-
 
 const Register = () => {
   const navigate = useNavigate();
@@ -128,8 +128,6 @@ const Register = () => {
               Select your role to get started
             </p>
           </div>
-
-
 
           {/* Role Switcher in Green / Red / Blue */}
           <div className="grid grid-cols-3 gap-1.5 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 mb-5">
@@ -278,7 +276,7 @@ const Register = () => {
               className={`${getSubmitBtnClass()} w-full py-2.5 px-4 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer mt-3`}
             >
               {isLoading ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <Loader size="xs" variant="white" />
               ) : (
                 <>
                   <span>Create {role.charAt(0).toUpperCase() + role.slice(1)} Account</span>

@@ -109,7 +109,8 @@
 
 /* Teacher Theme Clay (#EBD5AB Sand / Warm Golden Amber) */
 .clay-rose,
-.clay-teacher {
+.clay-teacher,
+.clay-sand {
   background-color: #ebd5ab;
   border-radius: 1.125rem;
   box-shadow:
@@ -174,7 +175,8 @@
 
 /* Teacher Theme Button (#EBD5AB Warm Golden Amber Gradient) */
 .clay-btn-rose,
-.clay-btn-teacher {
+.clay-btn-teacher,
+.clay-btn-sand {
   background: linear-gradient(135deg, #cfa75e 0%, #b88d3b 100%);
   color: #ffffff;
   border-radius: 0.75rem;
@@ -186,7 +188,8 @@
 }
 
 .clay-btn-rose:hover,
-.clay-btn-teacher:hover {
+.clay-btn-teacher:hover,
+.clay-btn-sand:hover {
   transform: translateY(-1px);
   background: linear-gradient(135deg, #d8b269 0%, #c49642 100%);
   box-shadow:
@@ -195,7 +198,8 @@
 }
 
 .clay-btn-rose:active,
-.clay-btn-teacher:active {
+.clay-btn-teacher:active,
+.clay-btn-sand:active {
   transform: translateY(1px);
   box-shadow:
     2px 2px 6px rgba(184, 141, 59, 0.35),
@@ -365,7 +369,8 @@ html.dark .clay-sky {
 }
 
 html.dark .clay-rose,
-html.dark .clay-teacher {
+html.dark .clay-teacher,
+html.dark .clay-sand {
   background-color: #382c16;
   border: 1.5px solid #846831;
   box-shadow:
@@ -547,4 +552,4 @@ html.dark .clay-progress-track {
   .icon-morph-inner {
     animation: none !important;
   }
-}
+}

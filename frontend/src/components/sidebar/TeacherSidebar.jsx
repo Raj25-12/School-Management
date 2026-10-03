@@ -16,6 +16,8 @@ import {
   UserCheck,
   ChevronDown,
   Sparkles,
+  Send,
+  Mail,
   CheckSquare
 } from 'lucide-react';
 
@@ -24,7 +26,7 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Navigation structure: only categories with multiple features have accordion sub-menus
+  // Navigation structure with sub-menus
   const navItems = [
     {
       to: '/teacher/dashboard',
@@ -33,7 +35,7 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
     },
     {
       label: 'Classes & Students',
-      icon: BookOpen,
+      icon: Users,
       basePath: '/teacher/classes',
       subItems: [
         { to: '/teacher/classes', label: 'My Assigned Classes', exact: true },
@@ -61,12 +63,12 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
       ],
     },
     {
-      label: 'Notices & Circulars',
+      label: 'Notices & Doubts',
       icon: Bell,
       basePath: '/teacher/notices',
       subItems: [
         { to: '/teacher/notices', label: 'Faculty Notice Board', exact: true },
-        { to: '/teacher/notices/send', label: 'Send Notice to Class' },
+        { to: '/teacher/notices/broadcast', label: 'Broadcast to Students' },
         { to: '/teacher/notices/doubts', label: 'Student Doubts & Mail' },
       ],
     },
@@ -81,8 +83,11 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
   const [openMenus, setOpenMenus] = useState(() => {
     const activeStates = {};
     navItems.forEach((item) => {
-      if (item.subItems && item.basePath) {
-        if (location.pathname.startsWith(item.basePath) || (item.subItems && item.subItems.some(sub => location.pathname.startsWith(sub.to)))) {
+      if (item.subItems) {
+        if (
+          (item.basePath && location.pathname.startsWith(item.basePath)) ||
+          item.subItems.some((sub) => location.pathname.startsWith(sub.to))
+        ) {
           activeStates[item.label] = true;
         }
       }
@@ -94,7 +99,9 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
   useEffect(() => {
     navItems.forEach((item) => {
       if (item.subItems) {
-        const isMatched = (item.basePath && location.pathname.startsWith(item.basePath)) || item.subItems.some(sub => location.pathname.startsWith(sub.to));
+        const isMatched =
+          (item.basePath && location.pathname.startsWith(item.basePath)) ||
+          item.subItems.some((sub) => location.pathname.startsWith(sub.to));
         if (isMatched) {
           setOpenMenus((prev) => ({ ...prev, [item.label]: true }));
         }
@@ -140,7 +147,7 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
 
   return (
     <>
-      {/* Mobile Backdrop Overlay with smooth fade */}
+      {/* Mobile Backdrop Overlay */}
       <div
         className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -167,7 +174,7 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
               />
             </div>
             <div className="flex flex-col truncate">
-              <span className="text-sm font-black text-slate-800 dark:text-white tracking-tight leading-none">
+              <span className="text-sm font-bold text-slate-800 dark:text-white tracking-tight leading-none">
                 School Management
               </span>
               <span className="text-[10px] font-extrabold text-[#9c6f21] dark:text-[#ebd5ab] uppercase tracking-wider mt-1">
@@ -267,13 +274,13 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
         </nav>
 
         {/* Footer with Clay Logout Button */}
-        <div className="p-3.5 border-t border-slate-200/70 dark:border-slate-800 shrink-0">
+        <div className="p-3 border-t border-slate-200/70 dark:border-slate-800 shrink-0">
           <button
             type="button"
             onClick={handleLogout}
-            className="w-full clay-btn-secondary flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl text-xs font-bold text-red-600 hover:bg-rose-50 dark:text-red-400 dark:hover:bg-rose-950/40 transition cursor-pointer"
+            className="w-full clay-btn-secondary flex items-center justify-center gap-2 py-2 px-3.5 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40 transition cursor-pointer"
           >
-            <LogOut className="w-4 h-4 shrink-0" />
+            <LogOut className="w-3.5 h-3.5 shrink-0" />
             <span>Logout</span>
           </button>
         </div>

@@ -15,6 +15,7 @@ import {
 import { useToast } from '../../../context/ToastContext';
 import { saveNewStudent } from '../../../utils/studentStorage';
 import { MaleIcon, FemaleIcon } from '../../../components/common/GenderIcons';
+import Loader from '../../../components/common/Loader';
 
 
 const AddStudent = () => {
@@ -309,7 +310,7 @@ const AddStudent = () => {
               className="clay-btn-emerald px-6 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-md"
             >
               {isLoading ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <Loader size="xs" variant="white" />
               ) : (
                 <>
                   <UserPlus className="w-4 h-4" />

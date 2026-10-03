@@ -20,6 +20,7 @@ import {
 import { useToast } from '../../../context/ToastContext';
 import { getTeacherById, updateStoredTeacher } from '../../../utils/teacherStorage';
 import logo from '../../../assets/logo_clean.png';
+import Loader from '../../../components/common/Loader';
 
 const departments = [
   'Mathematics',
@@ -393,7 +394,7 @@ const EditTeacher = () => {
                   className="clay-btn-emerald px-6 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-md"
                 >
                   {isLoading ? (
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <Loader size="xs" variant="white" />
                   ) : (
                     <>
                       <Save className="w-4 h-4" />

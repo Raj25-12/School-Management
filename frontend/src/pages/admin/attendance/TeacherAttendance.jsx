@@ -196,7 +196,7 @@ const TeacherAttendance = () => {
       }))
     );
     showToast({
-      title: 'Bulk Attendance Complete ✅',
+      title: 'Bulk Attendance Complete',
       message: `All ${attendanceList.length} staff members marked as Present for today.`,
       type: 'emerald',
     });

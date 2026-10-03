@@ -526,7 +526,7 @@ const TeacherDashboard = () => {
 
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
             <Link
-              to="/teacher/notices"
+              to="/teacher/notices/broadcast"
               className="clay-btn-sand w-full py-2 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer text-[#2b1804] dark:text-[#fff9ed]"
             >
               <PlusCircle className="w-3.5 h-3.5" />
