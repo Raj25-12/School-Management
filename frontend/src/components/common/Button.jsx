@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loader2 } from 'lucide-react';
+import Loader from './Loader';
 
 const variantClasses = {
   emerald: 'clay-btn-emerald',
@@ -45,7 +45,7 @@ const Button = React.memo(({
       {...props}
     >
       {loading ? (
-        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+        <Loader size="xs" variant="currentColor" />
       ) : (
         Icon && iconPosition === 'left' && <Icon className="w-3.5 h-3.5 shrink-0" />
       )}

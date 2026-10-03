@@ -1,85 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import {
-  GraduationCap,
   BookOpen,
-  FlaskConical,
-  Trophy,
-  Atom,
+  PenTool,
+  GraduationCap,
+  Pencil,
+  Library,
   Compass,
-  ShieldCheck,
+  FlaskConical,
   Sparkles
 } from 'lucide-react';
 
 const morphIcons = [
   {
+    icon: BookOpen,
+    name: 'BookOpen',
+    label: 'Books & Coursework',
+    gradient: 'from-indigo-500 via-blue-600 to-indigo-700',
+    glowColor: 'rgba(79, 70, 229, 0.45)',
+    textColor: 'text-indigo-700 dark:text-indigo-400',
+    ringColor: 'border-indigo-400/40 dark:border-indigo-500/30',
+    bgBadge: 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-200/80 dark:border-indigo-800/80',
+  },
+  {
+    icon: PenTool,
+    name: 'PenTool',
+    label: 'Writing & Assignments',
+    gradient: 'from-blue-500 via-sky-600 to-indigo-600',
+    glowColor: 'rgba(37, 99, 235, 0.45)',
+    textColor: 'text-blue-700 dark:text-blue-400',
+    ringColor: 'border-blue-400/40 dark:border-blue-500/30',
+    bgBadge: 'bg-blue-50 dark:bg-blue-950/60 border-blue-200/80 dark:border-blue-800/80',
+  },
+  {
     icon: GraduationCap,
     name: 'GraduationCap',
     label: 'Academic Excellence',
-    gradient: 'from-emerald-500 via-teal-500 to-emerald-600',
-    glowColor: 'rgba(16, 185, 129, 0.45)',
-    textColor: 'text-emerald-700 dark:text-emerald-400',
-    ringColor: 'border-emerald-400/40 dark:border-emerald-500/30',
-    bgBadge: 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-200/80 dark:border-emerald-800/80',
-  },
-  {
-    icon: BookOpen,
-    name: 'BookOpen',
-    label: 'Curriculum & Modules',
-    gradient: 'from-amber-500 via-orange-500 to-amber-600',
-    glowColor: 'rgba(245, 158, 11, 0.45)',
-    textColor: 'text-amber-700 dark:text-amber-400',
-    ringColor: 'border-amber-400/40 dark:border-amber-500/30',
-    bgBadge: 'bg-amber-50 dark:bg-amber-950/60 border-amber-200/80 dark:border-amber-800/80',
-  },
-  {
-    icon: FlaskConical,
-    name: 'FlaskConical',
-    label: 'Science & Discovery',
-    gradient: 'from-sky-500 via-cyan-500 to-blue-600',
+    gradient: 'from-sky-500 via-blue-500 to-indigo-600',
     glowColor: 'rgba(14, 165, 233, 0.45)',
     textColor: 'text-sky-700 dark:text-sky-400',
     ringColor: 'border-sky-400/40 dark:border-sky-500/30',
     bgBadge: 'bg-sky-50 dark:bg-sky-950/60 border-sky-200/80 dark:border-sky-800/80',
   },
   {
-    icon: Trophy,
-    name: 'Trophy',
-    label: 'Merit & Performance',
-    gradient: 'from-yellow-400 via-amber-500 to-orange-500',
-    glowColor: 'rgba(234, 179, 8, 0.45)',
-    textColor: 'text-amber-700 dark:text-amber-400',
-    ringColor: 'border-yellow-400/40 dark:border-yellow-500/30',
-    bgBadge: 'bg-yellow-50 dark:bg-yellow-950/60 border-yellow-200/80 dark:border-yellow-800/80',
+    icon: Pencil,
+    name: 'Pencil',
+    label: 'Study & Practice',
+    gradient: 'from-indigo-400 via-sky-500 to-blue-600',
+    glowColor: 'rgba(99, 102, 241, 0.45)',
+    textColor: 'text-indigo-700 dark:text-indigo-400',
+    ringColor: 'border-indigo-400/40 dark:border-indigo-500/30',
+    bgBadge: 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-200/80 dark:border-indigo-800/80',
   },
   {
-    icon: Atom,
-    name: 'Atom',
-    label: 'Modern Learning',
-    gradient: 'from-purple-500 via-indigo-500 to-pink-500',
-    glowColor: 'rgba(168, 85, 247, 0.45)',
-    textColor: 'text-purple-700 dark:text-purple-400',
-    ringColor: 'border-purple-400/40 dark:border-purple-500/30',
-    bgBadge: 'bg-purple-50 dark:bg-purple-950/60 border-purple-200/80 dark:border-purple-800/80',
-  },
-  {
-    icon: Compass,
-    name: 'Compass',
-    label: 'Student Growth',
-    gradient: 'from-blue-500 via-indigo-600 to-sky-500',
+    icon: Library,
+    name: 'Library',
+    label: 'Curriculum & Resources',
+    gradient: 'from-blue-600 via-indigo-600 to-sky-600',
     glowColor: 'rgba(59, 130, 246, 0.45)',
     textColor: 'text-blue-700 dark:text-blue-400',
     ringColor: 'border-blue-400/40 dark:border-blue-500/30',
     bgBadge: 'bg-blue-50 dark:bg-blue-950/60 border-blue-200/80 dark:border-blue-800/80',
   },
   {
-    icon: ShieldCheck,
-    name: 'ShieldCheck',
-    label: 'School Management Portal',
-    gradient: 'from-teal-500 via-emerald-600 to-cyan-600',
-    glowColor: 'rgba(20, 184, 166, 0.45)',
-    textColor: 'text-teal-700 dark:text-teal-400',
-    ringColor: 'border-teal-400/40 dark:border-teal-500/30',
-    bgBadge: 'bg-teal-50 dark:bg-teal-950/60 border-teal-200/80 dark:border-teal-800/80',
+    icon: Compass,
+    name: 'Compass',
+    label: 'Student Growth & Focus',
+    gradient: 'from-sky-500 via-indigo-600 to-blue-500',
+    glowColor: 'rgba(14, 165, 233, 0.45)',
+    textColor: 'text-sky-700 dark:text-sky-400',
+    ringColor: 'border-sky-400/40 dark:border-sky-500/30',
+    bgBadge: 'bg-sky-50 dark:bg-sky-950/60 border-sky-200/80 dark:border-sky-800/80',
   }
 ];
 
@@ -176,36 +166,31 @@ const IconMorphLoader = ({
       </div>
 
       {/* Dynamic Status / Caption */}
-      <div className="mt-5 flex flex-col items-center text-center space-y-1.5">
-        <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all duration-500 border ${current.bgBadge} ${current.textColor} shadow-xs`}>
-          <Sparkles className="w-3 h-3 animate-spin" style={{ animationDuration: '4s' }} />
-          <span>{current.label}</span>
+      {(text || showProgress) && (
+        <div className="mt-4 flex flex-col items-center text-center space-y-1.5">
+          {text && (
+            <p className="text-xs font-bold text-slate-700 dark:text-slate-300 tracking-tight transition-colors duration-300">
+              {text}
+            </p>
+          )}
+
+          {/* Sleek Animated Progress Bar */}
+          {showProgress && (
+            <div className={`mt-1.5 ${cfg.barWidth} h-1.5 rounded-full bg-slate-200/80 dark:bg-slate-800 overflow-hidden relative shadow-inner`}>
+              <div
+                className={`h-full bg-gradient-to-r ${current.gradient} rounded-full animate-morph-bar w-full`}
+              />
+            </div>
+          )}
         </div>
-
-        {text && (
-          <p className="text-xs font-bold text-slate-700 dark:text-slate-300 tracking-tight transition-colors duration-300">
-            {text}
-          </p>
-        )}
-
-        {/* Sleek Animated Progress Bar */}
-        {showProgress && (
-          <div className={`mt-1.5 ${cfg.barWidth} h-1.5 rounded-full bg-slate-200/80 dark:bg-slate-800 overflow-hidden relative shadow-inner`}>
-            <div
-              className={`h-full bg-gradient-to-r ${current.gradient} rounded-full animate-morph-bar w-full`}
-            />
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 
   if (fullPage) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/50 backdrop-blur-md transition-all duration-300">
-        <div className="clay-card p-8 sm:p-10 flex flex-col items-center justify-center max-w-sm w-full mx-4 shadow-2xl border border-white/80 dark:border-slate-700/80">
-          {content}
-        </div>
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/40 backdrop-blur-md transition-all duration-300">
+        {content}
       </div>
     );
   }

@@ -6,10 +6,12 @@ import AdminLayout from '../layouts/AdminLayout';
 import TeacherLayout from '../layouts/TeacherLayout';
 import StudentLayout from '../layouts/StudentLayout';
 
+import Loader from '../components/common/Loader';
+
 // Loading fallback component
 const RouteLoader = () => (
   <div className="flex items-center justify-center min-h-[60vh] w-full py-12">
-    <div className="w-8 h-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+    <Loader size="md" variant="primary" />
   </div>
 );
 

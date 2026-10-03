@@ -473,78 +473,92 @@ html.dark .clay-progress-track {
 }
 
 /* =========================================================
-   ICON MORPH LOADER (Dribbble 4397553 60 FPS Fluid Morph)
+   STUDY & ACADEMIC LOADER ANIMATIONS
    ========================================================= */
 
-@keyframes icon-morph-spin-elastic {
+@keyframes study-orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes study-orbit-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes study-float-pulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.04);
+  }
+}
+
+@keyframes study-pen-write {
   0% {
-    transform: rotate(0deg) scale(1);
+    stroke-dashoffset: 60;
+    opacity: 0.2;
   }
-  22% {
-    transform: rotate(90deg) scale(1.06);
-  }
-  45% {
-    transform: rotate(180deg) scale(0.96);
-  }
-  68% {
-    transform: rotate(270deg) scale(1.08);
-  }
-  88% {
-    transform: rotate(340deg) scale(0.97);
+  50% {
+    stroke-dashoffset: 0;
+    opacity: 1;
   }
   100% {
-    transform: rotate(360deg) scale(1);
+    stroke-dashoffset: -60;
+    opacity: 0.2;
   }
 }
 
-@keyframes icon-morph-inner-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.85;
+@keyframes study-icon-pop {
+  0% {
+    transform: scale(0.6) rotate(-12deg);
+    opacity: 0;
+    filter: blur(3px);
   }
-  22% {
-    transform: scale(1.18);
+  60% {
+    transform: scale(1.08) rotate(3deg);
     opacity: 1;
+    filter: blur(0px);
   }
-  45% {
-    transform: scale(0.85);
-    opacity: 0.75;
-  }
-  68% {
-    transform: scale(1.22);
+  100% {
+    transform: scale(1) rotate(0deg);
     opacity: 1;
-  }
-  88% {
-    transform: scale(0.9);
-    opacity: 0.8;
+    filter: blur(0px);
   }
 }
 
-.icon-morph-container {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center center;
-  will-change: transform;
+.animate-study-orbit {
+  animation: study-orbit-spin 7s linear infinite;
 }
 
-.icon-morph-svg {
-  transform-origin: 50% 50%;
-  animation: icon-morph-spin-elastic 3s cubic-bezier(0.45, 0.05, 0.2, 0.95) infinite;
-  filter: drop-shadow(0 2px 5px rgba(99, 102, 241, 0.2));
+.animate-study-orbit-reverse {
+  animation: study-orbit-spin-reverse 10s linear infinite;
 }
 
-.icon-morph-inner {
-  transform-origin: 50% 50%;
-  animation: icon-morph-inner-pulse 3s cubic-bezier(0.45, 0.05, 0.2, 0.95) infinite;
+.animate-study-float {
+  animation: study-float-pulse 2.2s ease-in-out infinite;
+}
+
+.animate-study-pop {
+  animation: study-icon-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-  .icon-morph-svg {
-    animation: none !important;
-  }
-  .icon-morph-inner {
+  .icon-morph-svg,
+  .animate-study-orbit,
+  .animate-study-orbit-reverse,
+  .animate-study-float,
+  .animate-study-pop {
     animation: none !important;
   }
 }

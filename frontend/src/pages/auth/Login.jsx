@@ -18,6 +18,7 @@ import {
   Moon
 } from 'lucide-react';
 
+import Loader from '../../components/common/Loader';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -254,7 +255,7 @@ const Login = () => {
               className={`${getSubmitBtnClass()} w-full py-2.5 px-4 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer mt-2`}
             >
               {isLoading ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <Loader size="xs" variant="white" />
               ) : (
                 <>
                   <span>Sign In as {role.charAt(0).toUpperCase() + role.slice(1)}</span>

@@ -9,42 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-      @keyframes preloader-spin {
-        0% { transform: rotate(0deg) scale(1); }
-        22% { transform: rotate(90deg) scale(1.06); }
-        45% { transform: rotate(180deg) scale(0.96); }
-        68% { transform: rotate(270deg) scale(1.08); }
-        88% { transform: rotate(340deg) scale(0.97); }
-        100% { transform: rotate(360deg) scale(1); }
-      }
-      @keyframes preloader-pulse {
-        0%, 100% { transform: scale(1); opacity: 0.85; }
-        22% { transform: scale(1.18); opacity: 1; }
-        45% { transform: scale(0.85); opacity: 0.75; }
-        68% { transform: scale(1.22); opacity: 1; }
-        88% { transform: scale(0.9); opacity: 0.8; }
-      }
-    </style>
   </head>
   <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
-    <div id="root">
-      <!-- Instant 0.00ms Zero-Delay Preloader on Initial Page Visit / Browser Reload -->
-      <div id="page-preloader" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,0.30);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
-        <div style="background:#ffffff;padding:18px 20px;border-radius:1.5rem;display:flex;align-items:center;justify-content:center;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);border:1px solid #e2e8f0;min-width:88px;min-height:88px;">
-          <div style="padding:10px;border-radius:1rem;background:#eef2ff;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border:1px solid rgba(199,210,254,0.6);">
-            <svg style="width:40px;height:40px;overflow:visible;animation:preloader-spin 3s cubic-bezier(0.45,0.05,0.2,0.95) infinite;color:#4f46e5;stroke:#4f46e5;" viewBox="0 0 100 100" fill="none">
-              <path d="M 50 18 C 58.49 18 65.98 21.1 72.63 27.37 C 78.9 34.02 82 41.51 82 50 C 82 58.49 78.9 65.98 72.63 72.63 C 65.98 78.9 58.49 82 50 82 C 41.51 82 34.02 78.9 27.37 72.63 C 21.1 65.98 18 58.49 18 50 C 18 41.51 21.1 34.02 27.37 27.37 C 34.02 21.1 41.51 18 50 18 Z" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" fill="none">
-                <animate attributeName="d" dur="3s" repeatCount="indefinite" values="M 50 18 C 58.49 18 65.98 21.1 72.63 27.37 C 78.9 34.02 82 41.51 82 50 C 82 58.49 78.9 65.98 72.63 72.63 C 65.98 78.9 58.49 82 50 82 C 41.51 82 34.02 78.9 27.37 72.63 C 21.1 65.98 18 58.49 18 50 C 18 41.51 21.1 34.02 27.37 27.37 C 34.02 21.1 41.51 18 50 18 Z; M 50 20 C 60 20 68 20 74 26 C 80 32 80 40 80 50 C 80 60 80 68 74 74 C 68 80 60 80 50 80 C 40 80 32 80 26 74 C 20 68 20 60 20 50 C 20 40 20 32 26 26 C 32 20 40 20 50 20 Z; M 50 18 C 54 22 62 38 70 54 C 76 66 80 74 76 78 C 72 82 62 82 50 82 C 38 82 28 82 24 78 C 20 74 24 66 30 54 C 38 38 46 22 50 18 C 50 18 50 18 50 18 C 50 18 50 18 50 18 Z; M 50 16 C 53 28 60 40 72 47 C 78 49 82 50 84 50 C 82 50 78 51 72 53 C 60 60 53 72 50 84 C 47 72 40 60 28 53 C 22 51 18 50 16 50 C 18 50 22 49 28 47 C 40 40 47 28 50 16 Z; M 50 18 C 58 18 70 24 78 34 C 82 39 82 45 82 50 C 82 55 82 61 78 66 C 70 76 58 82 50 82 C 42 82 30 76 22 66 C 18 61 18 55 18 50 C 18 45 18 39 22 34 C 30 24 42 18 50 18 Z; M 50 18 C 58.49 18 65.98 21.1 72.63 27.37 C 78.9 34.02 82 41.51 82 50 C 82 58.49 78.9 65.98 72.63 72.63 C 65.98 78.9 58.49 82 50 82 C 41.51 82 34.02 78.9 27.37 72.63 C 21.1 65.98 18 58.49 18 50 C 18 41.51 21.1 34.02 27.37 27.37 C 34.02 21.1 41.51 18 50 18 Z" keyTimes="0; 0.22; 0.45; 0.68; 0.88; 1" keySplines="0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1" calcMode="spline" />
-              </path>
-              <path d="M 50 45 C 52.76 45 55 47.24 55 50 C 55 52.76 52.76 55 50 55 C 47.24 55 45 52.76 45 50 C 45 47.24 47.24 45 50 45 Z" fill="currentColor" opacity="0.9">
-                <animate attributeName="d" dur="3s" repeatCount="indefinite" values="M 50 45 C 52.76 45 55 47.24 55 50 C 55 52.76 52.76 55 50 55 C 47.24 55 45 52.76 45 50 C 45 47.24 47.24 45 50 45 Z; M 50 44 C 54 44 56 44 56 47 C 56 53 56 56 50 56 C 44 56 44 53 44 47 C 44 44 46 44 50 44 Z; M 50 43 C 53 46 55 51 55 55 C 53 56 47 56 45 55 C 45 51 47 46 50 43 C 50 43 50 43 50 43 Z; M 50 42 C 51 46 54 49 58 50 C 54 51 51 54 50 58 C 49 54 46 51 42 50 C 46 49 49 46 50 42 Z; M 50 43 C 55 44 56 47 56 50 C 56 53 55 56 50 57 C 45 56 44 53 44 50 C 44 47 45 44 50 43 Z; M 50 45 C 52.76 45 55 47.24 55 50 C 55 52.76 52.76 55 50 55 C 47.24 55 45 52.76 45 50 C 45 47.24 47.24 45 50 45 Z" keyTimes="0; 0.22; 0.45; 0.68; 0.88; 1" keySplines="0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1" calcMode="spline" />
-              </path>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
