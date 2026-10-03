@@ -2,9 +2,11 @@ import React, { useState, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import TeacherNavbar from '../components/navbar/TeacherNavbar';
 import TeacherSidebar from '../components/sidebar/TeacherSidebar';
+import Loader from '../components/common/Loader';
+
 const LayoutLoader = () => (
   <div className="flex items-center justify-center min-h-[50vh] w-full py-16">
-    <div className="w-8 h-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+    <Loader size="md" variant="primary" />
   </div>
 );
 

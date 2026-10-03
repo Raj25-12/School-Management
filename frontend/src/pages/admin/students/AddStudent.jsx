@@ -17,7 +17,6 @@ import { saveNewStudent } from '../../../utils/studentStorage';
 import { MaleIcon, FemaleIcon } from '../../../components/common/GenderIcons';
 import Loader from '../../../components/common/Loader';
 
-
 const AddStudent = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();

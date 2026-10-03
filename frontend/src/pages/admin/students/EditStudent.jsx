@@ -19,7 +19,6 @@ import { getStudentById, updateStoredStudent } from '../../../utils/studentStora
 import { MaleIcon, FemaleIcon } from '../../../components/common/GenderIcons';
 import Loader from '../../../components/common/Loader';
 
-
 const EditStudent = () => {
   const { id } = useParams();
   const navigate = useNavigate();

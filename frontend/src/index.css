@@ -553,3 +553,95 @@ html.dark .clay-progress-track {
     animation: none !important;
   }
 }
+
+/* =========================================================
+   STUDY & ACADEMIC LOADER ANIMATIONS
+   ========================================================= */
+
+@keyframes study-orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes study-orbit-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes study-float-pulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.04);
+  }
+}
+
+@keyframes study-pen-write {
+  0% {
+    stroke-dashoffset: 60;
+    opacity: 0.2;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -60;
+    opacity: 0.2;
+  }
+}
+
+@keyframes study-icon-pop {
+  0% {
+    transform: scale(0.6) rotate(-12deg);
+    opacity: 0;
+    filter: blur(3px);
+  }
+  60% {
+    transform: scale(1.08) rotate(3deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+.animate-study-orbit {
+  animation: study-orbit-spin 7s linear infinite;
+}
+
+.animate-study-orbit-reverse {
+  animation: study-orbit-spin-reverse 10s linear infinite;
+}
+
+.animate-study-float {
+  animation: study-float-pulse 2.2s ease-in-out infinite;
+}
+
+.animate-study-pop {
+  animation: study-icon-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .icon-morph-svg,
+  .animate-study-orbit,
+  .animate-study-orbit-reverse,
+  .animate-study-float,
+  .animate-study-pop {
+    animation: none !important;
+  }
+}
+

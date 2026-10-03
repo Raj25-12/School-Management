@@ -446,7 +446,20 @@ export const NotificationProvider = ({ children }) => {
 export const useNotifications = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotifications must be used within a NotificationProvider');
+    return {
+      notifications: [],
+      messages: [],
+      unreadCount: 0,
+      unreadMessagesCount: 0,
+      sendNotification: () => {},
+      sendMailMessage: () => {},
+      replyToMessage: () => {},
+      getNotificationsForUser: () => [],
+      markAsRead: () => {},
+      markAllAsRead: () => {},
+      deleteNotification: () => {},
+      deleteMessage: () => {},
+    };
   }
   return context;
 };

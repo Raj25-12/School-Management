@@ -1,4 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  BookOpen,
+  PenTool,
+  GraduationCap,
+  Pencil,
+  Compass,
+  Library,
+  Sparkles
+} from 'lucide-react';
+
+const studyItems = [
+  {
+    id: 'book',
+    icon: BookOpen,
+    label: 'Books & Knowledge',
+    sublabel: 'Reading curriculum...',
+    accentColor: '#4f46e5', // indigo
+  },
+  {
+    id: 'pen',
+    icon: PenTool,
+    label: 'Fountain Pen & Writing',
+    sublabel: 'Composing lessons...',
+    accentColor: '#2563eb', // blue
+  },
+  {
+    id: 'grad-cap',
+    icon: GraduationCap,
+    label: 'Graduation & Achievement',
+    sublabel: 'Academic excellence...',
+    accentColor: '#0ea5e9', // sky
+  },
+  {
+    id: 'pencil',
+    icon: Pencil,
+    label: 'Pencil & Practice',
+    sublabel: 'Refining coursework...',
+    accentColor: '#3b82f6', // blue
+  },
+  {
+    id: 'compass',
+    icon: Compass,
+    label: 'Geometry & Focus',
+    sublabel: 'Structuring modules...',
+    accentColor: '#6366f1', // indigo
+  },
+  {
+    id: 'library',
+    icon: Library,
+    label: 'Library & Research',
+    sublabel: 'Loading school portal...',
+    accentColor: '#0284c7', // light blue
+  },
+];
 
 /**
  * IconMorphLoader
@@ -16,8 +70,19 @@ const Loader = ({
   overlay = false,
   duration = 3.0,
   showBackdrop = true,
-  ariaLabel = 'Loading...',
+  ariaLabel = 'Loading study portal...',
+  text = '',
+  showText = true,
 }) => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % studyItems.length);
+    }, 900);
+    return () => clearInterval(interval);
+  }, []);
+
   // Compute pixel dimensions
   const getDimension = () => {
     if (typeof size === 'number') return size;
@@ -39,6 +104,9 @@ const Loader = ({
 
   const dim = getDimension();
   const strokeWidth = dim <= 20 ? 5.2 : dim <= 30 ? 4.2 : dim <= 45 ? 3.8 : 3.2;
+  const isCompact = dim <= 34;
+  const current = studyItems[index];
+  const CurrentIcon = current.icon;
 
   // Dynamic Theme Colors
   const getColorClass = () => {
@@ -46,16 +114,16 @@ const Loader = ({
       case 'primary':
       case 'indigo':
         return 'text-indigo-600 dark:text-indigo-400 stroke-indigo-600 dark:stroke-indigo-400';
+      case 'sky':
+        return 'text-sky-500 dark:text-sky-400 stroke-sky-500 dark:stroke-sky-400';
       case 'emerald':
-        return 'text-emerald-600 dark:text-emerald-400 stroke-emerald-600 dark:stroke-emerald-400';
+        return 'text-emerald-500 dark:text-emerald-400 stroke-emerald-500 dark:stroke-emerald-400';
       case 'amber':
       case 'sand':
       case 'rose':
         return 'text-amber-600 dark:text-amber-400 stroke-amber-600 dark:stroke-amber-400';
       case 'purple':
-        return 'text-purple-600 dark:text-purple-400 stroke-purple-600 dark:stroke-purple-400';
-      case 'sky':
-        return 'text-sky-600 dark:text-sky-400 stroke-sky-600 dark:stroke-sky-400';
+        return 'text-purple-500 dark:text-purple-400 stroke-purple-500 dark:stroke-purple-400';
       case 'white':
         return 'text-white stroke-white';
       case 'slate':
@@ -67,50 +135,32 @@ const Loader = ({
     }
   };
 
-  // Outer Morph Paths (Normalized 100x100 space, 8 cubic Bezier segments each)
-  const pathCircle =
-    'M 50 18 C 58.49 18 65.98 21.1 72.63 27.37 C 78.9 34.02 82 41.51 82 50 C 82 58.49 78.9 65.98 72.63 72.63 C 65.98 78.9 58.49 82 50 82 C 41.51 82 34.02 78.9 27.37 72.63 C 21.1 65.98 18 58.49 18 50 C 18 41.51 21.1 34.02 27.37 27.37 C 34.02 21.1 41.51 18 50 18 Z';
+  // Compact inline loader (for small buttons/badges)
+  if (isCompact) {
+    return (
+      <div
+        className={`inline-flex items-center justify-center relative select-none ${getColorClass()} ${className}`}
+        style={{ width: dim, height: dim }}
+        role="progressbar"
+        aria-label={ariaLabel}
+      >
+        <div className="absolute inset-0 rounded-full border-2 border-current/25 border-t-current animate-spin" />
+        <CurrentIcon
+          key={index}
+          className="animate-study-pop"
+          style={{ width: dim * 0.55, height: dim * 0.55 }}
+          strokeWidth={2.4}
+        />
+      </div>
+    );
+  }
 
-  const pathSquare =
-    'M 50 20 C 60 20 68 20 74 26 C 80 32 80 40 80 50 C 80 60 80 68 74 74 C 68 80 60 80 50 80 C 40 80 32 80 26 74 C 20 68 20 60 20 50 C 20 40 20 32 26 26 C 32 20 40 20 50 20 Z';
+  // Full Rich Academic & Study Loader Visual
+  const iconSizePx = Math.round(dim * 0.44);
 
-  const pathTriangle =
-    'M 50 18 C 54 22 62 38 70 54 C 76 66 80 74 76 78 C 72 82 62 82 50 82 C 38 82 28 82 24 78 C 20 74 24 66 30 54 C 38 38 46 22 50 18 C 50 18 50 18 50 18 C 50 18 50 18 50 18 Z';
-
-  const pathStar =
-    'M 50 16 C 53 28 60 40 72 47 C 78 49 82 50 84 50 C 82 50 78 51 72 53 C 60 60 53 72 50 84 C 47 72 40 60 28 53 C 22 51 18 50 16 50 C 18 50 22 49 28 47 C 40 40 47 28 50 16 Z';
-
-  const pathHexagon =
-    'M 50 18 C 58 18 70 24 78 34 C 82 39 82 45 82 50 C 82 55 82 61 78 66 C 70 76 58 82 50 82 C 42 82 30 76 22 66 C 18 61 18 55 18 50 C 18 45 18 39 22 34 C 30 24 42 18 50 18 Z';
-
-  const outerValues = `${pathCircle}; ${pathSquare}; ${pathTriangle}; ${pathStar}; ${pathHexagon}; ${pathCircle}`;
-  const splines = '0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1; 0.55 0 0.15 1';
-
-  // Inner Core Morph Paths
-  const innerCircle =
-    'M 50 45 C 52.76 45 55 47.24 55 50 C 55 52.76 52.76 55 50 55 C 47.24 55 45 52.76 45 50 C 45 47.24 47.24 45 50 45 Z';
-
-  const innerSquare =
-    'M 50 44 C 54 44 56 44 56 47 C 56 53 56 56 50 56 C 44 56 44 53 44 47 C 44 44 46 44 50 44 Z';
-
-  const innerTriangle =
-    'M 50 43 C 53 46 55 51 55 55 C 53 56 47 56 45 55 C 45 51 47 46 50 43 C 50 43 50 43 50 43 Z';
-
-  const innerStar =
-    'M 50 42 C 51 46 54 49 58 50 C 54 51 51 54 50 58 C 49 54 46 51 42 50 C 46 49 49 46 50 42 Z';
-
-  const innerHexagon =
-    'M 50 43 C 55 44 56 47 56 50 C 56 53 55 56 50 57 C 45 56 44 53 44 50 C 44 47 45 44 50 43 Z';
-
-  const innerValues = `${innerCircle}; ${innerSquare}; ${innerTriangle}; ${innerStar}; ${innerHexagon}; ${innerCircle}`;
-
-  const durStr = `${duration}s`;
-
-  // Main Morph SVG Icon Component
-  const morphSvg = (
+  const studyLoaderContent = (
     <div
-      className={`icon-morph-container inline-flex items-center justify-center relative select-none ${getColorClass()} ${className}`}
-      style={{ width: dim, height: dim }}
+      className={`flex flex-col items-center justify-center select-none ${getColorClass()} ${className}`}
       role="progressbar"
       aria-label={ariaLabel}
     >
@@ -129,22 +179,37 @@ const Loader = ({
         xmlns="http://www.w3.org/2000/svg"
         style={{ animationDuration: durStr }}
       >
-        <defs>
-          <linearGradient id={`morphGrad-${dim}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
-            <stop offset="100%" stopColor="currentColor" stopOpacity="0.88" />
-          </linearGradient>
-        </defs>
+        {/* Soft Radial Ambient Glow */}
+        <div
+          className="absolute inset-2 rounded-full opacity-35 dark:opacity-45 blur-xl pointer-events-none bg-indigo-500 animate-pulse"
+          style={{ animationDuration: '2.5s' }}
+        />
 
-        {/* Outer Morphing Vector Contour */}
-        <path
-          className="icon-morph-path"
-          d={pathCircle}
-          stroke={`url(#morphGrad-${dim})`}
-          strokeWidth={strokeWidth}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
+        {/* Outer Orbit Track Ring 1 (Clockwise) */}
+        <div className="absolute inset-0 rounded-full border border-dashed border-indigo-400/40 dark:border-indigo-400/30 animate-study-orbit pointer-events-none" />
+
+        {/* Orbital Satellite 1: Pen Nib / Sparkle traveling orbit */}
+        <div className="absolute inset-0 animate-study-orbit pointer-events-none">
+          <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 p-1 rounded-full bg-indigo-600/90 dark:bg-indigo-400 text-white shadow-sm">
+            <Sparkles style={{ width: Math.max(10, dim * 0.16), height: Math.max(10, dim * 0.16) }} />
+          </div>
+        </div>
+
+        {/* Outer Orbit Track Ring 2 (Counter Clockwise) */}
+        <div className="absolute inset-2 rounded-full border border-indigo-300/30 dark:border-indigo-500/20 animate-study-orbit-reverse pointer-events-none" />
+
+        {/* Orbital Satellite 2: Mini Graduation / Book Accent */}
+        <div className="absolute inset-2 animate-study-orbit-reverse pointer-events-none">
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-sky-400 shadow-xs ring-2 ring-sky-300/40" />
+        </div>
+
+        {/* Floating Center Glass Ring */}
+        <div
+          className="relative flex flex-col items-center justify-center rounded-2xl animate-study-float"
+          style={{
+            width: dim,
+            height: dim,
+          }}
         >
           <animate
             attributeName="d"
@@ -174,9 +239,37 @@ const Loader = ({
               keySplines={splines}
               calcMode="spline"
             />
-          </path>
-        )}
-      </svg>
+          </div>
+
+          {/* Animated Dynamic Pen Stroke Writing Underline */}
+          <svg
+            className="w-3/4 h-2 overflow-visible mt-1 opacity-80"
+            viewBox="0 0 60 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M 2 4 Q 30 1 58 4"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeDasharray="60"
+              style={{
+                animation: 'study-pen-write 1.8s ease-in-out infinite'
+              }}
+            />
+          </svg>
+        </div>
+      </div>
+
+      {/* Optional custom text if explicitly passed */}
+      {text ? (
+        <div className="mt-3.5 flex flex-col items-center text-center">
+          <p className="text-xs font-semibold text-indigo-700 dark:text-indigo-300">
+            {text}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 
@@ -250,4 +343,4 @@ const Loader = ({
   return morphSvg;
 };
 
-export default Loader;
+export default React.memo(Loader);

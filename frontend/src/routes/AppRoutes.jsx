@@ -7,6 +7,8 @@ import TeacherLayout from '../layouts/TeacherLayout';
 import StudentLayout from '../layouts/StudentLayout';
 import Loader from '../components/common/Loader';
 
+import Loader from '../components/common/Loader';
+
 // Loading fallback component
 const RouteLoader = () => (
   <div className="flex items-center justify-center min-h-[60vh] w-full py-12">
