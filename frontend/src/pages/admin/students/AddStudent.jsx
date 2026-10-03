@@ -15,7 +15,7 @@ import {
 import { useToast } from '../../../context/ToastContext';
 import { saveNewStudent } from '../../../utils/studentStorage';
 import { MaleIcon, FemaleIcon } from '../../../components/common/GenderIcons';
-import Loader from '../../../components/common/Loader';
+import { Loader } from '../../../components/common';
 
 const AddStudent = () => {
   const navigate = useNavigate();

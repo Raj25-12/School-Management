@@ -54,21 +54,12 @@ const studyItems = [
   },
 ];
 
-/**
- * IconMorphLoader
- * Faithful reproduction of the Dribbble Icon Morph Loader (shot 4397553).
- * Vector path morphing seamlessly between 6 icon states:
- * Circle -> Square/Card -> Triangle -> Star -> Shield/Hexagon -> Circle
- * Features 60 FPS hardware accelerated spline morphing, elastic rotation, and synchronized core particle pulse.
- */
 const Loader = ({
   size = 'md',
   variant = 'primary',
   className = '',
-  text = '',
   fullScreen = false,
   overlay = false,
-  duration = 3.0,
   showBackdrop = true,
   ariaLabel = 'Loading study portal...',
   text = '',
@@ -88,22 +79,21 @@ const Loader = ({
     if (typeof size === 'number') return size;
     switch (size) {
       case 'xs':
-        return 18;
+        return 22;
       case 'sm':
-        return 24;
+        return 32;
       case 'md':
-        return 38;
+        return 56;
       case 'lg':
-        return 50;
+        return 72;
       case 'xl':
-        return 64;
+        return 92;
       default:
-        return 38;
+        return 56;
     }
   };
 
   const dim = getDimension();
-  const strokeWidth = dim <= 20 ? 5.2 : dim <= 30 ? 4.2 : dim <= 45 ? 3.8 : 3.2;
   const isCompact = dim <= 34;
   const current = studyItems[index];
   const CurrentIcon = current.icon;
@@ -119,9 +109,7 @@ const Loader = ({
       case 'emerald':
         return 'text-emerald-500 dark:text-emerald-400 stroke-emerald-500 dark:stroke-emerald-400';
       case 'amber':
-      case 'sand':
-      case 'rose':
-        return 'text-amber-600 dark:text-amber-400 stroke-amber-600 dark:stroke-amber-400';
+        return 'text-amber-500 dark:text-amber-400 stroke-amber-500 dark:stroke-amber-400';
       case 'purple':
         return 'text-purple-500 dark:text-purple-400 stroke-purple-500 dark:stroke-purple-400';
       case 'white':
@@ -164,20 +152,10 @@ const Loader = ({
       role="progressbar"
       aria-label={ariaLabel}
     >
-      {/* Background Soft Radiant Aura */}
-      {dim >= 24 && (
-        <div
-          className="absolute inset-0 rounded-full opacity-20 dark:opacity-30 blur-sm pointer-events-none bg-current animate-pulse"
-          style={{ animationDuration: `${duration * 0.8}s` }}
-        />
-      )}
-
-      <svg
-        className="icon-morph-svg w-full h-full overflow-visible"
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ animationDuration: durStr }}
+      {/* Central Interactive Academic Visual Stage */}
+      <div
+        className="relative flex items-center justify-center"
+        style={{ width: dim * 1.35, height: dim * 1.35 }}
       >
         {/* Soft Radial Ambient Glow */}
         <div
@@ -211,33 +189,11 @@ const Loader = ({
             height: dim,
           }}
         >
-          <animate
-            attributeName="d"
-            dur={durStr}
-            repeatCount="indefinite"
-            values={outerValues}
-            keyTimes="0; 0.22; 0.45; 0.68; 0.88; 1"
-            keySplines={splines}
-            calcMode="spline"
-          />
-        </path>
-
-        {/* Inner Synchronized Core Particle */}
-        {dim >= 18 && (
-          <path
-            className="icon-morph-inner"
-            d={innerCircle}
-            fill="currentColor"
-            opacity="0.9"
-          >
-            <animate
-              attributeName="d"
-              dur={durStr}
-              repeatCount="indefinite"
-              values={innerValues}
-              keyTimes="0; 0.22; 0.45; 0.68; 0.88; 1"
-              keySplines={splines}
-              calcMode="spline"
+          {/* Morphing Study Icon */}
+          <div key={index} className="animate-study-pop flex items-center justify-center drop-shadow-md">
+            <CurrentIcon
+              style={{ width: iconSizePx, height: iconSizePx }}
+              strokeWidth={2.3}
             />
           </div>
 
@@ -273,39 +229,23 @@ const Loader = ({
     </div>
   );
 
-  // Small Size Centered Full-Screen Loader with Background Blur
+  // Global Full-Screen Mode
   if (fullScreen) {
     return (
       <div
         className={`fixed inset-0 z-[9999] flex items-center justify-center ${
           showBackdrop
-            ? 'bg-slate-900/30 backdrop-blur-md dark:bg-slate-950/60'
+            ? 'bg-slate-900/30 dark:bg-slate-950/60 backdrop-blur-md'
             : 'bg-transparent'
         } transition-all duration-300 animate-in fade-in select-none cursor-wait`}
         style={{ pointerEvents: 'auto' }}
       >
-        {/* Compact, Sleek Floating Glass/Clay Morph Card in Dead Center */}
-        <div className="clay-card p-4 sm:p-5 flex flex-col items-center justify-center text-center shadow-2xl border border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl animate-in zoom-in-95 duration-200 min-w-[90px] min-h-[90px]">
-          <div className="p-2.5 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/60 ring-1 ring-indigo-200/60 dark:ring-indigo-800/40 flex items-center justify-center">
-            {morphSvg}
-          </div>
-          {text ? (
-            <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 tracking-wide mt-2 px-1">
-              {text}
-            </span>
-          ) : (
-            <div className="mt-2 flex items-center justify-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{ animationDelay: '300ms' }} />
-            </div>
-          )}
-        </div>
+        {studyLoaderContent}
       </div>
     );
   }
 
-  // Container Overlay mode
+  // Container Overlay Mode
   if (overlay) {
     return (
       <div
@@ -316,31 +256,12 @@ const Loader = ({
         } rounded-inherit transition-all duration-200 cursor-wait`}
         style={{ pointerEvents: 'auto' }}
       >
-        <div className="clay-card p-3 flex flex-col items-center justify-center text-center shadow-lg bg-white/95 dark:bg-slate-900/95 rounded-2xl min-w-[70px]">
-          {morphSvg}
-          {text && (
-            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 mt-1.5">
-              {text}
-            </span>
-          )}
-        </div>
+        {studyLoaderContent}
       </div>
     );
   }
 
-  // Inline / Container with optional text
-  if (text) {
-    return (
-      <div className={`inline-flex items-center gap-2 ${className}`}>
-        {morphSvg}
-        <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 select-none">
-          {text}
-        </span>
-      </div>
-    );
-  }
-
-  return morphSvg;
+  return studyLoaderContent;
 };
 
 export default React.memo(Loader);

@@ -8,7 +8,7 @@ const ProtectedRoute = () => {
   const location = useLocation();
 
   if (loading) {
-    return <Loader fullScreen size="md" variant="primary" text="" />;
+    return <Loader fullScreen size="md" variant="primary" />;
   }
 
   if (!isAuthenticated) {

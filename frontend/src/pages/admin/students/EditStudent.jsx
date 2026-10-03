@@ -17,7 +17,7 @@ import {
 import { useToast } from '../../../context/ToastContext';
 import { getStudentById, updateStoredStudent } from '../../../utils/studentStorage';
 import { MaleIcon, FemaleIcon } from '../../../components/common/GenderIcons';
-import Loader from '../../../components/common/Loader';
+import { Loader } from '../../../components/common';
 
 const EditStudent = () => {
   const { id } = useParams();

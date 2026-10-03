@@ -20,7 +20,7 @@ import {
 import { useToast } from '../../../context/ToastContext';
 import { getTeacherById, updateStoredTeacher } from '../../../utils/teacherStorage';
 import logo from '../../../assets/logo_clean.png';
-import Loader from '../../../components/common/Loader';
+import { Loader } from '../../../components/common';
 
 const departments = [
   'Mathematics',

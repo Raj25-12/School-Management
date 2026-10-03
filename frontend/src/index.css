@@ -109,8 +109,7 @@
 
 /* Teacher Theme Clay (#EBD5AB Sand / Warm Golden Amber) */
 .clay-rose,
-.clay-teacher,
-.clay-sand {
+.clay-teacher {
   background-color: #ebd5ab;
   border-radius: 1.125rem;
   box-shadow:
@@ -175,8 +174,7 @@
 
 /* Teacher Theme Button (#EBD5AB Warm Golden Amber Gradient) */
 .clay-btn-rose,
-.clay-btn-teacher,
-.clay-btn-sand {
+.clay-btn-teacher {
   background: linear-gradient(135deg, #cfa75e 0%, #b88d3b 100%);
   color: #ffffff;
   border-radius: 0.75rem;
@@ -188,8 +186,7 @@
 }
 
 .clay-btn-rose:hover,
-.clay-btn-teacher:hover,
-.clay-btn-sand:hover {
+.clay-btn-teacher:hover {
   transform: translateY(-1px);
   background: linear-gradient(135deg, #d8b269 0%, #c49642 100%);
   box-shadow:
@@ -198,8 +195,7 @@
 }
 
 .clay-btn-rose:active,
-.clay-btn-teacher:active,
-.clay-btn-sand:active {
+.clay-btn-teacher:active {
   transform: translateY(1px);
   box-shadow:
     2px 2px 6px rgba(184, 141, 59, 0.35),
@@ -369,8 +365,7 @@ html.dark .clay-sky {
 }
 
 html.dark .clay-rose,
-html.dark .clay-teacher,
-html.dark .clay-sand {
+html.dark .clay-teacher {
   background-color: #382c16;
   border: 1.5px solid #846831;
   box-shadow:
@@ -478,83 +473,6 @@ html.dark .clay-progress-track {
 }
 
 /* =========================================================
-   ICON MORPH LOADER (Dribbble 4397553 60 FPS Fluid Morph)
-   ========================================================= */
-
-@keyframes icon-morph-spin-elastic {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  22% {
-    transform: rotate(90deg) scale(1.06);
-  }
-  45% {
-    transform: rotate(180deg) scale(0.96);
-  }
-  68% {
-    transform: rotate(270deg) scale(1.08);
-  }
-  88% {
-    transform: rotate(340deg) scale(0.97);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
-}
-
-@keyframes icon-morph-inner-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  22% {
-    transform: scale(1.18);
-    opacity: 1;
-  }
-  45% {
-    transform: scale(0.85);
-    opacity: 0.75;
-  }
-  68% {
-    transform: scale(1.22);
-    opacity: 1;
-  }
-  88% {
-    transform: scale(0.9);
-    opacity: 0.8;
-  }
-}
-
-.icon-morph-container {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center center;
-  will-change: transform;
-}
-
-.icon-morph-svg {
-  transform-origin: 50% 50%;
-  animation: icon-morph-spin-elastic 3s cubic-bezier(0.45, 0.05, 0.2, 0.95) infinite;
-  filter: drop-shadow(0 2px 5px rgba(99, 102, 241, 0.2));
-}
-
-.icon-morph-inner {
-  transform-origin: 50% 50%;
-  animation: icon-morph-inner-pulse 3s cubic-bezier(0.45, 0.05, 0.2, 0.95) infinite;
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  .icon-morph-svg {
-    animation: none !important;
-  }
-  .icon-morph-inner {
-    animation: none !important;
-  }
-}
-
-/* =========================================================
    STUDY & ACADEMIC LOADER ANIMATIONS
    ========================================================= */
 
@@ -643,5 +561,4 @@ html.dark .clay-progress-track {
   .animate-study-pop {
     animation: none !important;
   }
-}
-
+}
