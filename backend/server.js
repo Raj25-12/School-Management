@@ -14,8 +14,11 @@ connectDb();
 
 
 const adminRoutes=require('./routes/adminRoutes.js');
+const teachersRoutes=require('./routes/teachersRoutes.js');
 
 app.use("/api/v1",adminRoutes);
+app.use("/api/v2",teachersRoutes);
+
 
 app.listen(PORT,()=>{
      console.log(`App is running on ${PORT}`); 
