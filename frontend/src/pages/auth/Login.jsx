@@ -24,6 +24,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 
+import Loader from '../../components/common/Loader';
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -382,6 +383,75 @@ const Login = () => {
               </div>
             </div>
 
+            <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 pt-0.5">
+              <label className="flex items-center gap-2 cursor-pointer font-medium">
+                <input
+                  type="checkbox"
+                  checked={formData.remember}
+                  onChange={(e) => setFormData({ ...formData, remember: e.target.checked })}
+                  className="rounded border-slate-300 text-slate-700 focus:ring-slate-500 w-3.5 h-3.5"
+                />
+                <span>Remember me</span>
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`${getSubmitBtnClass()} w-full py-2.5 px-4 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer mt-2`}
+            >
+              {isLoading ? (
+                <Loader size="xs" variant="white" />
+              ) : (
+                <>
+                  <span>Sign In as {role.charAt(0).toUpperCase() + role.slice(1)}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Direct Link to Sign Up */}
+          <div className="mt-4 text-center">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Don't have an account?{' '}
+              <Link
+                to="/signup"
+                className="font-bold text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:underline"
+              >
+                Sign up here
+              </Link>
+            </p>
+          </div>
+
+          {/* 1-Click Fast Demo Access */}
+          <div className="mt-5 pt-4 border-t border-slate-200/70 dark:border-slate-800 text-center">
+            <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2">
+              1-Click Direct Demo Access
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => handleQuickLogin('admin')}
+                className="clay-btn-secondary py-1.5 px-2 rounded-xl text-[11px] font-bold text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/40 cursor-pointer"
+              >
+                Admin (Green)
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickLogin('teacher')}
+                className="clay-btn-secondary py-1.5 px-2 rounded-xl text-[11px] font-bold text-rose-700 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40 cursor-pointer"
+              >
+                Teacher (Red)
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickLogin('student')}
+                className="clay-btn-secondary py-1.5 px-2 rounded-xl text-[11px] font-bold text-sky-700 hover:bg-sky-50 dark:text-sky-400 dark:hover:bg-sky-950/40 cursor-pointer"
+              >
+                Student (Blue)
+              </button>
+            </div>
           </div>
         </div>
 

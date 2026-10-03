@@ -21,6 +21,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 
+import Loader from '../../components/common/Loader';
 const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -303,6 +304,23 @@ const Register = () => {
                     </button>
                   </div>
                 </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`${getSubmitBtnClass()} w-full py-2.5 px-4 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer mt-3`}
+              >
+                {isLoading ? (
+                  <Loader size="xs" variant="white" />
+                ) : (
+                  <>
+                    <span>Create {role.charAt(0).toUpperCase() + role.slice(1)} Account</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+          </form>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
