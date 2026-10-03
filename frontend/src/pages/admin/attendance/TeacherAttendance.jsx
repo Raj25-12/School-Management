@@ -196,7 +196,7 @@ const TeacherAttendance = () => {
       }))
     );
     showToast({
-      title: 'Bulk Attendance Complete ✅',
+      title: 'Bulk Attendance Complete',
       message: `All ${attendanceList.length} staff members marked as Present for today.`,
       type: 'emerald',
     });
@@ -245,7 +245,7 @@ const TeacherAttendance = () => {
       };
       setAttendanceList([newItem, ...attendanceList]);
       showToast({
-        title: 'Attendance Recorded ✨',
+        title: 'Attendance Recorded',
         message: `${formData.name} attendance logged as ${formData.status}.`,
         type: 'emerald',
       });
@@ -254,7 +254,7 @@ const TeacherAttendance = () => {
         prev.map((item) => (item.id === formData.id ? { ...formData } : item))
       );
       showToast({
-        title: 'Attendance Updated ✏️',
+        title: 'Attendance Updated',
         message: `${formData.name} record updated successfully.`,
         type: 'info',
       });
@@ -268,7 +268,7 @@ const TeacherAttendance = () => {
     setAttendanceList((prev) => prev.filter((item) => item.id !== id));
     setDeleteConfirmId(null);
     showToast({
-      title: 'Record Removed 🗑️',
+      title: 'Record Removed',
       message: `Attendance log for ${deletedItem?.name || 'Staff'} deleted.`,
       type: 'rose',
     });
@@ -309,9 +309,9 @@ const TeacherAttendance = () => {
       case 'Late':
         return 'bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800';
       case 'Half Day':
-        return 'bg-sky-100 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800';
+        return 'bg-amber-100/70 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800';
       case 'On Leave':
-        return 'bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800';
+        return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700';
       case 'Absent':
         return 'bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800';
       default:

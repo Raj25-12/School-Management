@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useToast } from '../../context/ToastContext';
+import { useNotifications } from '../../context/NotificationContext';
 import {
   LogOut,
   Menu,
@@ -20,71 +21,28 @@ import {
   Sparkles,
   Trash2,
   ChevronRight,
-  X
+  X,
+  Mail,
+  FileText,
+  Award
 } from 'lucide-react';
-
-const initialNotifications = [
-  {
-    id: 'ntf-1',
-    title: 'Staff Attendance Logged',
-    message: 'Prof. Rajesh Sharma marked 95.4% staff present for today.',
-    type: 'attendance',
-    time: '10 min ago',
-    read: false,
-    icon: CalendarCheck,
-    color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/80',
-    link: '/admin/attendance/teacher',
-  },
-  {
-    id: 'ntf-2',
-    title: 'New Faculty Onboarded',
-    message: 'Dr. Sunita Verma profile registered in Science Department.',
-    type: 'teacher',
-    time: '45 min ago',
-    read: false,
-    icon: UserPlus,
-    color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/80',
-    link: '/admin/teachers',
-  },
-  {
-    id: 'ntf-3',
-    title: 'Fee Collection Milestone',
-    message: '₹42,500 received online for Term 1 academic fees.',
-    type: 'fees',
-    time: '2 hours ago',
-    read: false,
-    icon: CreditCard,
-    color: 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/80',
-    link: '/admin/fees/structure',
-  },
-  {
-    id: 'ntf-4',
-    title: 'System Security Sync',
-    message: 'Daily encrypted database backup completed successfully.',
-    type: 'system',
-    time: '5 hours ago',
-    read: true,
-    icon: Shield,
-    color: 'text-sky-600 dark:text-sky-400 bg-sky-100 dark:bg-sky-950/80',
-    link: '/admin/settings',
-  },
-];
 
 const AdminNavbar = ({ toggleSidebar }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { showToast } = useToast();
+  const { getNotificationsForUser, markAsRead, markAllAsRead } = useNotifications();
   const location = useLocation();
   const navigate = useNavigate();
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [notifications, setNotifications] = useState(initialNotifications);
 
   const userMenuRef = useRef(null);
   const notificationRef = useRef(null);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const notifications = getNotificationsForUser(user);
+  const unreadCount = notifications.filter((n) => !(n.read || (n.readBy && n.readBy.includes(user?.email)))).length;
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen((prev) => !prev);
@@ -116,60 +74,64 @@ const AdminNavbar = ({ toggleSidebar }) => {
     navigate('/login');
   };
 
-  const markAllAsRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-    showToast({
-      title: 'Notifications Updated',
-      message: 'All notifications marked as read',
-      type: 'success',
-    });
+  const handleMarkAllRead = () => {
+    markAllAsRead(user?.email || 'admin@school.com');
   };
 
   const handleNotificationClick = (notif) => {
-    // Mark clicked as read
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === notif.id ? { ...n, read: true } : n))
-    );
+    markAsRead(notif.id, user?.email || 'admin@school.com');
     setIsNotificationOpen(false);
 
-    // Pop real-time Toaster
     showToast({
       title: notif.title,
       message: notif.message,
-      type: notif.type === 'fees' ? 'info' : 'success',
-      actionLabel: 'Go to page',
-      onAction: () => {
-        if (notif.link) navigate(notif.link);
-      },
+      type: notif.type === 'fees' ? 'info' : 'emerald',
+      actionLabel: 'View Notices Hub',
+      onAction: () => navigate('/admin/notices'),
     });
 
-    if (notif.link) {
-      navigate(notif.link);
+    navigate('/admin/notices');
+  };
+
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case 'exam':
+        return { icon: Award, color: 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/80' };
+      case 'homework':
+        return { icon: FileText, color: 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/80' };
+      case 'mail':
+        return { icon: Mail, color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/80' };
+      case 'fees':
+        return { icon: CreditCard, color: 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/80' };
+      case 'attendance':
+        return { icon: CalendarCheck, color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/80' };
+      default:
+        return { icon: Bell, color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/80' };
     }
   };
 
   const handleTriggerSampleToast = (type = 'success') => {
     if (type === 'attendance') {
       showToast({
-        title: 'Attendance Alert 📋',
+        title: 'Attendance Alert',
         message: 'Class 10-A attendance marked: 38/40 students present today.',
         type: 'emerald',
       });
     } else if (type === 'teacher') {
       showToast({
-        title: 'New Faculty Onboarded 👨‍🏫',
+        title: 'New Faculty Onboarded',
         message: 'Prof. Rajesh Sharma registered in Mathematics Department.',
         type: 'success',
       });
     } else if (type === 'fees') {
       showToast({
-        title: 'Fee Payment Received 💳',
+        title: 'Fee Payment Received',
         message: 'Payment of ₹12,500 successfully verified for Roll #1042.',
         type: 'info',
       });
     } else {
       showToast({
-        title: 'Admin Notification 🔔',
+        title: 'Admin Notification',
         message: 'System settings synchronized with cloud server.',
         type: 'notification',
       });
@@ -252,7 +214,7 @@ const AdminNavbar = ({ toggleSidebar }) => {
                   {unreadCount > 0 && (
                     <button
                       type="button"
-                      onClick={markAllAsRead}
+                      onClick={handleMarkAllRead}
                       className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
                     >
                       <CheckCheck className="w-3.5 h-3.5" />
@@ -264,21 +226,25 @@ const AdminNavbar = ({ toggleSidebar }) => {
                 {/* Notification Items List */}
                 <div className="max-h-72 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800/60">
                   {notifications.length === 0 ? (
-                    <div className="p-6 text-center text-slate-400 text-xs">
+                    <div className="p-6 text-center text-slate-400 text-xs font-semibold">
                       No notifications yet
                     </div>
                   ) : (
                     notifications.map((notif) => {
-                      const Icon = notif.icon;
+                      const iconData = getNotificationIcon(notif.type);
+                      const Icon = iconData.icon;
+                      const isRead = Boolean(notif.read || (notif.readBy && notif.readBy.includes(user?.email)));
+                      const timeString = notif.createdAt ? new Date(notif.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Recently';
+
                       return (
                         <div
                           key={notif.id}
                           onClick={() => handleNotificationClick(notif)}
                           className={`flex items-start gap-3 p-3.5 hover:bg-slate-50/90 dark:hover:bg-slate-800/50 transition cursor-pointer relative ${
-                            !notif.read ? 'bg-emerald-50/40 dark:bg-emerald-950/20' : ''
+                            !isRead ? 'bg-emerald-50/40 dark:bg-emerald-950/20' : ''
                           }`}
                         >
-                          <div className={`p-2 rounded-xl shrink-0 clay-icon-pill ${notif.color}`}>
+                          <div className={`p-2 rounded-xl shrink-0 clay-icon-pill ${iconData.color}`}>
                             <Icon className="w-4 h-4" />
                           </div>
 
@@ -288,15 +254,15 @@ const AdminNavbar = ({ toggleSidebar }) => {
                                 {notif.title}
                               </h4>
                               <span className="text-[10px] font-medium text-slate-400 shrink-0">
-                                {notif.time}
+                                {timeString}
                               </span>
                             </div>
-                            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-snug mt-0.5">
+                            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-snug mt-0.5 line-clamp-2">
                               {notif.message}
                             </p>
                           </div>
 
-                          {!notif.read && (
+                          {!isRead && (
                             <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 self-center"></span>
                           )}
                         </div>
@@ -305,11 +271,11 @@ const AdminNavbar = ({ toggleSidebar }) => {
                   )}
                 </div>
 
-                {/* 🧪 Quick Interactive Toaster Triggers (For testing live toasts) */}
+                {/* Quick Interactive Toaster Triggers (For testing live toasts) */}
                 <div className="p-3 bg-slate-50 dark:bg-slate-900/90 border-t border-slate-100 dark:border-slate-800">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      ⚡ Trigger Live Toaster:
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                      Trigger Live Toaster:
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-1.5 text-[10px]">

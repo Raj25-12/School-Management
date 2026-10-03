@@ -1,11 +1,10 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import {
   CheckCircle2,
   AlertCircle,
   AlertTriangle,
   Info,
   X,
-  Bell,
   Sparkles
 } from 'lucide-react';
 
@@ -21,22 +20,36 @@ export const ToastProvider = ({ children }) => {
   const showToast = useCallback(
     (options, fallbackType = 'success') => {
       const id = Date.now().toString() + Math.random().toString(36).substring(2, 6);
-      
+
+      const isTeacher = typeof window !== 'undefined' && window.location.pathname.startsWith('/teacher');
+      const isStudent = typeof window !== 'undefined' && window.location.pathname.startsWith('/student');
+
       let toastData = {};
       if (typeof options === 'string') {
+        let determinedType = fallbackType;
+        if (determinedType === 'success' && isTeacher) determinedType = 'teacher';
+        if (determinedType === 'success' && isStudent) determinedType = 'student';
+
         toastData = {
           id,
           message: options,
-          type: fallbackType,
+          type: determinedType,
           duration: 4000,
         };
       } else {
+        let determinedType = options.type || fallbackType;
+        if ((determinedType === 'success' || determinedType === 'info') && isTeacher) {
+          determinedType = 'teacher';
+        } else if ((determinedType === 'success' || determinedType === 'info') && isStudent) {
+          determinedType = 'student';
+        }
+
         toastData = {
           id,
           title: options.title || '',
           message: options.message || options.msg || '',
-          type: options.type || 'success',
-          duration: options.duration || 4000,
+          type: determinedType,
+          duration: options.duration !== undefined ? options.duration : 4000,
           actionLabel: options.actionLabel || '',
           onAction: options.onAction || null,
         };
@@ -57,6 +70,20 @@ export const ToastProvider = ({ children }) => {
 
   const getToastStyles = (type) => {
     switch (type) {
+      // 👨‍🏫 Teacher Theme (Sand / Gold / Champagne #EBD5AB)
+      case 'teacher':
+      case 'sand':
+      case 'gold':
+        return {
+          card: 'bg-[#fdf8ee]/95 dark:bg-[#1a140b]/95 border-[#ebd5ab] dark:border-[#856326] shadow-[0_8px_25px_rgba(235,213,171,0.35)]',
+          iconBg: 'bg-[#ebd5ab] dark:bg-[#856326] text-[#523707] dark:text-[#fff9ed]',
+          title: 'text-[#6b470a] dark:text-[#ebd5ab]',
+          bar: 'bg-[#c49646]',
+          icon: Sparkles,
+        };
+
+      // 👑 Admin Theme (Emerald Green)
+      case 'admin':
       case 'success':
       case 'emerald':
         return {
@@ -66,8 +93,23 @@ export const ToastProvider = ({ children }) => {
           bar: 'bg-emerald-500',
           icon: CheckCircle2,
         };
+
+      // 🎓 Student Theme (Sky Blue)
+      case 'student':
+      case 'sky':
+      case 'blue':
+      case 'info':
+        return {
+          card: 'bg-sky-50/95 dark:bg-slate-900/95 border-sky-300 dark:border-sky-700/70',
+          iconBg: 'bg-sky-100 dark:bg-sky-950/80 text-sky-600 dark:text-sky-400',
+          title: 'text-sky-900 dark:text-sky-200',
+          bar: 'bg-sky-500',
+          icon: Info,
+        };
+
       case 'error':
       case 'rose':
+      case 'red':
         return {
           card: 'bg-rose-50/95 dark:bg-slate-900/95 border-rose-300 dark:border-rose-700/70',
           iconBg: 'bg-rose-100 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400',
@@ -75,6 +117,7 @@ export const ToastProvider = ({ children }) => {
           bar: 'bg-rose-500',
           icon: AlertCircle,
         };
+
       case 'warning':
       case 'amber':
         return {
@@ -84,38 +127,25 @@ export const ToastProvider = ({ children }) => {
           bar: 'bg-amber-500',
           icon: AlertTriangle,
         };
-      case 'info':
-      case 'sky':
-      case 'blue':
-        return {
-          card: 'bg-sky-50/95 dark:bg-slate-900/95 border-sky-300 dark:border-sky-700/70',
-          iconBg: 'bg-sky-100 dark:bg-sky-950/80 text-sky-600 dark:text-sky-400',
-          title: 'text-sky-900 dark:text-sky-200',
-          bar: 'bg-sky-500',
-          icon: Info,
-        };
-      case 'notification':
-      case 'bell':
-        return {
-          card: 'bg-indigo-50/95 dark:bg-slate-900/95 border-indigo-300 dark:border-indigo-700/70',
-          iconBg: 'bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400',
-          title: 'text-indigo-900 dark:text-indigo-200',
-          bar: 'bg-indigo-500',
-          icon: Bell,
-        };
+
       default:
         return {
           card: 'bg-white/95 dark:bg-slate-900/95 border-slate-200 dark:border-slate-700',
           iconBg: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300',
           title: 'text-slate-800 dark:text-white',
-          bar: 'bg-indigo-500',
+          bar: 'bg-[#c49646]',
           icon: Sparkles,
         };
     }
   };
 
+  const contextValue = useMemo(() => ({
+    showToast,
+    removeToast
+  }), [showToast, removeToast]);
+
   return (
-    <ToastContext.Provider value={{ showToast, removeToast }}>
+    <ToastContext.Provider value={contextValue}>
       {children}
 
       {/* Floating Toaster Container (Top-Right) */}
@@ -136,7 +166,7 @@ export const ToastProvider = ({ children }) => {
 
                 <div className="flex-1 min-w-0 pr-1">
                   {toast.title && (
-                    <h4 className={`text-xs font-black leading-tight ${style.title}`}>
+                    <h4 className={`text-xs font-semibold leading-tight ${style.title}`}>
                       {toast.title}
                     </h4>
                   )}
@@ -195,7 +225,7 @@ export const useToast = () => {
     // Fallback if rendered outside provider
     return {
       showToast: (msg) => console.log('Toast fallback:', msg),
-      removeToast: () => {},
+      removeToast: () => { },
     };
   }
   return context;

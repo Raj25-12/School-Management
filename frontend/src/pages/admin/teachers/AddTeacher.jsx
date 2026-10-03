@@ -23,6 +23,7 @@ import {
   EyeOff
 } from 'lucide-react';
 import logo from '../../../assets/logo_clean.png';
+import { Loader } from '../../../components/common';
 
 const departments = [
   'Mathematics',
@@ -364,11 +365,10 @@ const AddTeacher = () => {
                         key={cls}
                         type="button"
                         onClick={() => handleClassToggle(cls)}
-                        className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition cursor-pointer ${
-                          isSelected
-                            ? 'clay-btn-emerald text-white shadow-xs'
-                            : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80 hover:border-emerald-500'
-                        }`}
+                        className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition cursor-pointer ${isSelected
+                          ? 'clay-btn-emerald text-white shadow-xs'
+                          : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80 hover:border-emerald-500'
+                          }`}
                       >
                         {cls} {isSelected && '✓'}
                       </button>
@@ -472,7 +472,7 @@ const AddTeacher = () => {
                 className="clay-btn-emerald px-6 py-2.5 text-xs font-bold transition flex items-center gap-2 cursor-pointer shadow-md"
               >
                 {isLoading ? (
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <Loader size="xs" variant="white" />
                 ) : (
                   <>
                     <Save className="w-4 h-4" />

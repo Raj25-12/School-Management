@@ -1,34 +1,38 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Home } from 'lucide-react';
+import { Button, Card } from '../components/common';
 
 const NotFound = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-100 px-4">
-      <div className="text-center max-w-md">
-        <h1 className="text-9xl font-extrabold text-indigo-600 dark:text-indigo-400">404</h1>
-        <h2 className="text-3xl font-bold mt-4">Page Not Found</h2>
-        <p className="text-slate-500 dark:text-slate-400 mt-2">
+      <Card className="text-center max-w-md p-8 sm:p-10 shadow-2xl space-y-4">
+        <h1 className="text-7xl sm:text-8xl font-black text-emerald-600 dark:text-emerald-400">
+          404
+        </h1>
+        <h2 className="text-xl sm:text-2xl font-bold">Page Not Found</h2>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
           Sorry, the page you are looking for doesn't exist or has been moved.
         </p>
-        <div className="mt-6 flex flex-wrap gap-4 justify-center">
-          <button
+        <div className="pt-2 flex flex-wrap gap-3 justify-center">
+          <Button
+            variant="secondary"
+            icon={ArrowLeft}
             onClick={() => navigate(-1)}
-            className="px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 font-medium rounded-lg transition"
           >
             Go Back
-          </button>
-          <Link
-            to="/login"
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition"
-          >
-            Go to Login
+          </Button>
+          <Link to="/login">
+            <Button variant="emerald" icon={Home}>
+              Go to Login
+            </Button>
           </Link>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };
 
-export default NotFound;
+export default React.memo(NotFound);

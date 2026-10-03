@@ -32,10 +32,10 @@ const TeacherDashboard = () => {
       detail: '4 of 5 taught today',
       progress: 80,
       icon: BookOpen,
-      clayClass: 'clay-indigo',
-      iconColor: 'text-indigo-600 dark:text-indigo-400',
-      pillBg: 'bg-indigo-100/80 dark:bg-indigo-900/50',
-      barColor: 'bg-indigo-600 dark:bg-indigo-400'
+      clayClass: 'clay-card',
+      iconColor: 'text-[#9c6f21] dark:text-[#ebd5ab]',
+      pillBg: 'bg-[#ebd5ab]/40 dark:bg-[#856326]/50',
+      barColor: 'bg-[#c49646] dark:bg-[#dfbc7c]'
     },
     {
       title: 'Total Students',
@@ -43,10 +43,10 @@ const TeacherDashboard = () => {
       detail: '177 present today',
       progress: 96.2,
       icon: Users,
-      clayClass: 'clay-emerald',
-      iconColor: 'text-emerald-600 dark:text-emerald-400',
-      pillBg: 'bg-emerald-100/80 dark:bg-emerald-900/50',
-      barColor: 'bg-emerald-500 dark:bg-emerald-400'
+      clayClass: 'clay-card',
+      iconColor: 'text-[#9c6f21] dark:text-[#ebd5ab]',
+      pillBg: 'bg-[#ebd5ab]/40 dark:bg-[#856326]/50',
+      barColor: 'bg-[#c49646] dark:bg-[#dfbc7c]'
     },
     {
       title: "Today's Attendance",
@@ -54,10 +54,10 @@ const TeacherDashboard = () => {
       detail: '2 of 3 classes marked',
       progress: 66.6,
       icon: CalendarCheck,
-      clayClass: 'clay-purple',
-      iconColor: 'text-purple-600 dark:text-purple-400',
-      pillBg: 'bg-purple-100/80 dark:bg-purple-900/50',
-      barColor: 'bg-purple-600 dark:bg-purple-400'
+      clayClass: 'clay-card',
+      iconColor: 'text-[#9c6f21] dark:text-[#ebd5ab]',
+      pillBg: 'bg-[#ebd5ab]/40 dark:bg-[#856326]/50',
+      barColor: 'bg-[#c49646] dark:bg-[#dfbc7c]'
     },
     {
       title: 'Pending Reviews',
@@ -65,19 +65,18 @@ const TeacherDashboard = () => {
       detail: '72% reviewed',
       progress: 72,
       icon: FileText,
-      clayClass: 'clay-amber',
-      iconColor: 'text-amber-600 dark:text-amber-400',
-      pillBg: 'bg-amber-100/80 dark:bg-amber-900/50',
-      barColor: 'bg-amber-500 dark:bg-amber-400'
+      clayClass: 'clay-card',
+      iconColor: 'text-[#9c6f21] dark:text-[#ebd5ab]',
+      pillBg: 'bg-[#ebd5ab]/40 dark:bg-[#856326]/50',
+      barColor: 'bg-[#c49646] dark:bg-[#dfbc7c]'
     },
   ];
 
   const syllabusProgress = [
-    { subject: 'Class 10-A • Mathematics', currentTopic: 'Quadratic Equations (Ch 4)', completed: 74, totalChapters: '12 / 16 Ch', color: 'from-indigo-500 to-blue-600' },
-    { subject: 'Class 9-B • Algebra', currentTopic: 'Polynomials (Ch 3)', completed: 62, totalChapters: '8 / 13 Ch', color: 'from-emerald-500 to-teal-600' },
-    { subject: 'Class 10-B • Geometry', currentTopic: 'Circles & Theorems (Ch 5)', completed: 81, totalChapters: '13 / 16 Ch', color: 'from-purple-500 to-pink-600' },
+    { subject: 'Class 10-A • Mathematics', currentTopic: 'Quadratic Equations (Ch 4)', completed: 74, totalChapters: '12 / 16 Ch' },
+    { subject: 'Class 9-B • Algebra', currentTopic: 'Polynomials (Ch 3)', completed: 62, totalChapters: '8 / 13 Ch' },
+    { subject: 'Class 10-B • Geometry', currentTopic: 'Circles & Theorems (Ch 5)', completed: 81, totalChapters: '13 / 16 Ch' },
   ];
-
 
   const todaySchedule = [
     {
@@ -98,7 +97,7 @@ const TeacherDashboard = () => {
       room: 'Room 105',
       topic: 'Polynomial Factorization',
       status: 'In Progress',
-      clay: 'clay-indigo'
+      clay: 'clay-card'
     },
     {
       period: 'P4',
@@ -129,9 +128,9 @@ const TeacherDashboard = () => {
   ];
 
   const notices = [
-    { title: 'Unit Test 1 Marks submission deadline is Friday', category: 'Academic', time: '1h ago', clay: 'clay-rose' },
-    { title: 'Parent-Teacher Meeting scheduled for Saturday', category: 'Notice', time: 'Yesterday', clay: 'clay-sky' },
-    { title: 'Science Exhibition evaluation committee meeting', category: 'Event', time: '2d ago', clay: 'clay-amber' },
+    { title: 'Unit Test 1 Marks submission deadline is Friday', category: 'Academic', time: '1h ago', clay: 'clay-card' },
+    { title: 'Parent-Teacher Meeting scheduled for Saturday', category: 'Notice', time: 'Yesterday', clay: 'clay-card' },
+    { title: 'Science Exhibition evaluation committee meeting', category: 'Event', time: '2d ago', clay: 'clay-card' },
   ];
 
   const handleToggleAttendance = (cls) => {
@@ -143,28 +142,28 @@ const TeacherDashboard = () => {
 
   return (
     <div className="space-y-4 pb-6">
-      {/* 🌟 Compact Claymorphism Welcome Banner */}
-      <div className="clay-indigo p-4 sm:p-5 relative overflow-hidden">
+      {/* Welcome Banner */}
+      <div className="clay-sand p-4 sm:p-5 relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-bold text-indigo-700 dark:text-indigo-300 mb-1.5 shadow-xs border border-indigo-200/60 dark:border-indigo-800/60">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-bold text-[#775010] dark:text-[#ebd5ab] mb-1.5 shadow-xs border border-[#ebd5ab] dark:border-[#856326]">
+              <Sparkles className="w-3.5 h-3.5 text-[#b88628]" />
               <span>Academic Year 2026-27 • Semester 1</span>
             </div>
-            <h1 className="text-lg sm:text-xl font-extrabold text-slate-800 dark:text-white tracking-tight">
-              Good Morning, {user?.name || 'Prof. Sharma'}! 📚
+            <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white tracking-tight">
+              Good Morning, {user?.name || 'Prof. Sharma'}!
             </h1>
             <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-              You have <span className="font-bold text-indigo-600 dark:text-indigo-400">4 lectures</span> scheduled today.
+              You have <span className="font-bold text-[#9c6f21] dark:text-[#ebd5ab]">4 lectures</span> scheduled today.
               Class 10-A attendance is recorded.
             </p>
           </div>
 
-          {/* Quick Action Clay Buttons */}
+          {/* Quick Action Buttons */}
           <div className="flex items-center gap-2 shrink-0">
             <Link
               to="/teacher/attendance"
-              className="clay-btn-primary px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
+              className="clay-btn-sand px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer text-[#2b1804] dark:text-[#fff9ed]"
             >
               <CalendarCheck className="w-3.5 h-3.5" />
               <span>Attendance</span>
@@ -173,14 +172,14 @@ const TeacherDashboard = () => {
               to="/teacher/homework"
               className="clay-btn-secondary px-3 py-1.5 text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
             >
-              <PlusCircle className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+              <PlusCircle className="w-3.5 h-3.5 text-[#9c6f21] dark:text-[#ebd5ab]" />
               <span>Homework</span>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* 📊 4 Compact Pastel Claymorphic KPI Stat Cards with Progress Bars */}
+      {/* KPI Stat Cards with Progress Bars */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {stats.map((item, idx) => {
           const Icon = item.icon;
@@ -190,7 +189,7 @@ const TeacherDashboard = () => {
               className={`${item.clayClass} p-3.5 flex flex-col justify-between transition-transform duration-150 hover:-translate-y-0.5`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   {item.title}
                 </span>
                 <div className={`p-1.5 rounded-lg ${item.pillBg} ${item.iconColor} clay-icon-pill`}>
@@ -199,21 +198,21 @@ const TeacherDashboard = () => {
               </div>
               <div className="mt-2">
                 <div className="flex items-baseline justify-between">
-                  <div className="text-lg sm:text-xl font-black text-slate-800 dark:text-white">
+                  <div className="text-base sm:text-lg font-bold text-slate-800 dark:text-white">
                     {item.value}
                   </div>
-                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                  <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
                     {item.progress}%
                   </span>
                 </div>
-                {/* 🌟 Compact Claymorphic Progress Bar */}
+                {/* Progress Bar */}
                 <div className="clay-progress-track h-1.5 w-full mt-1.5">
                   <div
                     className={`h-full rounded-full ${item.barColor} transition-all duration-500`}
                     style={{ width: `${item.progress}%` }}
                   />
                 </div>
-                <div className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-1">
+                <div className="text-[10px] font-medium text-slate-500 dark:text-slate-400 mt-1">
                   {item.detail}
                 </div>
               </div>
@@ -222,11 +221,11 @@ const TeacherDashboard = () => {
         })}
       </div>
 
-      {/* 📘 Syllabus & Curriculum Progress Card */}
+      {/* Syllabus & Curriculum Progress Card */}
       <div className="clay-card p-4 sm:p-5">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400 clay-icon-pill">
+            <div className="p-1.5 rounded-lg bg-[#ebd5ab]/40 text-[#9c6f21] dark:bg-[#856326]/60 dark:text-[#ebd5ab] clay-icon-pill">
               <BookOpen className="w-4 h-4" />
             </div>
             <div>
@@ -236,7 +235,7 @@ const TeacherDashboard = () => {
               <p className="text-[11px] text-slate-400">Term 1 syllabus completion status across sections</p>
             </div>
           </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#ebd5ab]/40 text-[#775010] dark:bg-[#856326]/50 dark:text-[#ebd5ab] border border-[#ebd5ab] dark:border-[#856326]">
             Mid-Term Target: 70%
           </span>
         </div>
@@ -248,18 +247,18 @@ const TeacherDashboard = () => {
               className="p-3 rounded-xl bg-slate-50/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-100">{item.subject}</span>
-                <span className="text-xs font-black text-indigo-600 dark:text-indigo-400">{item.completed}%</span>
+                <span className="text-xs font-semibold text-slate-800 dark:text-slate-100">{item.subject}</span>
+                <span className="text-xs font-bold text-[#9c6f21] dark:text-[#ebd5ab]">{item.completed}%</span>
               </div>
               <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{item.currentTopic}</p>
               {/* Progress bar */}
               <div className="clay-progress-track h-2 w-full mt-2">
                 <div
-                  className={`h-full rounded-full bg-gradient-to-r ${item.color} transition-all duration-500`}
+                  className="h-full rounded-full bg-[#c49646] dark:bg-[#dfbc7c] transition-all duration-500"
                   style={{ width: `${item.completed}%` }}
                 />
               </div>
-              <div className="flex justify-between items-center text-[9px] text-slate-400 mt-1 font-semibold">
+              <div className="flex justify-between items-center text-[9px] text-slate-400 mt-1 font-medium">
                 <span>Completed</span>
                 <span>{item.totalChapters}</span>
               </div>
@@ -268,14 +267,13 @@ const TeacherDashboard = () => {
         </div>
       </div>
 
-
-      {/* 📅 Middle Grid: Lecture Schedule & Quick Attendance */}
+      {/* Middle Grid: Lecture Schedule & Quick Attendance */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Lecture Timeline (2 cols) */}
         <div className="lg:col-span-2 clay-card p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3.5">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400 clay-icon-pill">
+              <div className="p-1.5 rounded-lg bg-[#ebd5ab]/40 text-[#9c6f21] dark:bg-[#856326]/60 dark:text-[#ebd5ab] clay-icon-pill">
                 <Clock className="w-4 h-4" />
               </div>
               <div>
@@ -289,7 +287,7 @@ const TeacherDashboard = () => {
             </div>
             <Link
               to="/teacher/timetable"
-              className="text-xs font-bold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 inline-flex items-center gap-0.5 hover:underline"
+              className="text-xs font-bold text-[#9c6f21] hover:text-[#775010] dark:text-[#ebd5ab] inline-flex items-center gap-0.5 hover:underline"
             >
               <span>Full Week</span>
               <ArrowUpRight className="w-3 h-3" />
@@ -301,18 +299,18 @@ const TeacherDashboard = () => {
             {todaySchedule.map((lecture, idx) => (
               <div
                 key={idx}
-                className={`${lecture.clay} p-2.5 sm:p-3 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 border border-white/60 dark:border-slate-800`}
+                className="clay-card p-2.5 sm:p-3 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 border border-slate-200/70 dark:border-slate-800"
               >
                 <div className="flex items-start gap-2.5">
-                  <div className="w-9 h-9 rounded-lg bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shrink-0 font-bold text-xs clay-icon-pill flex items-center justify-center">
-                    <span className="font-black text-xs">{lecture.period}</span>
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-[#9c6f21] dark:text-[#ebd5ab] shrink-0 font-semibold text-xs border border-slate-200 dark:border-slate-700 clay-icon-pill flex items-center justify-center">
+                    <span className="font-bold text-xs">{lecture.period}</span>
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <h3 className="text-xs font-bold text-slate-800 dark:text-white">
+                      <h3 className="text-xs font-semibold text-slate-800 dark:text-white">
                         {lecture.subject}
                       </h3>
-                      <span className="text-[10px] px-1.5 py-0.2 rounded font-semibold bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-800/50">
+                      <span className="text-[10px] px-1.5 py-0.2 rounded font-bold bg-[#ebd5ab]/40 text-[#775010] dark:bg-[#856326]/50 dark:text-[#ebd5ab] border border-[#ebd5ab] dark:border-[#856326]">
                         {lecture.className}
                       </span>
                     </div>
@@ -320,19 +318,19 @@ const TeacherDashboard = () => {
                       Topic: <span className="text-slate-700 dark:text-slate-200">{lecture.topic}</span>
                     </p>
                     <p className="text-[10px] text-slate-400">
-                      📍 {lecture.room} • ⏰ {lecture.time}
+                      {lecture.room} • {lecture.time}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-end shrink-0">
                   <span
-                    className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
                       lecture.status === 'Completed'
                         ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                         : lecture.status === 'In Progress'
-                        ? 'bg-indigo-600 text-white shadow-xs animate-pulse'
-                        : 'bg-slate-200/70 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                        ? 'bg-[#c49646] text-[#261704] font-bold shadow-xs'
+                        : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                     }`}
                   >
                     {lecture.status}
@@ -346,15 +344,15 @@ const TeacherDashboard = () => {
         {/* Right Column: Attendance Marker & Tools */}
         <div className="space-y-4">
           {/* Quick Attendance Widget */}
-          <div className="clay-emerald p-4">
+          <div className="clay-card p-4 border border-[#ebd5ab] dark:border-[#856326]">
             <div className="flex items-center justify-between mb-2.5">
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <CheckCircle2 className="w-4 h-4 text-[#9c6f21] dark:text-[#ebd5ab]" />
                 <h3 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">
                   Quick Attendance
                 </h3>
               </div>
-              <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-white/70 dark:bg-slate-900/60 px-1.5 py-0.5 rounded">
+              <span className="text-[10px] font-bold text-[#775010] dark:text-[#ebd5ab] bg-[#ebd5ab]/40 dark:bg-[#856326]/60 px-1.5 py-0.5 rounded border border-[#ebd5ab] dark:border-[#856326]">
                 Today
               </span>
             </div>
@@ -365,10 +363,10 @@ const TeacherDashboard = () => {
                 return (
                   <div
                     key={cls}
-                    className="p-2 rounded-lg bg-white/90 dark:bg-slate-900/90 flex items-center justify-between border border-emerald-200/60 dark:border-emerald-900/60 shadow-xs"
+                    className="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/90 flex items-center justify-between border border-slate-200/60 dark:border-slate-800 shadow-xs"
                   >
                     <div>
-                      <div className="text-xs font-bold text-slate-800 dark:text-white">
+                      <div className="text-xs font-semibold text-slate-800 dark:text-white">
                         Class {cls}
                       </div>
                       <div className="text-[10px] text-slate-500 dark:text-slate-400">
@@ -378,10 +376,10 @@ const TeacherDashboard = () => {
                     <button
                       type="button"
                       onClick={() => handleToggleAttendance(cls)}
-                      className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                      className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all flex items-center gap-1 cursor-pointer ${
                         isDone
                           ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                          : 'clay-btn-primary text-white'
+                          : 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed]'
                       }`}
                     >
                       {isDone ? (
@@ -400,22 +398,22 @@ const TeacherDashboard = () => {
           </div>
 
           {/* Quick Exam Tools */}
-          <div className="clay-purple p-4">
+          <div className="clay-card p-4">
             <h3 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white mb-2 flex items-center gap-1.5">
-              <Award className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+              <Award className="w-4 h-4 text-[#9c6f21] dark:text-[#ebd5ab]" />
               <span>Exam & Marks</span>
             </h3>
             <div className="space-y-1.5">
               <Link
                 to="/teacher/marks"
-                className="w-full clay-btn-secondary p-2 text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-200 hover:text-indigo-600 transition"
+                className="w-full clay-btn-secondary p-2 text-xs font-semibold flex items-center justify-between text-slate-700 dark:text-slate-200 hover:text-[#8d6016] transition"
               >
                 <span>Upload Unit Test Marks</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
               </Link>
               <Link
                 to="/teacher/exams"
-                className="w-full clay-btn-secondary p-2 text-xs font-bold flex items-center justify-between text-slate-700 dark:text-slate-200 hover:text-indigo-600 transition"
+                className="w-full clay-btn-secondary p-2 text-xs font-semibold flex items-center justify-between text-slate-700 dark:text-slate-200 hover:text-[#8d6016] transition"
               >
                 <span>View Exam Schedules</span>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
@@ -425,13 +423,13 @@ const TeacherDashboard = () => {
         </div>
       </div>
 
-      {/* 📝 Bottom Grid: Submissions & Notices */}
+      {/* Bottom Grid: Submissions & Notices */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Homework Submissions */}
         <div className="lg:col-span-2 clay-card p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3.5">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400 clay-icon-pill">
+              <div className="p-1.5 rounded-lg bg-[#ebd5ab]/40 text-[#9c6f21] dark:bg-[#856326]/60 dark:text-[#ebd5ab] clay-icon-pill">
                 <FileText className="w-4 h-4" />
               </div>
               <div>
@@ -445,7 +443,7 @@ const TeacherDashboard = () => {
             </div>
             <Link
               to="/teacher/homework"
-              className="text-xs font-bold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 hover:underline"
+              className="text-xs font-bold text-[#9c6f21] hover:text-[#775010] dark:text-[#ebd5ab] hover:underline"
             >
               View All 18
             </Link>
@@ -455,18 +453,18 @@ const TeacherDashboard = () => {
             {pendingSubmissions.map((item, idx) => (
               <div
                 key={idx}
-                className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 hover:border-indigo-300 dark:hover:border-indigo-600/50 transition"
+                className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 hover:border-[#ebd5ab] dark:hover:border-[#856326] transition"
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold text-xs flex items-center justify-center shadow-xs shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center justify-center border border-slate-200 dark:border-slate-700 clay-icon-pill shrink-0 shadow-xs">
                     {item.avatar}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-800 dark:text-white">
+                    <h4 className="text-xs font-semibold text-slate-800 dark:text-white">
                       {item.student}{' '}
                       <span className="text-[10px] font-normal text-slate-400">({item.roll})</span>
                     </h4>
-                    <p className="text-[11px] font-medium text-indigo-600 dark:text-indigo-400">
+                    <p className="text-[11px] font-bold text-[#9c6f21] dark:text-[#ebd5ab]">
                       {item.assignment}
                     </p>
                   </div>
@@ -476,7 +474,7 @@ const TeacherDashboard = () => {
                   <span className="text-[10px] text-slate-400 hidden sm:inline">{item.date}</span>
                   <Link
                     to="/teacher/homework"
-                    className="clay-btn-secondary px-2.5 py-1 text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 transition"
+                    className="clay-btn-secondary px-2.5 py-1 text-[11px] font-bold text-[#9c6f21] dark:text-[#ebd5ab] hover:bg-[#ebd5ab]/20 transition"
                   >
                     Review
                   </Link>
@@ -491,7 +489,7 @@ const TeacherDashboard = () => {
           <div>
             <div className="flex items-center justify-between mb-3.5">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400 clay-icon-pill">
+                <div className="p-1.5 rounded-lg bg-[#ebd5ab]/40 text-[#9c6f21] dark:bg-[#856326]/60 dark:text-[#ebd5ab] clay-icon-pill">
                   <AlertCircle className="w-4 h-4" />
                 </div>
                 <h2 className="text-sm sm:text-base font-bold text-slate-800 dark:text-white">
@@ -500,7 +498,7 @@ const TeacherDashboard = () => {
               </div>
               <Link
                 to="/teacher/notices"
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 hover:underline"
+                className="text-xs font-bold text-[#9c6f21] hover:text-[#775010] dark:text-[#ebd5ab] hover:underline"
               >
                 See All
               </Link>
@@ -510,15 +508,15 @@ const TeacherDashboard = () => {
               {notices.map((n, idx) => (
                 <div
                   key={idx}
-                  className={`${n.clay} p-2.5 rounded-xl border border-white/60 dark:border-slate-800/80 transition hover:-translate-y-0.5`}
+                  className="clay-card p-2.5 rounded-xl border border-slate-200/70 dark:border-slate-800/80 transition hover:-translate-y-0.5"
                 >
-                  <div className="flex items-center justify-between text-[10px] font-semibold text-slate-500 dark:text-slate-400 mb-0.5">
-                    <span className="uppercase text-[9px] tracking-wider font-bold text-slate-700 dark:text-slate-200">
+                  <div className="flex items-center justify-between text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-0.5">
+                    <span className="uppercase text-[9px] tracking-wider font-semibold text-slate-700 dark:text-slate-200">
                       {n.category}
                     </span>
                     <span>{n.time}</span>
                   </div>
-                  <h4 className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-snug">
+                  <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-100 leading-snug">
                     {n.title}
                   </h4>
                 </div>
@@ -528,8 +526,8 @@ const TeacherDashboard = () => {
 
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
             <Link
-              to="/teacher/notices"
-              className="clay-btn-primary w-full py-2 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+              to="/teacher/notices/broadcast"
+              className="clay-btn-sand w-full py-2 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer text-[#2b1804] dark:text-[#fff9ed]"
             >
               <PlusCircle className="w-3.5 h-3.5" />
               <span>Broadcast Notice</span>
