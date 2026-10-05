@@ -3,8 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useToast } from '../../context/ToastContext';
+import { authApi } from '../../services/authApi';
 import logo from '../../assets/logo_clean.png';
-import loginImage from '../../assets/LoginImage.png';
 import Loader from '../../components/common/Loader';
 import {
   ShieldCheck,
@@ -17,11 +17,9 @@ import {
   ArrowRight,
   Sun,
   Moon,
-  Sparkles,
   CheckCircle2
 } from 'lucide-react';
 
-import Loader from '../../components/common/Loader';
 const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -40,7 +38,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -57,8 +55,46 @@ const Register = () => {
 
     setIsLoading(true);
 
+    if (role === 'admin') {
+      try {
+        const res = await authApi.adminCreate({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        const registeredName = formData.name || 'Admin User';
+        login(
+          {
+            name: registeredName,
+            email: formData.email,
+            role: 'admin',
+          },
+          'admin-jwt-token'
+        );
+
+        showToast({
+          title: 'Admin Account Created',
+          message: res.message || `Welcome to School Management, ${registeredName}!`,
+          type: 'emerald',
+          duration: 5000,
+        });
+
+        navigate('/admin/dashboard');
+      } catch (err) {
+        showToast({
+          title: 'Account Creation Failed',
+          message: err.message || 'Could not create admin account',
+          type: 'rose',
+          duration: 5000,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
     setTimeout(() => {
-      const registeredName = formData.name || (role === 'student' ? 'Alex Johnson' : role === 'teacher' ? 'Prof. Sharma' : 'Admin User');
+      const registeredName = formData.name || (role === 'student' ? 'Alex Johnson' : 'Prof. Sharma');
       login(
         {
           name: registeredName,
@@ -72,7 +108,7 @@ const Register = () => {
       showToast({
         title: 'Account Created Successfully',
         message: `Welcome to School Management, ${registeredName}!`,
-        type: role === 'admin' ? 'emerald' : role === 'teacher' ? 'rose' : 'sky',
+        type: role === 'teacher' ? 'rose' : 'sky',
         duration: 5000,
       });
 
@@ -142,48 +178,48 @@ const Register = () => {
       {/* MAIN WRAPPER */}
       <div className="relative z-10 w-full max-w-7xl pt-16 sm:pt-14 pb-4 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 min-h-[85vh]">
         
-        {/* LEFT SIDE: Hero Info & Pillars Over the Image */}
+        {/* LEFT SIDE: Hero Info & Pillars Over the Image (Slides in from Left, one by one) */}
         <div className="w-full lg:w-1/2 flex flex-col justify-center text-left text-white px-2 sm:px-4">
           
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 dark:bg-slate-900/50 backdrop-blur-xl border border-white/30 text-xs font-bold text-amber-300 mb-4 w-fit shadow-lg">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 dark:bg-slate-900/50 backdrop-blur-xl border border-white/30 text-xs font-bold text-amber-300 mb-4 w-fit shadow-lg animate-from-left anim-delay-100">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span>Join Our Academic Community</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-4 drop-shadow-md">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-4 drop-shadow-md animate-from-left anim-delay-200">
             Begin Your Journey, <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-amber-300 to-emerald-300">
               Shape Tomorrow's World.
             </span>
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-100/90 leading-relaxed max-w-lg mb-6 font-normal drop-shadow-sm">
+          <p className="text-xs sm:text-sm text-slate-100/90 leading-relaxed max-w-lg mb-6 font-normal drop-shadow-sm animate-from-left anim-delay-300">
             Sign up to get direct access to courses, student profiles, attendance reports, academic calendar, and class assignments.
           </p>
 
-          {/* 4 Interactive Glass Pillar Badges */}
+          {/* 4 Interactive Glass Pillar Badges (Staggered Entrance) */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-w-lg">
-            <div className="p-2.5 rounded-2xl bg-white/15 dark:bg-slate-900/60 backdrop-blur-xl border border-sky-400/40 shadow-lg text-center hover:scale-105 transition-transform">
+            <div className="p-2.5 rounded-2xl bg-white/15 dark:bg-slate-900/60 backdrop-blur-xl border border-sky-400/40 shadow-lg text-center hover:scale-105 transition-transform animate-from-left anim-delay-400">
               <span className="block text-xs font-black text-sky-200 tracking-wider uppercase">Education</span>
               <span className="text-[10px] text-sky-100/80 font-medium">Quality Learning</span>
             </div>
-            <div className="p-2.5 rounded-2xl bg-white/15 dark:bg-slate-900/60 backdrop-blur-xl border border-rose-400/40 shadow-lg text-center hover:scale-105 transition-transform">
+            <div className="p-2.5 rounded-2xl bg-white/15 dark:bg-slate-900/60 backdrop-blur-xl border border-rose-400/40 shadow-lg text-center hover:scale-105 transition-transform animate-from-left anim-delay-500">
               <span className="block text-xs font-black text-rose-200 tracking-wider uppercase">Discipline</span>
               <span className="text-[10px] text-rose-100/80 font-medium">Core Values</span>
             </div>
-            <div className="p-2.5 rounded-2xl bg-white/15 dark:bg-slate-900/60 backdrop-blur-xl border border-emerald-400/40 shadow-lg text-center hover:scale-105 transition-transform">
+            <div className="p-2.5 rounded-2xl bg-white/15 dark:bg-slate-900/60 backdrop-blur-xl border border-emerald-400/40 shadow-lg text-center hover:scale-105 transition-transform animate-from-left anim-delay-600">
               <span className="block text-xs font-black text-emerald-200 tracking-wider uppercase">Knowledge</span>
               <span className="text-[10px] text-emerald-100/80 font-medium">Skill Building</span>
             </div>
-            <div className="p-2.5 rounded-2xl bg-white/15 dark:bg-slate-900/60 backdrop-blur-xl border border-amber-400/40 shadow-lg text-center hover:scale-105 transition-transform">
+            <div className="p-2.5 rounded-2xl bg-white/15 dark:bg-slate-900/60 backdrop-blur-xl border border-amber-400/40 shadow-lg text-center hover:scale-105 transition-transform animate-from-left anim-delay-700">
               <span className="block text-xs font-black text-amber-200 tracking-wider uppercase">Bright Future</span>
               <span className="text-[10px] text-amber-100/80 font-medium">Endless Growth</span>
             </div>
           </div>
         </div>
 
-        {/* RIGHT SIDE: Floating Glassmorphic Register Form Card */}
-        <div className="w-full lg:w-[460px] xl:w-[480px]">
+        {/* RIGHT SIDE: Floating Glassmorphic Register Form Card (Slides in from Right) */}
+        <div className="w-full lg:w-[460px] xl:w-[480px] animate-from-right anim-delay-200">
           <div className="clay-card p-6 sm:p-8 backdrop-blur-2xl bg-white/90 dark:bg-slate-900/90 border border-white/60 dark:border-slate-700/60 shadow-2xl rounded-3xl">
             
             <div className="mb-4">
@@ -304,23 +340,6 @@ const Register = () => {
                     </button>
                   </div>
                 </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`${getSubmitBtnClass()} w-full py-2.5 px-4 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer mt-3`}
-              >
-                {isLoading ? (
-                  <Loader size="xs" variant="white" />
-                ) : (
-                  <>
-                    <span>Create {role.charAt(0).toUpperCase() + role.slice(1)} Account</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-          </form>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">

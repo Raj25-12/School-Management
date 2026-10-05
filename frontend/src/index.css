@@ -552,13 +552,66 @@ html.dark .clay-progress-track {
   animation: study-icon-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
+/* =========================================================
+   AUTH PAGES STAGGERED ENTRANCE ANIMATIONS
+   Left hero/names elements slide in from LEFT (one by one)
+   Right login/signup card slides in from RIGHT
+   ========================================================= */
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-60px, 0, 0);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0px);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(60px, 0, 0);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0px);
+  }
+}
+
+.animate-from-left {
+  opacity: 0;
+  animation: slideInFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-from-right {
+  opacity: 0;
+  animation: slideInFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-delay-100 { animation-delay: 100ms; }
+.anim-delay-200 { animation-delay: 200ms; }
+.anim-delay-300 { animation-delay: 300ms; }
+.anim-delay-400 { animation-delay: 400ms; }
+.anim-delay-500 { animation-delay: 500ms; }
+.anim-delay-600 { animation-delay: 600ms; }
+.anim-delay-700 { animation-delay: 700ms; }
+.anim-delay-800 { animation-delay: 800ms; }
+
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   .icon-morph-svg,
   .animate-study-orbit,
   .animate-study-orbit-reverse,
   .animate-study-float,
-  .animate-study-pop {
+  .animate-study-pop,
+  .animate-from-left,
+  .animate-from-right {
     animation: none !important;
+    opacity: 1 !important;
   }
 }

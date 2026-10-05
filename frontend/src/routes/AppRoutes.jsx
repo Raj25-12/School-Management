@@ -1,13 +1,14 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Layouts (Loaded eagerly for rapid shell rendering)
-import AdminLayout from '../layouts/AdminLayout';
-import TeacherLayout from '../layouts/TeacherLayout';
-import StudentLayout from '../layouts/StudentLayout';
 import Loader from '../components/common/Loader';
 
-import Loader from '../components/common/Loader';
+// Layouts (Lazy Loaded - so login/signup and initial page load are ultra-fast)
+const AdminLayout = lazy(() => import('../layouts/AdminLayout'));
+const TeacherLayout = lazy(() => import('../layouts/TeacherLayout'));
+const StudentLayout = lazy(() => import('../layouts/StudentLayout'));
+
+
 
 // Loading fallback component
 const RouteLoader = () => (
