@@ -3,7 +3,7 @@ const TeacherAccount=require('../models/TeacherAccounts.js')
 const teacherCreateAccount = async(req,res) => {
     const  {email,password}=req.body;
     try{
-        const findemail=await TeacherAccount.find({email})
+        const findemail=await TeacherAccount.findOne({email})
         if(findemail)
         {
             res.status(401).json({
