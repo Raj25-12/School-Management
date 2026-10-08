@@ -12,16 +12,29 @@ import { getTeacherById } from '../../../utils/teacherStorage';
 import {
   Button,
   Badge,
-  Card
+  Card,
+  AvatarUpload
 } from '../../../components/common';
 
 const TeacherDetails = () => {
   const { id } = useParams();
   const [teacher, setTeacher] = useState(() => getTeacherById(id));
+  const [avatar, setAvatar] = useState(() => teacher?.avatar || localStorage.getItem(`teacher_avatar_${id}`) || null);
 
   useEffect(() => {
-    setTeacher(getTeacherById(id));
+    const t = getTeacherById(id);
+    setTeacher(t);
+    setAvatar(t?.avatar || localStorage.getItem(`teacher_avatar_${id}`) || null);
   }, [id]);
+
+  const handleAvatarChange = (photo) => {
+    setAvatar(photo);
+    if (photo) {
+      localStorage.setItem(`teacher_avatar_${id}`, photo);
+    } else {
+      localStorage.removeItem(`teacher_avatar_${id}`);
+    }
+  };
 
   if (!teacher) {
     return (
@@ -79,8 +92,15 @@ const TeacherDetails = () => {
         {/* Left ID & Quick Info */}
         <Card padding="p-5" className="space-y-4">
           <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/60">
-            <div className="w-20 h-20 rounded-3xl bg-emerald-600 text-white flex items-center justify-center text-2xl font-black shadow-lg clay-icon-pill mb-3">
-              {teacher.name.charAt(0)}
+            <div className="mb-3">
+              <AvatarUpload
+                image={avatar}
+                initials={teacher.name.charAt(0)}
+                name={teacher.name}
+                variant="emerald"
+                size="md"
+                onImageChange={handleAvatarChange}
+              />
             </div>
             <h2 className="text-base font-black text-slate-800 dark:text-white">{teacher.name}</h2>
             <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{teacher.employeeId}</div>

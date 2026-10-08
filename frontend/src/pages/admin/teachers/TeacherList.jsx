@@ -3,26 +3,26 @@ import { Link } from 'react-router-dom';
 import {
   Users,
   UserPlus,
-  Search,
   Building2,
   IdCard,
   Edit2,
   Trash2,
-  Sparkles,
   CheckCircle2,
-  Award
+  Award,
 } from 'lucide-react';
 import logo from '../../../assets/logo_clean.png';
 import { getStoredTeachers, deleteStoredTeacher } from '../../../utils/teacherStorage';
 import { useToast } from '../../../context/ToastContext';
+import { useDebounce } from '../../../hooks/useDebounce';
 import {
+  PageHeader,
+  StatsCard,
+  SearchFilterBar,
   Button,
-  Input,
-  Select,
   Badge,
   Card,
   EmptyState,
-  ConfirmDialog
+  ConfirmDialog,
 } from '../../../components/common';
 
 const departmentOptions = [
@@ -33,7 +33,7 @@ const departmentOptions = [
   'Social Science',
   'Computer Science',
   'Languages (Hindi/Sanskrit)',
-  'Physical Education & Sports'
+  'Physical Education & Sports',
 ];
 
 const statusOptions = ['All Statuses', 'Active', 'On Leave'];
@@ -138,6 +138,7 @@ const TeacherList = () => {
   const { showToast } = useToast();
   const [teachers, setTeachers] = useState(() => getStoredTeachers());
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearch = useDebounce(searchQuery, 250);
   const [selectedDept, setSelectedDept] = useState('All Departments');
   const [selectedStatus, setSelectedStatus] = useState('All Statuses');
   const [deleteId, setDeleteId] = useState(null);
@@ -153,9 +154,9 @@ const TeacherList = () => {
     };
   }, []);
 
-  // Filtered list
+  // Filtered list with debounced search query (saving re-render CPU cycles)
   const filteredTeachers = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
+    const q = debouncedSearch.trim().toLowerCase();
     return teachers.filter((t) => {
       const matchDept = selectedDept === 'All Departments' || t.department === selectedDept;
       const matchStatus = selectedStatus === 'All Statuses' || t.status === selectedStatus;
@@ -169,7 +170,7 @@ const TeacherList = () => {
         (t.email && t.email.toLowerCase().includes(q))
       );
     });
-  }, [teachers, searchQuery, selectedDept, selectedStatus]);
+  }, [teachers, debouncedSearch, selectedDept, selectedStatus]);
 
   const handleDelete = useCallback((id) => {
     const updated = deleteStoredTeacher(id);
@@ -185,31 +186,14 @@ const TeacherList = () => {
   return (
     <div className="space-y-4 pb-10">
       {/* Header Banner */}
-      <Card variant="emerald">
-        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-white/90 dark:bg-slate-800 clay-icon-pill p-2 flex items-center justify-center border border-emerald-200/80 dark:border-emerald-800/80 shadow-xs shrink-0">
-              <img
-                src={logo}
-                alt="School Management"
-                className="w-full h-full object-contain dark:brightness-0 dark:invert transition"
-              />
-            </div>
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md text-[11px] font-bold text-emerald-700 dark:text-emerald-300 mb-1 shadow-xs border border-emerald-200/60 dark:border-emerald-800/60">
-                <Users className="w-3.5 h-3.5 text-emerald-500" />
-                <span>Faculty Directory • Admin Portal</span>
-              </div>
-              <h1 className="text-lg sm:text-xl font-extrabold text-slate-800 dark:text-white tracking-tight">
-                Teachers & Faculty Management
-              </h1>
-              <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-                Manage all academic staff, view assignments, onboard new educators, and oversee credentials.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
+      <PageHeader
+        logoSrc={logo}
+        badgeIcon={Users}
+        badgeText="Faculty Directory • Admin Portal"
+        title="Teachers & Faculty Management"
+        description="Manage all academic staff, view assignments, onboard new educators, and oversee credentials."
+        actions={
+          <>
             <Link to="/admin/attendance/teacher">
               <Button variant="secondary" size="sm">
                 Teacher Attendance
@@ -220,114 +204,65 @@ const TeacherList = () => {
                 Add New Teacher
               </Button>
             </Link>
-          </div>
-        </div>
-      </Card>
+          </>
+        }
+      />
 
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card padding="p-3.5" className="flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Total Faculty
-            </span>
-            <div className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 clay-icon-pill">
-              <Users className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="text-lg sm:text-xl font-black text-slate-800 dark:text-white">
-              {teachers.length}
-            </div>
-            <div className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">
-              100% faculty mapped
-            </div>
-          </div>
-        </Card>
+        <StatsCard
+          title="Total Faculty"
+          value={teachers.length}
+          subtitle="100% faculty mapped"
+          icon={Users}
+          variant="default"
+        />
 
-        <Card variant="emerald" padding="p-3.5" className="flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
-              Active On Duty
-            </span>
-            <div className="p-1.5 rounded-lg bg-emerald-200/60 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 clay-icon-pill">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="text-lg sm:text-xl font-black text-emerald-800 dark:text-emerald-100">
-              {teachers.filter((t) => t.status === 'Active').length}
-            </div>
-            <div className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">
-              Currently taking lectures
-            </div>
-          </div>
-        </Card>
+        <StatsCard
+          title="Active On Duty"
+          value={teachers.filter((t) => t.status === 'Active').length}
+          subtitle="Currently taking lectures"
+          icon={CheckCircle2}
+          variant="emerald"
+        />
 
-        <Card padding="p-3.5" className="flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Departments
-            </span>
-            <div className="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 clay-icon-pill">
-              <Building2 className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="text-lg sm:text-xl font-black text-slate-800 dark:text-white">
-              8
-            </div>
-            <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
-              Academic wings
-            </div>
-          </div>
-        </Card>
+        <StatsCard
+          title="Departments"
+          value="8"
+          subtitle="Academic wings"
+          icon={Building2}
+          variant="default"
+        />
 
-        <Card padding="p-3.5" className="flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Avg Experience
-            </span>
-            <div className="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 clay-icon-pill">
-              <Award className="w-3.5 h-3.5" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="text-lg sm:text-xl font-black text-slate-800 dark:text-white">
-              8.4 Yrs
-            </div>
-            <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
-              Senior pedagogical staff
-            </div>
-          </div>
-        </Card>
+        <StatsCard
+          title="Avg Experience"
+          value="8.4 Yrs"
+          subtitle="Senior pedagogical staff"
+          icon={Award}
+          variant="amber"
+        />
       </div>
 
       {/* Filter and Search Bar */}
-      <Card padding="p-4">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="sm:col-span-1">
-            <Input
-              icon={Search}
-              placeholder="Search teacher name, ID, subject, email..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-
-          <Select
-            value={selectedDept}
-            onChange={(e) => setSelectedDept(e.target.value)}
-            options={departmentOptions}
-          />
-
-          <Select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            options={statusOptions}
-          />
-        </div>
-      </Card>
+      <SearchFilterBar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        placeholder="Search teacher name, ID, subject, email..."
+        filters={[
+          {
+            id: 'dept',
+            value: selectedDept,
+            onChange: setSelectedDept,
+            options: departmentOptions,
+          },
+          {
+            id: 'status',
+            value: selectedStatus,
+            onChange: setSelectedStatus,
+            options: statusOptions,
+          },
+        ]}
+      />
 
       {/* Teacher Grid Cards */}
       {filteredTeachers.length === 0 ? (

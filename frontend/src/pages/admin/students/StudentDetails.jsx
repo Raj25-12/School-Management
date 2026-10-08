@@ -13,6 +13,7 @@ import {
   Button,
   Badge,
   Card,
+  AvatarUpload,
   MaleIcon,
   FemaleIcon
 } from '../../../components/common';
@@ -20,10 +21,22 @@ import {
 const StudentDetails = () => {
   const { id } = useParams();
   const [student, setStudent] = useState(() => getStudentById(id));
+  const [avatar, setAvatar] = useState(() => student?.avatar || localStorage.getItem(`student_avatar_${id}`) || null);
 
   useEffect(() => {
-    setStudent(getStudentById(id));
+    const s = getStudentById(id);
+    setStudent(s);
+    setAvatar(s?.avatar || localStorage.getItem(`student_avatar_${id}`) || null);
   }, [id]);
+
+  const handleAvatarChange = (photo) => {
+    setAvatar(photo);
+    if (photo) {
+      localStorage.setItem(`student_avatar_${id}`, photo);
+    } else {
+      localStorage.removeItem(`student_avatar_${id}`);
+    }
+  };
 
   if (!student) {
     return (
@@ -80,8 +93,15 @@ const StudentDetails = () => {
         {/* Left Profile Summary */}
         <Card padding="p-5" className="space-y-4">
           <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/60">
-            <div className="w-20 h-20 rounded-3xl bg-emerald-600 text-white flex items-center justify-center text-2xl font-black shadow-lg clay-icon-pill mb-3">
-              {student.avatar || student.name.charAt(0)}
+            <div className="mb-3">
+              <AvatarUpload
+                image={avatar}
+                initials={student.name ? student.name.charAt(0) : 'S'}
+                name={student.name}
+                variant="emerald"
+                size="md"
+                onImageChange={handleAvatarChange}
+              />
             </div>
             <h2 className="text-base font-black text-slate-800 dark:text-white">{student.name}</h2>
             <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">Roll No: {student.rollNo}</div>

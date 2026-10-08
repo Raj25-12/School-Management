@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 
 const getStoredUser = () => {
   try {
@@ -23,6 +23,7 @@ const defaultAuthContext = {
   loading: false,
   login: () => {},
   logout: () => {},
+  updateUser: () => {},
   isAuthenticated: false,
 };
 
@@ -32,6 +33,22 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(getStoredUser);
   const [token, setToken] = useState(getStoredToken);
   const [loading] = useState(false);
+
+  // Sync user state on custom dispatch or storage changes
+  useEffect(() => {
+    const handleSync = () => {
+      const stored = getStoredUser();
+      if (stored) {
+        setUser(stored);
+      }
+    };
+    window.addEventListener('school_user_updated', handleSync);
+    window.addEventListener('storage', handleSync);
+    return () => {
+      window.removeEventListener('school_user_updated', handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
+  }, []);
 
   const login = useCallback((userData, userToken) => {
     setUser(userData);
@@ -50,6 +67,20 @@ export const AuthProvider = ({ children }) => {
         console.error(e);
       }
     }
+    window.dispatchEvent(new CustomEvent('school_user_updated', { detail: userData }));
+  }, []);
+
+  const updateUser = useCallback((userData) => {
+    setUser((prev) => {
+      const updated = { ...(prev || {}), ...userData };
+      try {
+        localStorage.setItem('user', JSON.stringify(updated));
+      } catch (e) {
+        console.error(e);
+      }
+      return updated;
+    });
+    window.dispatchEvent(new CustomEvent('school_user_updated', { detail: userData }));
   }, []);
 
   const logout = useCallback(() => {
@@ -61,6 +92,7 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {
       console.error(e);
     }
+    window.dispatchEvent(new CustomEvent('school_user_updated', { detail: null }));
   }, []);
 
   const value = useMemo(() => ({
@@ -69,8 +101,9 @@ export const AuthProvider = ({ children }) => {
     loading,
     login,
     logout,
+    updateUser,
     isAuthenticated: Boolean(user || token),
-  }), [user, token, loading, login, logout]);
+  }), [user, token, loading, login, logout, updateUser]);
 
   return (
     <AuthContext.Provider value={value}>
@@ -90,6 +123,7 @@ export const useAuth = () => {
       loading: false,
       login: () => {},
       logout: () => {},
+      updateUser: () => {},
       isAuthenticated: Boolean(fallbackUser || fallbackToken),
     };
   }

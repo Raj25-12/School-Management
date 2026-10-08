@@ -137,20 +137,24 @@ const ResetPassword = () => {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="clay-btn-primary w-full py-2.5 px-4 text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer mt-2"
-              >
-                {isLoading ? (
-                  <Loader size="xs" variant="white" />
-                ) : (
-                  <>
-                    <span>Reset & Update Password</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
+              <div className="pt-1">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="btn-shine bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md hover:shadow-xl shadow-blue-500/30 w-full h-12 py-3.5 px-6 text-sm font-black tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer rounded-2xl uppercase border border-white/20 transform hover:-translate-y-1 active:translate-y-0 active:scale-[0.99]"
+                >
+                  {isLoading ? (
+                    <Loader size="xs" variant="white" />
+                  ) : (
+                    <div className="relative z-20 flex items-center justify-center gap-2">
+                      <span className="drop-shadow-sm font-black tracking-widest text-xs sm:text-sm text-white">
+                        RESET & UPDATE PASSWORD
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-white transition-transform duration-300 group-hover:translate-x-1.5 stroke-[2.5]" />
+                    </div>
+                  )}
+                </button>
+              </div>
             </form>
           )}
 

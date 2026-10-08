@@ -8,12 +8,13 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
-import { Button, Input, Badge, Card } from '../../components/common';
+import { Button, Input, Badge, Card, AvatarUpload } from '../../components/common';
 
 const TeacherProfile = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { showToast } = useToast();
 
+  const [avatar, setAvatar] = useState(() => user?.avatar || localStorage.getItem('teacher_avatar_photo') || null);
   const [profile, setProfile] = useState({
     name: user?.name || 'Prof. Rajesh Sharma',
     email: user?.email || 'teacher@school.com',
@@ -27,8 +28,29 @@ const TeacherProfile = () => {
     bio: 'Dedicated mathematics educator with 12+ years of experience in secondary and higher secondary CBSE curriculum coaching and Olympiad mentorship.'
   });
 
+  const handleAvatarChange = (newPhoto) => {
+    setAvatar(newPhoto);
+    if (newPhoto) {
+      localStorage.setItem('teacher_avatar_photo', newPhoto);
+      if (updateUser) updateUser({ avatar: newPhoto });
+      showToast({ title: 'Photo Uploaded', message: 'Profile picture updated successfully.', type: 'success' });
+    } else {
+      localStorage.removeItem('teacher_avatar_photo');
+      if (updateUser) updateUser({ avatar: null });
+      showToast({ title: 'Photo Removed', message: 'Profile picture reset to default.', type: 'info' });
+    }
+  };
+
   const handleSave = (e) => {
     e.preventDefault();
+    if (updateUser) {
+      updateUser({
+        name: profile.name,
+        email: profile.email,
+        designation: profile.designation,
+        avatar: avatar
+      });
+    }
     showToast({
       title: 'Profile Updated',
       message: 'Faculty credentials and contact information saved.',
@@ -60,8 +82,15 @@ const TeacherProfile = () => {
         {/* Profile Card Summary */}
         <Card className="p-5 text-center flex flex-col items-center justify-between">
           <div>
-            <div className="w-20 h-20 rounded-3xl bg-amber-200 dark:bg-amber-900 text-amber-900 dark:text-amber-100 text-2xl font-black flex items-center justify-center mx-auto mb-3 shadow-md clay-icon-pill border-2 border-amber-300">
-              RS
+            <div className="mb-3">
+              <AvatarUpload
+                image={avatar}
+                initials="RS"
+                name={profile.name}
+                variant="amber"
+                size="md"
+                onImageChange={handleAvatarChange}
+              />
             </div>
             <h2 className="text-base font-black text-slate-800 dark:text-white">{profile.name}</h2>
             <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mt-0.5">{profile.designation}</p>

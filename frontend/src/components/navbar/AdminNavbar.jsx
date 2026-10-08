@@ -338,8 +338,16 @@ const AdminNavbar = ({ toggleSidebar }) => {
               className="flex items-center gap-2 p-1 rounded-2xl hover:scale-105 transition cursor-pointer"
             >
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl flex items-center justify-center text-white font-bold text-sm shadow-md clay-icon-pill">
-                  {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl flex items-center justify-center text-white font-bold text-sm shadow-md clay-icon-pill overflow-hidden">
+                  {user?.avatar || localStorage.getItem('admin_avatar_photo') ? (
+                    <img
+                      src={user?.avatar || localStorage.getItem('admin_avatar_photo')}
+                      alt={user?.name || 'Admin'}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    user?.name ? user.name.charAt(0).toUpperCase() : 'A'
+                  )}
                 </div>
                 <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full shadow-xs"></span>
               </div>
@@ -348,12 +356,25 @@ const AdminNavbar = ({ toggleSidebar }) => {
             {/* User Dropdown */}
             {isUserMenuOpen && (
               <div className="absolute right-0 top-14 w-60 clay-card p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="px-3.5 py-2.5 border-b border-slate-100 dark:border-slate-800 mb-1">
-                  <div className="text-sm font-bold text-slate-800 dark:text-white truncate">
-                    {user?.name || 'Administrator'}
+                <div className="px-3.5 py-2.5 border-b border-slate-100 dark:border-slate-800 mb-1 flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center text-xs font-black shadow-xs">
+                    {user?.avatar || localStorage.getItem('admin_avatar_photo') ? (
+                      <img
+                        src={user?.avatar || localStorage.getItem('admin_avatar_photo')}
+                        alt={user?.name || 'Admin'}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      user?.name ? user.name.charAt(0).toUpperCase() : 'A'
+                    )}
                   </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                    {user?.email || 'admin@school.com'}
+                  <div className="min-w-0">
+                    <div className="text-sm font-bold text-slate-800 dark:text-white truncate">
+                      {user?.name || 'Administrator'}
+                    </div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                      {user?.email || 'admin@school.com'}
+                    </div>
                   </div>
                 </div>
 

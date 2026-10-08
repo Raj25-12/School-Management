@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   User,
   GraduationCap,
@@ -6,10 +6,26 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { Badge, Card } from '../../components/common';
+import { useToast } from '../../context/ToastContext';
+import { Badge, Card, AvatarUpload } from '../../components/common';
 
 const MyProfile = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
+  const { showToast } = useToast();
+  const [avatar, setAvatar] = useState(() => user?.avatar || localStorage.getItem('student_avatar_photo') || null);
+
+  const handleAvatarChange = (newPhoto) => {
+    setAvatar(newPhoto);
+    if (newPhoto) {
+      localStorage.setItem('student_avatar_photo', newPhoto);
+      if (updateUser) updateUser({ avatar: newPhoto });
+      showToast({ title: 'Photo Uploaded', message: 'Student profile photo updated successfully.', type: 'success' });
+    } else {
+      localStorage.removeItem('student_avatar_photo');
+      if (updateUser) updateUser({ avatar: null });
+      showToast({ title: 'Photo Removed', message: 'Profile picture reset to default.', type: 'info' });
+    }
+  };
 
   const studentInfo = {
     name: user?.name || 'Alex Johnson',
@@ -52,8 +68,15 @@ const MyProfile = () => {
         {/* Profile Card */}
         <Card className="p-5 text-center flex flex-col items-center justify-between">
           <div>
-            <div className="w-20 h-20 rounded-3xl bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-200 text-2xl font-black flex items-center justify-center mx-auto mb-3 shadow-md clay-icon-pill border-2 border-sky-300">
-              AJ
+            <div className="mb-3">
+              <AvatarUpload
+                image={avatar}
+                initials="AJ"
+                name={studentInfo.name}
+                variant="sky"
+                size="md"
+                onImageChange={handleAvatarChange}
+              />
             </div>
             <h2 className="text-base font-black text-slate-800 dark:text-white">{studentInfo.name}</h2>
             <p className="text-xs font-semibold text-sky-700 dark:text-sky-300 mt-0.5">{studentInfo.classGrade}</p>

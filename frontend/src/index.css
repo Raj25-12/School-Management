@@ -431,33 +431,41 @@ html.dark .clay-progress-track {
 }
 
 @keyframes school-bell-ring {
+
   0%,
   100% {
     transform: rotate(0deg) scale(1);
   }
+
   15% {
     transform: rotate(-14deg) scale(1.1);
   }
+
   30% {
     transform: rotate(14deg) scale(1.1);
   }
+
   45% {
     transform: rotate(-10deg) scale(1.05);
   }
+
   60% {
     transform: rotate(10deg) scale(1.05);
   }
+
   75% {
     transform: rotate(0deg) scale(1);
   }
 }
 
 @keyframes chalk-glow {
+
   0%,
   100% {
     filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.4));
     opacity: 0.8;
   }
+
   50% {
     filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.8));
     opacity: 1;
@@ -480,6 +488,7 @@ html.dark .clay-progress-track {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -489,15 +498,19 @@ html.dark .clay-progress-track {
   from {
     transform: rotate(360deg);
   }
+
   to {
     transform: rotate(0deg);
   }
 }
 
 @keyframes study-float-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) scale(1);
   }
+
   50% {
     transform: translateY(-3px) scale(1.04);
   }
@@ -508,10 +521,12 @@ html.dark .clay-progress-track {
     stroke-dashoffset: 60;
     opacity: 0.2;
   }
+
   50% {
     stroke-dashoffset: 0;
     opacity: 1;
   }
+
   100% {
     stroke-dashoffset: -60;
     opacity: 0.2;
@@ -524,11 +539,13 @@ html.dark .clay-progress-track {
     opacity: 0;
     filter: blur(3px);
   }
+
   60% {
     transform: scale(1.08) rotate(3deg);
     opacity: 1;
     filter: blur(0px);
   }
+
   100% {
     transform: scale(1) rotate(0deg);
     opacity: 1;
@@ -563,6 +580,7 @@ html.dark .clay-progress-track {
     transform: translate3d(-60px, 0, 0);
     filter: blur(4px);
   }
+
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0);
@@ -576,6 +594,7 @@ html.dark .clay-progress-track {
     transform: translate3d(60px, 0, 0);
     filter: blur(4px);
   }
+
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0);
@@ -593,17 +612,146 @@ html.dark .clay-progress-track {
   animation: slideInFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.anim-delay-100 { animation-delay: 100ms; }
-.anim-delay-200 { animation-delay: 200ms; }
-.anim-delay-300 { animation-delay: 300ms; }
-.anim-delay-400 { animation-delay: 400ms; }
-.anim-delay-500 { animation-delay: 500ms; }
-.anim-delay-600 { animation-delay: 600ms; }
-.anim-delay-700 { animation-delay: 700ms; }
-.anim-delay-800 { animation-delay: 800ms; }
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s cubic-bezier(1, 1, 1, 1) forwards;
+}
+
+.anim-delay-50 {
+  animation-delay: 50ms;
+}
+
+.anim-delay-100 {
+  animation-delay: 100ms;
+}
+
+.anim-delay-150 {
+  animation-delay: 150ms;
+}
+
+.anim-delay-200 {
+  animation-delay: 200ms;
+}
+
+.anim-delay-250 {
+  animation-delay: 250ms;
+}
+
+.anim-delay-300 {
+  animation-delay: 300ms;
+}
+
+.anim-delay-350 {
+  animation-delay: 350ms;
+}
+
+.anim-delay-400 {
+  animation-delay: 400ms;
+}
+
+.anim-delay-450 {
+  animation-delay: 450ms;
+}
+
+.anim-delay-500 {
+  animation-delay: 500ms;
+}
+
+.anim-delay-550 {
+  animation-delay: 550ms;
+}
+
+.anim-delay-600 {
+  animation-delay: 600ms;
+}
+
+.anim-delay-650 {
+  animation-delay: 650ms;
+}
+
+.anim-delay-700 {
+  animation-delay: 700ms;
+}
+
+.anim-delay-750 {
+  animation-delay: 750ms;
+}
+
+.anim-delay-800 {
+  animation-delay: 800ms;
+}
+
+.anim-delay-850 {
+  animation-delay: 850ms;
+}
+
+.anim-delay-900 {
+  animation-delay: 900ms;
+}
+
+.anim-delay-950 {
+  animation-delay: 950ms;
+}
+
+.anim-delay-1000 {
+  animation-delay: 1000ms;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+  }
+
+  100% {
+    transform: translateX(300%) skewX(-20deg);
+  }
+}
+
+/* =========================================================
+   BUTTON SHINE HOVER EFFECT (.btn-shine)
+   ========================================================= */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -130%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0.15) 80%,
+      transparent 100%);
+  transform: skewX(-25deg);
+  pointer-events: none;
+  z-index: 10;
+  transition: none;
+}
+
+.btn-shine:hover::before {
+  left: 170%;
+  transition: left 1.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
+
   .icon-morph-svg,
   .animate-study-orbit,
   .animate-study-orbit-reverse,
@@ -614,4 +762,4 @@ html.dark .clay-progress-track {
     animation: none !important;
     opacity: 1 !important;
   }
-}
+}
