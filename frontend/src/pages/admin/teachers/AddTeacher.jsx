@@ -24,6 +24,7 @@ import {
   IdCardPreview,
   Loader,
 } from '../../../components/common';
+import { saveNewTeacher } from '../../../utils/teacherStorage';
 
 const departments = [
   'Mathematics',
@@ -36,16 +37,6 @@ const departments = [
   'Fine Arts & Music',
 ];
 
-const availableClasses = [
-  'Class 6-A', 'Class 6-B',
-  'Class 7-A', 'Class 7-B',
-  'Class 8-A', 'Class 8-B',
-  'Class 9-A', 'Class 9-B',
-  'Class 10-A', 'Class 10-B',
-  'Class 11-Science', 'Class 11-Commerce', 'Class 11-Humanities',
-  'Class 12-Science', 'Class 12-Commerce', 'Class 12-Humanities',
-];
-
 const AddTeacher = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -56,34 +47,24 @@ const AddTeacher = () => {
     name: '',
     email: '',
     phone: '',
-    employeeId: `TCH-${Math.floor(1000 + Math.random() * 9000)}`,
+    employeeId: '',
     gender: 'Male',
-    dob: '1990-05-15',
+    dob: '',
     department: 'Mathematics',
-    primarySubject: 'Advanced Algebra & Calculus',
-    qualification: 'M.Sc. Mathematics, B.Ed.',
-    experience: '6 Years',
-    joiningDate: '2026-09-29',
-    assignedClasses: ['Class 9-A', 'Class 10-A'],
+    primarySubject: '',
+    qualification: '',
+    experience: '',
+    joiningDate: '',
+    assignedClasses: [],
     contractType: 'Full-Time',
-    salary: '₹55,000 / month',
-    address: '14/B Academic Enclave, Green Park, City',
-    password: 'password123',
+    salary: '',
+    localAddress: '',
+    permanentAddress: '',
+    address: '',
+    password: '',
     status: 'Active',
     avatar: null,
   });
-
-  const handleClassToggle = useCallback((cls) => {
-    setFormData((prev) => {
-      const exists = prev.assignedClasses.includes(cls);
-      return {
-        ...prev,
-        assignedClasses: exists
-          ? prev.assignedClasses.filter((c) => c !== cls)
-          : [...prev.assignedClasses, cls],
-      };
-    });
-  }, []);
 
   const handleChange = useCallback((field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -93,10 +74,19 @@ const AddTeacher = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Persist new teacher to localStorage
+    const empId = formData.employeeId.trim() || `TCH-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const payload = {
+      ...formData,
+      employeeId: empId,
+      address: formData.localAddress || formData.permanentAddress || formData.address,
+    };
+
+    // Persist new teacher via storage utility and fallback
+    saveNewTeacher(payload);
     const existingTeachers = JSON.parse(localStorage.getItem('admin_teachers_list') || '[]');
     const newTeacher = {
-      ...formData,
+      ...payload,
       id: `TCH-REC-${Date.now()}`,
       createdAt: new Date().toISOString(),
     };
@@ -212,12 +202,24 @@ const AddTeacher = () => {
                 />
               </div>
 
-              <Input
-                label="Residential Address"
-                placeholder="Street Address, City, State, PIN"
-                value={formData.address}
-                onChange={(e) => handleChange('address', e.target.value)}
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <Input
+                  label="Local Address"
+                  placeholder="e.g. 14/B Academic Enclave, Green Park, City"
+                  value={formData.localAddress}
+                  onChange={(e) => {
+                    handleChange('localAddress', e.target.value);
+                    handleChange('address', e.target.value);
+                  }}
+                />
+
+                <Input
+                  label="Permanent Address"
+                  placeholder="e.g. Flat 204, Riverview Heights, Delhi"
+                  value={formData.permanentAddress}
+                  onChange={(e) => handleChange('permanentAddress', e.target.value)}
+                />
+              </div>
             </Card>
 
             {/* Section 2: Department & Academic Details */}
@@ -243,7 +245,7 @@ const AddTeacher = () => {
                 <Input
                   label="Primary Subject"
                   required
-                  placeholder="e.g. Physics / Chemistry"
+                  placeholder="e.g. Physics / Mathematics"
                   value={formData.primarySubject}
                   onChange={(e) => handleChange('primarySubject', e.target.value)}
                 />
@@ -261,32 +263,6 @@ const AddTeacher = () => {
                   value={formData.experience}
                   onChange={(e) => handleChange('experience', e.target.value)}
                 />
-              </div>
-
-              {/* Assigned Classes */}
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Assign Teaching Classes (Click to Select)
-                </label>
-                <div className="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
-                  {availableClasses.map((cls) => {
-                    const isSelected = formData.assignedClasses.includes(cls);
-                    return (
-                      <button
-                        key={cls}
-                        type="button"
-                        onClick={() => handleClassToggle(cls)}
-                        className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition cursor-pointer ${
-                          isSelected
-                            ? 'clay-btn-emerald text-white shadow-xs'
-                            : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80 hover:border-emerald-500'
-                        }`}
-                      >
-                        {cls} {isSelected && '✓'}
-                      </button>
-                    );
-                  })}
-                </div>
               </div>
             </Card>
 
@@ -322,7 +298,7 @@ const AddTeacher = () => {
 
                 <Input
                   label="Monthly Salary / Scale"
-                  placeholder="₹55,000"
+                  placeholder="e.g. ₹55,000 / month"
                   value={formData.salary}
                   onChange={(e) => handleChange('salary', e.target.value)}
                 />
@@ -341,7 +317,7 @@ const AddTeacher = () => {
                     required
                     value={formData.password}
                     onChange={(e) => handleChange('password', e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="Enter initial password (e.g. Teacher@123)"
                     className="clay-input w-full pl-8 pr-9 py-2 text-xs font-medium text-slate-800 dark:text-white focus:outline-none"
                   />
                   <button
@@ -386,7 +362,6 @@ const AddTeacher = () => {
             extraFieldValue={formData.department}
             email={formData.email}
             phone={formData.phone}
-            tags={formData.assignedClasses}
             status={formData.status}
             avatarImage={formData.avatar}
             onAvatarChange={(img) => handleChange('avatar', img)}

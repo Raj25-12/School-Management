@@ -120,9 +120,20 @@ const TeacherDetails = () => {
               <Phone className="w-4 h-4 text-emerald-500 shrink-0" />
               <span className="font-mono">{teacher.phone}</span>
             </div>
-            <div className="flex items-center gap-2.5 text-slate-600 dark:text-slate-300">
-              <MapPin className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>{teacher.address || 'Campus Staff Quarters'}</span>
+            <div className="flex items-start gap-2.5 text-slate-600 dark:text-slate-300">
+              <MapPin className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+              <div className="space-y-0.5 text-xs">
+                <div>
+                  <span className="font-semibold text-slate-700 dark:text-slate-200">Local: </span>
+                  {teacher.localAddress || teacher.address || 'Campus Staff Quarters'}
+                </div>
+                {teacher.permanentAddress && teacher.permanentAddress !== teacher.localAddress && (
+                  <div>
+                    <span className="font-semibold text-slate-700 dark:text-slate-200">Permanent: </span>
+                    {teacher.permanentAddress}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </Card>

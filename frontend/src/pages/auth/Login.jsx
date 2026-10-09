@@ -9,8 +9,8 @@ import loginImage from '../../assets/LoginImage.webp';
 import Loader from '../../components/common/Loader';
 import {
   ShieldCheck,
-  UserCheck,
-  User,
+  Users,
+  GraduationCap,
   Lock,
   Mail,
   Eye,
@@ -19,10 +19,7 @@ import {
   Sun,
   Moon,
   Sparkles,
-  GraduationCap,
-  Award,
-  BookOpen,
-  TrendingUp
+  Zap
 } from 'lucide-react';
 
 const Login = () => {
@@ -83,7 +80,7 @@ const Login = () => {
           title: `Welcome, ${formattedName}!`,
           message: res.message || 'Logged in to Admin Portal',
           type: 'emerald',
-          duration: 4500,
+          duration: 4000,
         });
 
         navigate('/admin/dashboard');
@@ -94,7 +91,7 @@ const Login = () => {
           title: 'Admin Login Error',
           message: errMsg,
           type: 'rose',
-          duration: 4500,
+          duration: 4000,
         });
       } finally {
         setIsLoading(false);
@@ -118,7 +115,7 @@ const Login = () => {
         title: `Welcome back, ${userName}!`,
         message: `Successfully logged in as ${role.toUpperCase()}`,
         type: role === 'teacher' ? 'amber' : 'sky',
-        duration: 4500,
+        duration: 4000,
       });
 
       navigate(`/${role}/dashboard`);
@@ -137,342 +134,368 @@ const Login = () => {
     );
 
     showToast({
-      title: `Quick Access Activated`,
+      title: `⚡ Quick Access Activated`,
       message: `Logged in as ${targetRole.toUpperCase()} (${userName})`,
       type: targetRole === 'admin' ? 'emerald' : targetRole === 'teacher' ? 'amber' : 'sky',
-      duration: 4500,
+      duration: 3500,
     });
 
     navigate(`/${targetRole}/dashboard`);
   };
 
-  const getSubmitBtnClass = () => {
-    if (role === 'admin') return 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-emerald-500/30';
-    if (role === 'teacher') return 'bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-amber-500/30';
-    return 'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-600 hover:from-sky-600 hover:to-blue-700 text-white shadow-sky-500/30';
+  const getRoleTheme = () => {
+    if (role === 'admin') {
+      return {
+        titleAccent: 'text-emerald-500 dark:text-emerald-400',
+        submitBtn: 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-emerald-500/30',
+        link: 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300',
+        focusRing: 'focus:border-emerald-500 focus:ring-emerald-500/20',
+        checkbox: 'text-emerald-500 focus:ring-emerald-500',
+      };
+    }
+    if (role === 'teacher') {
+      return {
+        titleAccent: 'text-amber-500 dark:text-amber-400',
+        submitBtn: 'bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-amber-500/30',
+        link: 'text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300',
+        focusRing: 'focus:border-amber-500 focus:ring-amber-500/20',
+        checkbox: 'text-amber-500 focus:ring-amber-500',
+      };
+    }
+    return {
+      titleAccent: 'text-sky-500 dark:text-sky-400',
+      submitBtn: 'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-600 hover:from-sky-600 hover:to-blue-700 text-white shadow-sky-500/30',
+      link: 'text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300',
+      focusRing: 'focus:border-sky-500 focus:ring-sky-500/20',
+      checkbox: 'text-sky-500 focus:ring-sky-500',
+    };
   };
 
-  return (
-    <div className="min-h-screen w-full relative flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans overflow-x-hidden">
+  const roleTheme = getRoleTheme();
 
+  return (
+    <div className="h-screen w-full flex items-center justify-center font-sans relative overflow-hidden select-none">
+      
       {/* =========================================================================
-          FULL SCREEN BACKGROUND IMAGE WITH BLUR & HARMONIOUS AMBIENT LIGHTING
+          FULL-SCREEN BACKGROUND IMAGE (COVERS ENTIRE SCREEN)
           ========================================================================= */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Full Image */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none select-none">
         <img
           src={loginImage}
           alt="School Campus Background"
-          loading="lazy"
-          decoding="async"
-          width="1080"
-          height="720"
           className="w-full h-full object-cover object-center transform scale-102"
         />
-
-        {/* Atmospheric Blur & Unified Color Tint Overlay */}
-        <div className="absolute inset-0 bg-slate-950/45 dark:bg-slate-950/70 backdrop-blur-[3px] transition-all duration-300" />
-
-        {/* Cohesive Ambient Glows (Luminous Sky & Indigo) */}
-        <div className="absolute top-0 left-0 w-[45rem] h-[45rem] bg-sky-500/20 dark:bg-sky-600/20 rounded-full blur-[130px]" />
-        <div className="absolute bottom-0 right-0 w-[40rem] h-[40rem] bg-indigo-600/25 dark:bg-indigo-700/25 rounded-full blur-[130px]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/35 to-slate-950/55" />
+        {/* Crisp Readability Overlay & Subtle Atmospheric Vignette */}
+        <div className="absolute inset-0 bg-slate-950/35 dark:bg-slate-950/60 backdrop-blur-[1.5px]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/40 to-slate-950/30" />
+        
+        {/* Soft Ambient Corner Glows */}
+        <div className="absolute top-10 right-10 w-96 h-96 bg-teal-400/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
       </div>
 
-      {/* Top Bar Floating Controls (Theme Switcher Only) */}
-      <div className="fixed top-3 sm:top-5 left-3 sm:left-6 right-3 sm:right-6 z-30 flex items-center justify-end pointer-events-auto">
-        {/* Theme Switcher */}
+      {/* Floating Theme Switcher */}
+      <div className="fixed top-4 right-4 z-50">
         <button
           type="button"
           onClick={toggleTheme}
-          className="clay-btn-secondary px-3.5 py-2 rounded-2xl text-xs font-bold text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-amber-400 transition cursor-pointer flex items-center gap-1.5 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 border border-white/50 dark:border-slate-700/60 shadow-xl"
-          title="Toggle Light/Dark Theme"
+          className="p-2 rounded-full backdrop-blur-md bg-white/90 hover:bg-white dark:bg-slate-800/90 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 transition-all shadow-md cursor-pointer flex items-center gap-1.5 text-xs font-bold"
+          title="Toggle Theme"
         >
           {theme === 'dark' ? (
-            <>
-              <Sun className="w-4 h-4 text-amber-400" />
-              <span>Light Mode</span>
-            </>
+            <Sun className="w-3.5 h-3.5 text-amber-400" />
           ) : (
-            <>
-              <Moon className="w-4 h-4 text-slate-700" />
-              <span>Dark Mode</span>
-            </>
+            <Moon className="w-3.5 h-3.5 text-slate-700" />
           )}
         </button>
       </div>
 
       {/* =========================================================================
-          MAIN WRAPPER: LEFT HERO TEXT ON IMAGE + RIGHT SIDE LOGIN FORM
+          FOREGROUND CONTENT: HERO ON LEFT + FLOATING CARD ON RIGHT
           ========================================================================= */}
-      <div className="relative z-10 w-full max-w-7xl pt-16 sm:pt-14 pb-4 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 min-h-[85vh]">
-
-        {/* LEFT SIDE: Hero Brand, Info & Pillars Over the Image */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center text-left text-white px-2 sm:px-4">
-
-          {/* Standalone Large Logo with Name Underneath */}
-          <div className="flex flex-col items-start mb-6 animate-from-left anim-delay-100">
-            {/* Big Standalone Logo Container with Original Logo Colors */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white/95 dark:bg-white/90 p-3.5 shadow-2xl ring-4 ring-white/20 backdrop-blur-2xl flex items-center justify-center transform hover:scale-105 transition-all duration-300 mb-3.5 border border-white/60">
-              <img
-                src={logo}
-                alt="EduManage Logo"
-                className="w-full h-full object-contain"
-              />
+      <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 py-4 overflow-y-auto lg:overflow-hidden">
+        
+        {/* LEFT SIDE: Brand Logo + Welcome to EduManage + Glowing Arrow */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center select-none text-left py-4">
+          
+          {/* Top Brand */}
+          <div className="flex items-center gap-2.5 mb-6 sm:mb-8">
+            <div className="w-10 h-10 rounded-xl bg-teal-400/25 backdrop-blur-md border border-teal-400/50 flex items-center justify-center text-teal-300 shadow-xl">
+              <GraduationCap className="w-5 h-5 text-teal-300 drop-shadow-md stroke-[2.5]" />
             </div>
-
-            {/* Name Underneath the Logo */}
-            <div className="flex flex-col">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/25 border border-sky-400/40 text-xs font-bold text-sky-200 backdrop-blur-md mb-2 shadow-sm w-fit">
-                <Sparkles className="w-3.5 h-3.5 text-sky-300" />
-                <span>Smart Academic Management</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight drop-shadow-md">
-                EduManage <span className="text-sky-300 font-extrabold">Portal</span>
-              </h2>
-              <span className="text-xs sm:text-sm text-slate-300 font-medium drop-shadow-sm mt-0.5">
-                Next-Generation School Management System
-              </span>
-            </div>
+            <span className="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+              Edu<span className="text-teal-400">Manage</span>
+            </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-4 drop-shadow-lg animate-from-left anim-delay-200">
-            Empowering Education, <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-cyan-200 to-sky-400 drop-shadow-md">
-              Building Bright Futures.
-            </span>
-          </h1>
+          <div className="flex items-center gap-4 xl:gap-6">
+            <div>
+              {/* Heading with Glowing Cyan Text */}
+              <h1 className="text-4xl sm:text-5xl xl:text-6xl font-black text-white leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] tracking-tight">
+                Welcome to <br />
+                <span className="text-[#00dfc4] drop-shadow-[0_0_30px_rgba(0,223,196,0.9)]">
+                  EduManage
+                </span>
+              </h1>
 
-          <p className="text-xs sm:text-sm text-slate-200/90 leading-relaxed max-w-lg mb-6 font-medium drop-shadow-sm animate-from-left anim-delay-300">
-            Unified digital ecosystem for students, teachers, and administrators. Manage attendance, exams, fees, timetable, and academic growth in one seamless experience.
-          </p>
-
-          {/* 4 Interactive Glass Pillar Badges */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-w-lg">
-            <div className="p-3 rounded-2xl bg-slate-900/40 hover:bg-slate-900/60 backdrop-blur-xl border border-white/15 hover:border-sky-400/50 shadow-xl text-center hover:-translate-y-1 transition-all duration-300 group animate-from-left anim-delay-400">
-              <div className="w-8 h-8 mx-auto mb-1.5 rounded-xl bg-sky-500/20 group-hover:bg-sky-500/30 text-sky-300 flex items-center justify-center transition-colors">
-                <GraduationCap className="w-4 h-4" />
-              </div>
-              <span className="block text-xs font-black text-white tracking-wider uppercase">Education</span>
-              <span className="text-[10px] text-slate-300 font-medium">Quality Learning</span>
+              {/* Tagline */}
+              <p className="mt-4 text-xs sm:text-sm text-slate-200/90 font-bold tracking-wide drop-shadow-md max-w-md">
+                Smart, secure & next-generation school management portal.
+              </p>
             </div>
 
-            <div className="p-3 rounded-2xl bg-slate-900/40 hover:bg-slate-900/60 backdrop-blur-xl border border-white/15 hover:border-indigo-400/50 shadow-xl text-center hover:-translate-y-1 transition-all duration-300 group animate-from-left anim-delay-500">
-              <div className="w-8 h-8 mx-auto mb-1.5 rounded-xl bg-indigo-500/20 group-hover:bg-indigo-500/30 text-indigo-300 flex items-center justify-center transition-colors">
-                <Award className="w-4 h-4" />
-              </div>
-              <span className="block text-xs font-black text-white tracking-wider uppercase">Discipline</span>
-              <span className="text-[10px] text-slate-300 font-medium">Core Values</span>
-            </div>
-
-            <div className="p-3 rounded-2xl bg-slate-900/40 hover:bg-slate-900/60 backdrop-blur-xl border border-white/15 hover:border-cyan-400/50 shadow-xl text-center hover:-translate-y-1 transition-all duration-300 group animate-from-left anim-delay-600">
-              <div className="w-8 h-8 mx-auto mb-1.5 rounded-xl bg-cyan-500/20 group-hover:bg-cyan-500/30 text-cyan-300 flex items-center justify-center transition-colors">
-                <BookOpen className="w-4 h-4" />
-              </div>
-              <span className="block text-xs font-black text-white tracking-wider uppercase">Knowledge</span>
-              <span className="text-[10px] text-slate-300 font-medium">Skill Building</span>
-            </div>
-
-            <div className="p-3 rounded-2xl bg-slate-900/40 hover:bg-slate-900/60 backdrop-blur-xl border border-white/15 hover:border-teal-400/50 shadow-xl text-center hover:-translate-y-1 transition-all duration-300 group animate-from-left anim-delay-700">
-              <div className="w-8 h-8 mx-auto mb-1.5 rounded-xl bg-teal-500/20 group-hover:bg-teal-500/30 text-teal-300 flex items-center justify-center transition-colors">
-                <TrendingUp className="w-4 h-4" />
-              </div>
-              <span className="block text-xs font-black text-white tracking-wider uppercase">Bright Future</span>
-              <span className="text-[10px] text-slate-300 font-medium">Endless Growth</span>
+            {/* Glowing Cyan Curved Swoosh Arrow pointing gracefully toward Login Form */}
+            <div className="hidden lg:block w-32 xl:w-44 h-24 flex-shrink-0 self-center pointer-events-none translate-y-3">
+              <svg viewBox="0 0 150 75" fill="none" className="w-full h-full drop-shadow-[0_0_12px_rgba(0,223,196,0.9)]">
+                <defs>
+                  <linearGradient id="cyanArrowGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#00dfc4" stopOpacity="0.1" />
+                    <stop offset="50%" stopColor="#00dfc4" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#00dfc4" stopOpacity="1" />
+                  </linearGradient>
+                  <marker
+                    id="cyanArrowHead"
+                    viewBox="0 0 10 10"
+                    refX="6"
+                    refY="5"
+                    markerWidth="6"
+                    markerHeight="6"
+                    orient="auto"
+                  >
+                    <path d="M 0 1.5 L 8.5 5 L 0 8.5 L 2 5 Z" fill="#00dfc4" />
+                  </marker>
+                </defs>
+                <path
+                  d="M 8 58 Q 75 60 132 18"
+                  stroke="url(#cyanArrowGrad)"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  fill="none"
+                  markerEnd="url(#cyanArrowHead)"
+                />
+              </svg>
             </div>
           </div>
         </div>
 
-        {/* RIGHT SIDE: Floating Dynamic Glassmorphic Login Form Card (Light & Dark Theme Adaptive) */}
-        <div className="w-full lg:w-[460px] xl:w-[480px] animate-fade-in anim-delay-100">
-          <div className="p-6 sm:p-8 backdrop-blur-2xl bg-white/80 dark:bg-slate-900/80 border border-white/60 dark:border-white/15 shadow-2xl rounded-3xl text-slate-800 dark:text-white transition-colors duration-300">
-
-            {/* Header Form Title (Step 1) */}
-            <div className="mb-4 animate-from-right anim-delay-200">
-              <h2 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight drop-shadow-xs">
-                Login to Portal
+        {/* RIGHT SIDE: Floating Login Card */}
+        <div className="w-full lg:w-auto flex items-center justify-center">
+          <div className="w-full max-w-[420px] sm:w-[420px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-[2rem] shadow-[0_25px_60px_rgba(0,0,0,0.35)] border border-white/80 dark:border-slate-700/80 p-6 sm:p-7">
+            
+            {/* Header */}
+            <div className="mb-4">
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                Login to <span className={roleTheme.titleAccent}>Portal</span>
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-300 mt-1 font-medium">
-                Select your role to access your personalized workspace
+              <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-1 font-bold">
+                Select your role to continue
               </p>
             </div>
 
-            {/* Role Switcher: Admin / Teacher / Student (Step 2) */}
-            <div className="grid grid-cols-3 gap-1.5 p-1.5 rounded-2xl bg-slate-100/80 dark:bg-slate-950/70 border border-slate-200/80 dark:border-white/15 mb-4 animate-from-right anim-delay-300">
+            {/* Role Switcher Pills */}
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl mb-4 border border-slate-200/80 dark:border-slate-700/80">
               <button
                 type="button"
                 onClick={() => handleRoleChange('admin')}
-                className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${role === 'admin'
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/30'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/10'
-                  }`}
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  role === 'admin'
+                    ? 'bg-teal-500 text-white shadow-md shadow-teal-500/35'
+                    : 'text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white'
+                }`}
               >
-                <ShieldCheck className="w-3.5 h-3.5" />
+                <ShieldCheck className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span>Admin</span>
               </button>
+
               <button
                 type="button"
                 onClick={() => handleRoleChange('teacher')}
-                className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${role === 'teacher'
-                  ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/30'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-amber-700 dark:hover:text-amber-400 hover:bg-amber-50/80 dark:hover:bg-amber-950/40'
-                  }`}
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  role === 'teacher'
+                    ? 'bg-amber-500 text-white shadow-md shadow-amber-500/35'
+                    : 'text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white'
+                }`}
               >
-                <UserCheck className="w-3.5 h-3.5" />
+                <Users className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span>Teacher</span>
               </button>
+
               <button
                 type="button"
                 onClick={() => handleRoleChange('student')}
-                className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${role === 'student'
-                  ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md shadow-sky-500/30'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-white/10'
-                  }`}
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  role === 'student'
+                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/35'
+                    : 'text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white'
+                }`}
               >
-                <User className="w-3.5 h-3.5" />
+                <GraduationCap className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span>Student</span>
               </button>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-3.5">
-              {error && (
-                <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-500/20 border border-rose-200 dark:border-rose-500/50 text-xs font-semibold text-rose-600 dark:text-rose-200 animate-from-right anim-delay-350">
-                  {error}
-                </div>
-              )}
+            {/* Error Message */}
+            {error && (
+              <div className="mb-3.5 p-2.5 rounded-xl bg-rose-50 dark:bg-rose-500/15 border-2 border-rose-300 dark:border-rose-500/40 text-xs font-black text-rose-700 dark:text-rose-200">
+                {error}
+              </div>
+            )}
 
-              {/* Email Field (Step 3) */}
-              <div className="animate-from-right anim-delay-400">
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1">
+            {/* Login Form */}
+            <form onSubmit={handleSubmit} className="space-y-3">
+              {/* Email Input */}
+              <div>
+                <label className="block text-xs sm:text-[13px] font-black text-slate-900 dark:text-white mb-1.5">
                   Email Address
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                    <Mail className="w-4 h-4" />
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-600 dark:text-slate-300">
+                    <Mail className="w-4 h-4 stroke-[2.2]" />
                   </div>
                   <input
                     type="email"
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="user@school.com"
-                    className="w-full pl-9 pr-3 py-2.5 text-xs font-medium text-slate-800 dark:text-white placeholder-slate-400 bg-white/80 dark:bg-slate-950/60 border border-slate-200/90 dark:border-white/20 rounded-xl focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-sky-500 dark:focus:border-sky-400 focus:ring-2 focus:ring-sky-500/20 transition-all"
+                    placeholder="Enter your email"
+                    className={`w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm font-bold text-slate-900 dark:text-white placeholder:text-slate-400 placeholder:font-medium bg-slate-50/90 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:bg-white dark:focus:bg-slate-800 ${roleTheme.focusRing} focus:ring-2 focus:border-teal-500 transition-all shadow-2xs`}
                   />
                 </div>
               </div>
 
-              {/* Password Field (Step 4) */}
-              <div className="animate-from-right anim-delay-500">
-                <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-200">
+              {/* Password Input */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs sm:text-[13px] font-black text-slate-900 dark:text-white">
                     Password
                   </label>
                   <Link
                     to="/forgot-password"
-                    className="text-[11px] font-bold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
+                    className={`text-xs font-black ${roleTheme.link} transition-colors underline-offset-2 hover:underline`}
                   >
                     Forgot password?
                   </Link>
                 </div>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                    <Lock className="w-4 h-4" />
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-600 dark:text-slate-300">
+                    <Lock className="w-4 h-4 stroke-[2.2]" />
                   </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    placeholder="••••••••"
-                    className="w-full pl-9 pr-9 py-2.5 text-xs font-medium text-slate-800 dark:text-white placeholder-slate-400 bg-white/80 dark:bg-slate-950/60 border border-slate-200/90 dark:border-white/20 rounded-xl focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-sky-500 dark:focus:border-sky-400 focus:ring-2 focus:ring-sky-500/20 transition-all"
+                    placeholder="Enter your password"
+                    className={`w-full pl-10 pr-10 py-2.5 text-xs sm:text-sm font-bold text-slate-900 dark:text-white placeholder:text-slate-400 placeholder:font-medium bg-slate-50/90 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:bg-white dark:focus:bg-slate-800 ${roleTheme.focusRing} focus:ring-2 focus:border-teal-500 transition-all shadow-2xs`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer transition-colors"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer transition-colors"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? <EyeOff className="w-4 h-4 stroke-[2.2]" /> : <Eye className="w-4 h-4 stroke-[2.2]" />}
                   </button>
                 </div>
               </div>
 
-              {/* Remember Me Checkbox (Step 5) */}
-              <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-300 pt-0.5 animate-from-right anim-delay-600">
-                <label className="flex items-center gap-2 cursor-pointer font-medium">
+              {/* Remember Me */}
+              <div className="flex items-center py-0.5">
+                <label className="flex items-center gap-2 cursor-pointer text-xs font-black text-slate-800 dark:text-slate-200">
                   <input
                     type="checkbox"
                     checked={formData.remember}
                     onChange={(e) => setFormData({ ...formData, remember: e.target.checked })}
-                    className="rounded border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-sky-500 focus:ring-sky-500 w-3.5 h-3.5"
+                    className={`rounded border-slate-400 dark:border-slate-600 bg-white dark:bg-slate-800 ${roleTheme.checkbox} w-4 h-4 cursor-pointer`}
                   />
-                  <span>Remember my session</span>
+                  <span>Remember me</span>
                 </label>
               </div>
 
-              {/* Submit Button (Step 6: Clean Minimal Button + Hover Lift + Hover Light Beam) */}
-              <div className="animate-from-right anim-delay-700 pt-1">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className={`btn-shine ${getSubmitBtnClass()} w-full h-12 py-3.5 px-6 text-sm font-black tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 active:scale-[0.99] border border-white/20 uppercase`}
-                >
-                  {isLoading ? (
-                    <Loader size="xs" variant="white" />
-                  ) : (
-                    <div className="relative z-20 flex items-center justify-center gap-2.5">
-                      <span className="drop-shadow-sm font-black tracking-widest text-xs sm:text-sm text-white">
-                        LOGIN
-                      </span>
-                      <ArrowRight className="w-4 h-4 text-white transition-transform duration-300 group-hover:translate-x-1.5 drop-shadow-sm stroke-[2.5]" />
-                    </div>
-                  )}
-                </button>
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`w-full h-11 py-2.5 px-4 ${roleTheme.submitBtn} text-xs sm:text-sm font-black tracking-wider rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer transform active:scale-[0.99]`}
+              >
+                {isLoading ? (
+                  <Loader size="xs" variant="white" />
+                ) : (
+                  <>
+                    <span className="drop-shadow-xs">Login</span>
+                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  </>
+                )}
+              </button>
+
+              {/* OR Divider */}
+              <div className="relative my-2 text-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-slate-300 dark:border-slate-700" />
+                </div>
+                <span className="relative px-3 bg-white dark:bg-slate-900 text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
+                  OR
+                </span>
+              </div>
+
+              {/* Continue with Google */}
+              <button
+                type="button"
+                onClick={() => handleQuickLogin(role)}
+                className="w-full h-10 py-2 px-4 rounded-xl bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-900 dark:text-slate-100 text-xs sm:text-sm font-black flex items-center justify-center gap-2.5 transition-all shadow-xs cursor-pointer"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                </svg>
+                <span>Continue with Google</span>
+              </button>
+
+              {/* Sign Up Link */}
+              <div className="text-center pt-0.5">
+                <p className="text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 font-bold">
+                  Don't have an account?{' '}
+                  <Link
+                    to="/signup"
+                    className={`font-black ${roleTheme.link} transition-colors underline-offset-2 hover:underline`}
+                  >
+                    Sign up
+                  </Link>
+                </p>
+              </div>
+
+              {/* 1-Click Direct Demo Login */}
+              <div className="pt-3 border-t border-slate-200 dark:border-slate-800">
+                <div className="flex items-center justify-center gap-1.5 text-xs font-black text-slate-800 dark:text-slate-200 mb-2">
+                  <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                  <span>1-Click Direct Demo Login</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleQuickLogin('admin')}
+                    className="py-1.5 px-2.5 rounded-xl text-xs font-black text-emerald-900 dark:text-emerald-100 bg-emerald-100/95 hover:bg-emerald-200 dark:bg-emerald-500/25 dark:hover:bg-emerald-500/35 border border-emerald-300 dark:border-emerald-500/40 transition cursor-pointer text-center shadow-xs"
+                  >
+                    Admin
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleQuickLogin('teacher')}
+                    className="py-1.5 px-2.5 rounded-xl text-xs font-black text-amber-900 dark:text-amber-100 bg-amber-100/95 hover:bg-amber-200 dark:bg-amber-500/25 dark:hover:bg-amber-500/35 border border-amber-300 dark:border-amber-500/40 transition cursor-pointer text-center shadow-xs"
+                  >
+                    Teacher
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleQuickLogin('student')}
+                    className="py-1.5 px-2.5 rounded-xl text-xs font-black text-sky-900 dark:text-sky-100 bg-sky-100/95 hover:bg-sky-200 dark:bg-sky-500/25 dark:hover:bg-sky-500/35 border border-sky-300 dark:border-sky-500/40 transition cursor-pointer text-center shadow-xs"
+                  >
+                    Student
+                  </button>
+                </div>
               </div>
             </form>
-
-            {/* Direct Link to Sign Up (Step 7) */}
-            <div className="mt-4 text-center animate-from-right anim-delay-800">
-              <p className="text-xs text-slate-500 dark:text-slate-300">
-                Don't have an account?{' '}
-                <Link
-                  to="/signup"
-                  className="font-bold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors underline-offset-2 hover:underline"
-                >
-                  Create New Account
-                </Link>
-              </p>
-            </div>
-
-            {/* 1-Click Fast Direct Demo Access (Step 8) */}
-            <div className="mt-4 pt-3.5 border-t border-slate-200/80 dark:border-white/10 text-center animate-from-right anim-delay-900">
-              <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-300 mb-2">
-                ⚡ 1-Click Direct Demo Login
-              </p>
-              <div className="grid grid-cols-3 gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin('admin')}
-                  className="py-1.5 px-2 rounded-xl text-[11px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 hover:bg-emerald-100/80 dark:bg-emerald-500/15 dark:hover:bg-emerald-500/25 border border-emerald-200/80 dark:border-emerald-500/30 transition cursor-pointer"
-                >
-                  Admin
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin('teacher')}
-                  className="py-1.5 px-2 rounded-xl text-[11px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 hover:bg-amber-100/80 dark:bg-amber-500/15 dark:hover:bg-amber-500/25 border border-amber-200/80 dark:border-amber-500/30 transition cursor-pointer"
-                >
-                  Teacher
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickLogin('student')}
-                  className="py-1.5 px-2 rounded-xl text-[11px] font-bold text-sky-700 dark:text-sky-300 bg-sky-50 hover:bg-sky-100/80 dark:bg-sky-500/15 dark:hover:bg-sky-500/25 border border-sky-200/80 dark:border-sky-500/30 transition cursor-pointer"
-                >
-                  Student
-                </button>
-              </div>
-            </div>
 
           </div>
         </div>
@@ -484,3 +507,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+

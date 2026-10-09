@@ -62,6 +62,8 @@ const EditTeacher = () => {
     assignedClasses: [],
     contractType: 'Full-Time',
     salary: '',
+    localAddress: '',
+    permanentAddress: '',
     address: '',
     gender: 'Male',
     status: 'Active',
@@ -87,7 +89,9 @@ const EditTeacher = () => {
         assignedClasses: Array.isArray(teacher.assignedClasses) ? teacher.assignedClasses : [],
         contractType: teacher.contractType || 'Full-Time',
         salary: teacher.salary || '',
-        address: teacher.address || '',
+        localAddress: teacher.localAddress || teacher.address || '',
+        permanentAddress: teacher.permanentAddress || teacher.address || '',
+        address: teacher.localAddress || teacher.address || '',
         gender: teacher.gender || 'Male',
         status: teacher.status || 'Active',
         avatar: teacher.avatar || localStorage.getItem(`teacher_avatar_${id}`) || null,
@@ -233,6 +237,23 @@ const EditTeacher = () => {
                     value={formData.status}
                     onChange={(e) => handleChange('status', e.target.value)}
                     options={['Active', 'On Leave', 'Suspended', 'Resigned']}
+                  />
+
+                  <Input
+                    label="Local Address"
+                    value={formData.localAddress || ''}
+                    onChange={(e) => {
+                      handleChange('localAddress', e.target.value);
+                      handleChange('address', e.target.value);
+                    }}
+                    placeholder="Street Address, City, State, PIN"
+                  />
+
+                  <Input
+                    label="Permanent Address"
+                    value={formData.permanentAddress || ''}
+                    onChange={(e) => handleChange('permanentAddress', e.target.value)}
+                    placeholder="Permanent Home Address, City, PIN"
                   />
                 </div>
               </div>
