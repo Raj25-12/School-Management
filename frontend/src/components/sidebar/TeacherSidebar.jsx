@@ -149,9 +149,8 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
     <>
       {/* Mobile Backdrop Overlay */}
       <div
-        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
         onClick={() => setIsOpen && setIsOpen(false)}
         aria-hidden="true"
       />
@@ -159,9 +158,8 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
       {/* Sidebar Drawer */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md border-r border-slate-200/80 dark:border-slate-800 
-        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
-          isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
-        }`}
+        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
+          }`}
       >
         {/* Brand Header */}
         <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-200/70 dark:border-slate-800 shrink-0">
@@ -204,10 +202,9 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${
-                      isActive
-                        ? 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed] shadow-md'
-                        : 'text-slate-600 dark:text-slate-300 hover:bg-[#ebd5ab]/25 dark:hover:bg-[#856326]/30 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] hover:shadow-xs'
+                    `flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${isActive
+                      ? 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed] shadow-md'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-[#ebd5ab]/25 dark:hover:bg-[#856326]/30 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] hover:shadow-xs'
                     }`
                   }
                 >
@@ -229,20 +226,18 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
                 <button
                   type="button"
                   onClick={() => toggleMenu(item.label)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                    isChildActive
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${isChildActive
                       ? 'bg-[#ebd5ab]/30 text-[#61410b] dark:bg-[#856326]/40 dark:text-[#ebd5ab] border border-[#ebd5ab]/70 dark:border-[#856326]/70'
                       : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-3 truncate">
                     <Icon className={`w-4 h-4 shrink-0 ${isChildActive ? 'text-[#8d6016] dark:text-[#ebd5ab]' : ''}`} />
                     <span className="truncate">{item.label}</span>
                   </div>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${
-                      isMenuOpen ? 'rotate-180 text-[#8d6016] dark:text-[#ebd5ab]' : ''
-                    }`}
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isMenuOpen ? 'rotate-180 text-[#8d6016] dark:text-[#ebd5ab]' : ''
+                      }`}
                   />
                 </button>
 
@@ -255,10 +250,9 @@ const TeacherSidebar = ({ isOpen, setIsOpen }) => {
                         to={sub.to}
                         end={sub.exact}
                         className={({ isActive }) =>
-                          `flex items-center gap-2 px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all ${
-                            isActive
-                              ? 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed] shadow-xs font-bold'
-                              : 'text-slate-500 dark:text-slate-400 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] hover:bg-[#ebd5ab]/20 dark:hover:bg-[#856326]/25'
+                          `flex items-center gap-2 px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all ${isActive
+                            ? 'clay-btn-sand text-[#2b1804] dark:text-[#fff9ed] shadow-xs font-bold'
+                            : 'text-slate-500 dark:text-slate-400 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] hover:bg-[#ebd5ab]/20 dark:hover:bg-[#856326]/25'
                           }`
                         }
                       >

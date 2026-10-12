@@ -143,9 +143,8 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
     <>
       {/* Mobile Backdrop Overlay */}
       <div
-        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
         onClick={() => setIsOpen && setIsOpen(false)}
         aria-hidden="true"
       />
@@ -153,9 +152,8 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
       {/* Sidebar Drawer */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md border-r border-slate-200/80 dark:border-slate-800 
-        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
-          isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
-        }`}
+        flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full shadow-none'
+          }`}
       >
         {/* Brand Header */}
         <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-200/70 dark:border-slate-800 shrink-0">
@@ -198,10 +196,9 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${
-                      isActive
-                        ? 'clay-btn-sky text-white shadow-md'
-                        : 'text-slate-600 dark:text-slate-300 hover:bg-sky-50/70 dark:hover:bg-sky-950/30 hover:text-sky-600 dark:hover:text-sky-400 hover:shadow-xs'
+                    `flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all ${isActive
+                      ? 'clay-btn-sky text-white shadow-md'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-sky-50/70 dark:hover:bg-sky-950/30 hover:text-sky-600 dark:hover:text-sky-400 hover:shadow-xs'
                     }`
                   }
                 >
@@ -223,20 +220,18 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
                 <button
                   type="button"
                   onClick={() => toggleMenu(item.label)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                    isChildActive
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${isChildActive
                       ? 'bg-sky-100/70 text-sky-800 dark:bg-sky-950/50 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60'
                       : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-3 truncate">
                     <Icon className={`w-4 h-4 shrink-0 ${isChildActive ? 'text-sky-600 dark:text-sky-400' : ''}`} />
                     <span className="truncate">{item.label}</span>
                   </div>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${
-                      isMenuOpen ? 'rotate-180 text-sky-600 dark:text-sky-400' : ''
-                    }`}
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isMenuOpen ? 'rotate-180 text-sky-600 dark:text-sky-400' : ''
+                      }`}
                   />
                 </button>
 
@@ -249,10 +244,9 @@ const StudentSidebar = ({ isOpen, setIsOpen }) => {
                         to={sub.to}
                         end={sub.exact}
                         className={({ isActive }) =>
-                          `flex items-center gap-2 px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all ${
-                            isActive
-                              ? 'clay-btn-sky text-white shadow-xs font-bold'
-                              : 'text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-sky-50/50 dark:hover:bg-sky-950/30'
+                          `flex items-center gap-2 px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all ${isActive
+                            ? 'clay-btn-sky text-white shadow-xs font-bold'
+                            : 'text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-sky-50/50 dark:hover:bg-sky-950/30'
                           }`
                         }
                       >

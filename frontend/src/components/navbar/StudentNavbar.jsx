@@ -145,9 +145,8 @@ const StudentNavbar = ({ toggleSidebar }) => {
             <button
               type="button"
               onClick={toggleNotificationMenu}
-              className={`clay-btn-secondary p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition cursor-pointer relative ${
-                isNotificationOpen ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-600' : ''
-              }`}
+              className={`clay-btn-secondary p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition cursor-pointer relative ${isNotificationOpen ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-600' : ''
+                }`}
               title="View Student Notifications"
               aria-label="Notifications"
             >
@@ -207,9 +206,8 @@ const StudentNavbar = ({ toggleSidebar }) => {
                         <div
                           key={notif.id}
                           onClick={() => handleNotificationClick(notif)}
-                          className={`flex items-start gap-3 p-3.5 hover:bg-slate-50/90 dark:hover:bg-slate-800/50 transition cursor-pointer relative ${
-                            !isRead ? 'bg-sky-50/40 dark:bg-sky-950/20' : ''
-                          }`}
+                          className={`flex items-start gap-3 p-3.5 hover:bg-slate-50/90 dark:hover:bg-slate-800/50 transition cursor-pointer relative ${!isRead ? 'bg-sky-50/40 dark:bg-sky-950/20' : ''
+                            }`}
                         >
                           <div className={`p-2 rounded-xl shrink-0 clay-icon-pill ${iconData.color}`}>
                             <Icon className="w-4 h-4" />

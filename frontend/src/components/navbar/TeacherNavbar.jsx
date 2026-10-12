@@ -143,9 +143,8 @@ const TeacherNavbar = ({ toggleSidebar }) => {
             <button
               type="button"
               onClick={toggleNotificationMenu}
-              className={`clay-btn-secondary p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] transition cursor-pointer relative ${
-                isNotificationOpen ? 'bg-[#ebd5ab]/30 dark:bg-[#856326]/40 text-[#8d6016] dark:text-[#ebd5ab]' : ''
-              }`}
+              className={`clay-btn-secondary p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-[#8d6016] dark:hover:text-[#ebd5ab] transition cursor-pointer relative ${isNotificationOpen ? 'bg-[#ebd5ab]/30 dark:bg-[#856326]/40 text-[#8d6016] dark:text-[#ebd5ab]' : ''
+                }`}
               title="View Teacher Notifications"
               aria-label="Notifications"
             >
@@ -205,9 +204,8 @@ const TeacherNavbar = ({ toggleSidebar }) => {
                         <div
                           key={notif.id}
                           onClick={() => handleNotificationClick(notif)}
-                          className={`flex items-start gap-3 p-3.5 hover:bg-slate-50/90 dark:hover:bg-slate-800/50 transition cursor-pointer relative ${
-                            !isRead ? 'bg-[#ebd5ab]/20 dark:bg-[#856326]/20' : ''
-                          }`}
+                          className={`flex items-start gap-3 p-3.5 hover:bg-slate-50/90 dark:hover:bg-slate-800/50 transition cursor-pointer relative ${!isRead ? 'bg-[#ebd5ab]/20 dark:bg-[#856326]/20' : ''
+                            }`}
                         >
                           <div className={`p-2 rounded-xl shrink-0 clay-icon-pill ${iconData.color}`}>
                             <Icon className="w-4 h-4" />

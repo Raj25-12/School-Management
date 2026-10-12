@@ -178,9 +178,8 @@ const AdminNavbar = ({ toggleSidebar }) => {
             <button
               type="button"
               onClick={toggleNotificationMenu}
-              className={`clay-btn-secondary p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition cursor-pointer relative ${
-                isNotificationOpen ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600' : ''
-              }`}
+              className={`clay-btn-secondary p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition cursor-pointer relative ${isNotificationOpen ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600' : ''
+                }`}
               title="View Notifications"
               aria-label="Notifications"
             >
@@ -240,9 +239,8 @@ const AdminNavbar = ({ toggleSidebar }) => {
                         <div
                           key={notif.id}
                           onClick={() => handleNotificationClick(notif)}
-                          className={`flex items-start gap-3 p-3.5 hover:bg-slate-50/90 dark:hover:bg-slate-800/50 transition cursor-pointer relative ${
-                            !isRead ? 'bg-emerald-50/40 dark:bg-emerald-950/20' : ''
-                          }`}
+                          className={`flex items-start gap-3 p-3.5 hover:bg-slate-50/90 dark:hover:bg-slate-800/50 transition cursor-pointer relative ${!isRead ? 'bg-emerald-50/40 dark:bg-emerald-950/20' : ''
+                            }`}
                         >
                           <div className={`p-2 rounded-xl shrink-0 clay-icon-pill ${iconData.color}`}>
                             <Icon className="w-4 h-4" />

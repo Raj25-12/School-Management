@@ -175,7 +175,7 @@ const Login = () => {
 
   return (
     <div className="h-screen w-full flex items-center justify-center font-sans relative overflow-hidden select-none">
-      
+
       {/* =========================================================================
           FULL-SCREEN BACKGROUND IMAGE (COVERS ENTIRE SCREEN)
           ========================================================================= */}
@@ -188,7 +188,7 @@ const Login = () => {
         {/* Crisp Readability Overlay & Subtle Atmospheric Vignette */}
         <div className="absolute inset-0 bg-slate-950/35 dark:bg-slate-950/60 backdrop-blur-[1.5px]" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/40 to-slate-950/30" />
-        
+
         {/* Soft Ambient Corner Glows */}
         <div className="absolute top-10 right-10 w-96 h-96 bg-teal-400/20 rounded-full blur-3xl" />
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
@@ -214,10 +214,10 @@ const Login = () => {
           FOREGROUND CONTENT: HERO ON LEFT + FLOATING CARD ON RIGHT
           ========================================================================= */}
       <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 py-4 overflow-y-auto lg:overflow-hidden">
-        
+
         {/* LEFT SIDE: Brand Logo + Welcome to EduManage + Glowing Arrow */}
         <div className="w-full lg:w-1/2 flex flex-col justify-center select-none text-left py-4">
-          
+
           {/* Top Brand */}
           <div className="flex items-center gap-2.5 mb-6 sm:mb-8">
             <div className="w-10 h-10 rounded-xl bg-teal-400/25 backdrop-blur-md border border-teal-400/50 flex items-center justify-center text-teal-300 shadow-xl">
@@ -281,7 +281,7 @@ const Login = () => {
         {/* RIGHT SIDE: Floating Login Card */}
         <div className="w-full lg:w-auto flex items-center justify-center">
           <div className="w-full max-w-[420px] sm:w-[420px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-[2rem] shadow-[0_25px_60px_rgba(0,0,0,0.35)] border border-white/80 dark:border-slate-700/80 p-6 sm:p-7">
-            
+
             {/* Header */}
             <div className="mb-4">
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -297,11 +297,10 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => handleRoleChange('admin')}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                  role === 'admin'
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${role === 'admin'
                     ? 'bg-teal-500 text-white shadow-md shadow-teal-500/35'
                     : 'text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white'
-                }`}
+                  }`}
               >
                 <ShieldCheck className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span>Admin</span>
@@ -310,11 +309,10 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => handleRoleChange('teacher')}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                  role === 'teacher'
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${role === 'teacher'
                     ? 'bg-amber-500 text-white shadow-md shadow-amber-500/35'
                     : 'text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white'
-                }`}
+                  }`}
               >
                 <Users className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span>Teacher</span>
@@ -323,11 +321,10 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => handleRoleChange('student')}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                  role === 'student'
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${role === 'student'
                     ? 'bg-sky-500 text-white shadow-md shadow-sky-500/35'
                     : 'text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white'
-                }`}
+                  }`}
               >
                 <GraduationCap className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span>Student</span>
