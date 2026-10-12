@@ -217,7 +217,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
         {/* Brand Header */}
         <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-200/70 dark:border-slate-800 shrink-0">
           <Link to="/admin/dashboard" className="flex items-center gap-2.5 overflow-hidden group flex-1">
-            <div className="w-10 h-10 rounded-2xl bg-white/90 dark:bg-slate-800 clay-icon-pill p-1.5 flex items-center justify-center border border-slate-200/80 dark:border-slate-700/80 shadow-xs shrink-0 group-hover:scale-105 transition-all">
+            <div className="w-10 h-10 rgb-logo-badge p-1.5 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
               <img
                 src={logo}
                 alt="School Management"
@@ -225,10 +225,10 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
               />
             </div>
             <div className="flex flex-col truncate">
-              <span className="text-sm font-bold text-slate-800 dark:text-white tracking-tight leading-none">
-                School Management
+              <span className="text-sm font-extrabold tracking-tight leading-none">
+                <span className="text-slate-800 dark:text-white">Edu</span><span className="rgb-text">Manage</span>
               </span>
-              <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mt-1">
+              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mt-1">
                 Admin Portal
               </span>
             </div>

@@ -13,3 +13,5 @@ export { default as IdCardPreview } from './IdCardPreview';
 export { default as SearchFilterBar } from './SearchFilterBar';
 export { default as AvatarUpload } from './AvatarUpload';
 export { MaleIcon, FemaleIcon } from './GenderIcons';
+export { default as AISearchPill, AISparkleSearchIcon } from './AISearchPill';
+export { default as RGBOrbitButton, RGBOrbitLink } from './RGBOrbitButton';

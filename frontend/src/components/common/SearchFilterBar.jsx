@@ -1,5 +1,6 @@
 import React from 'react';
-import { Search, X } from 'lucide-react';
+import { X } from 'lucide-react';
+import { AISparkleSearchIcon } from './AISearchPill';
 import Card from './Card';
 import Input from './Input';
 import Select from './Select';
@@ -15,14 +16,14 @@ const SearchFilterBar = ({
   return (
     <Card padding="p-4" className={className}>
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-        {/* Search input with clear button */}
+        {/* Search input with clear button & RGB focus glow */}
         <div className="flex-1 relative">
           <Input
-            icon={Search}
+            icon={AISparkleSearchIcon}
             placeholder={placeholder}
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full"
+            className="w-full rgb-search-input"
           />
           {searchQuery && (
             <button

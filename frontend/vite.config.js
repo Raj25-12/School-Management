@@ -31,6 +31,7 @@ function lucideIconOptimizerPlugin() {
   return {
     name: 'vite-plugin-lucide-optimizer',
     enforce: 'pre',
+    apply: 'build', // Only transform during build to avoid massive unbundled icon network requests on 3G in dev
     transform(code, id) {
       if ((id.endsWith('.jsx') || id.endsWith('.js') || id.endsWith('.tsx') || id.endsWith('.ts')) && !id.includes('node_modules')) {
         if (code.includes("from 'lucide-react'") || code.includes('from "lucide-react"')) {
@@ -84,7 +85,10 @@ export default defineConfig({
     include: [
       'react',
       'react-dom',
+      'react-dom/client',
       'react-router-dom',
+      '@tanstack/react-query',
+      'lucide-react',
     ],
   },
   server: {
@@ -92,9 +96,6 @@ export default defineConfig({
       clientFiles: [
         './src/main.jsx',
         './src/App.jsx',
-        './src/layouts/AdminLayout.jsx',
-        './src/components/sidebar/AdminSidebar.jsx',
-        './src/components/navbar/AdminNavbar.jsx',
       ],
     },
   },
@@ -106,7 +107,7 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react-router-dom') || id.includes('react-dom') || id.includes('react/')) {
+            if (id.includes('react-router-dom') || id.includes('react-dom') || id.includes('react/') || id.includes('@tanstack/react-query')) {
               return 'vendor-react';
             }
           }

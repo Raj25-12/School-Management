@@ -1,29 +1,27 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
+import ProtectedRoute from './ProtectedRoute';
 import Loader from '../components/common/Loader';
 
-// Layouts (Lazy Loaded - so login/signup and initial page load are ultra-fast)
+// Layouts (Lazy Loaded - on-demand per authorized role)
 const AdminLayout = lazy(() => import('../layouts/AdminLayout'));
 const TeacherLayout = lazy(() => import('../layouts/TeacherLayout'));
 const StudentLayout = lazy(() => import('../layouts/StudentLayout'));
 
-
-
-// Loading fallback component
+// Loading fallback component for route transitions
 const RouteLoader = () => (
   <div className="flex items-center justify-center min-h-[60vh] w-full py-12">
     <Loader size="md" variant="primary" />
   </div>
 );
 
-// Auth Pages (Lazy)
+// Public & Auth Pages (Lazy)
+const LandingPage = lazy(() => import('../pages/landing/LandingPage'));
 const Login = lazy(() => import('../pages/auth/Login'));
-const Register = lazy(() => import('../pages/auth/Register'));
 const ForgotPassword = lazy(() => import('../pages/auth/ForgotPassword'));
 const ResetPassword = lazy(() => import('../pages/auth/ResetPassword'));
 
-// Admin Pages (Lazy)
+// Admin Pages (Lazy - Loaded only on demand when an authorized admin visits them)
 const AdminDashboard = lazy(() => import('../pages/admin/Dashboard'));
 const StudentList = lazy(() => import('../pages/admin/students/StudentList'));
 const AddStudent = lazy(() => import('../pages/admin/students/AddStudent'));
@@ -65,7 +63,7 @@ const AdminMailbox = lazy(() => import('../pages/admin/notices/AdminMailbox'));
 const AdminReports = lazy(() => import('../pages/admin/reports/Reports'));
 const AdminSettings = lazy(() => import('../pages/admin/settings/Settings'));
 
-// Teacher Pages (Lazy)
+// Teacher Pages (Lazy - Loaded only on demand when an authorized teacher visits them)
 const TeacherDashboard = lazy(() => import('../pages/teacher/Dashboard'));
 const TeacherMyClasses = lazy(() => import('../pages/teacher/MyClasses'));
 const TeacherMyStudents = lazy(() => import('../pages/teacher/MyStudents'));
@@ -79,7 +77,7 @@ const TeacherBroadcast = lazy(() => import('../pages/teacher/notices/TeacherBroa
 const TeacherDoubts = lazy(() => import('../pages/teacher/notices/TeacherDoubts'));
 const TeacherProfile = lazy(() => import('../pages/teacher/Profile'));
 
-// Student Pages (Lazy)
+// Student Pages (Lazy - Loaded only on demand when an authorized student visits them)
 const StudentDashboard = lazy(() => import('../pages/student/Dashboard'));
 const MyProfile = lazy(() => import('../pages/student/MyProfile'));
 const MyAttendance = lazy(() => import('../pages/student/MyAttendance'));
@@ -99,105 +97,116 @@ const AppRoutes = () => {
   return (
     <Suspense fallback={<RouteLoader />}>
       <Routes>
-        {/* Root redirect to Login page */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* Public Landing Page & Section Routes */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/about" element={<LandingPage />} />
+        <Route path="/features" element={<LandingPage />} />
+        <Route path="/school-life" element={<LandingPage />} />
+        <Route path="/events" element={<LandingPage />} />
+        <Route path="/contact" element={<LandingPage />} />
 
         {/* Auth Pages */}
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/signup" element={<Login />} />
+        <Route path="/register" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* Admin Routes (Directly Accessible) */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="dashboard" element={<AdminDashboard />} />
+        {/* Protected Admin Routes - Only loaded for authorized Admin */}
+        <Route element={<ProtectedRoute allowedRole="admin" />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
 
-          {/* Students */}
-          <Route path="students" element={<StudentList />} />
-          <Route path="students/add" element={<AddStudent />} />
-          <Route path="students/edit/:id" element={<EditStudent />} />
-          <Route path="students/details/:id" element={<StudentDetails />} />
-          <Route path="students/promotion" element={<StudentPromotion />} />
+            {/* Students */}
+            <Route path="students" element={<StudentList />} />
+            <Route path="students/add" element={<AddStudent />} />
+            <Route path="students/edit/:id" element={<EditStudent />} />
+            <Route path="students/details/:id" element={<StudentDetails />} />
+            <Route path="students/promotion" element={<StudentPromotion />} />
 
-          {/* Teachers */}
-          <Route path="teachers" element={<TeacherList />} />
-          <Route path="teachers/add" element={<AddTeacher />} />
-          <Route path="teachers/edit/:id" element={<EditTeacher />} />
-          <Route path="teachers/details/:id" element={<TeacherDetails />} />
+            {/* Teachers */}
+            <Route path="teachers" element={<TeacherList />} />
+            <Route path="teachers/add" element={<AddTeacher />} />
+            <Route path="teachers/edit/:id" element={<EditTeacher />} />
+            <Route path="teachers/details/:id" element={<TeacherDetails />} />
 
-          {/* Parents */}
-          <Route path="parents" element={<ParentList />} />
+            {/* Parents */}
+            <Route path="parents" element={<ParentList />} />
 
-          {/* Classes, Sections, Subjects */}
-          <Route path="classes" element={<ClassList />} />
-          <Route path="classes/sections" element={<SectionList />} />
-          <Route path="classes/subjects" element={<SubjectList />} />
+            {/* Classes, Sections, Subjects */}
+            <Route path="classes" element={<ClassList />} />
+            <Route path="classes/sections" element={<SectionList />} />
+            <Route path="classes/subjects" element={<SubjectList />} />
 
-          {/* Attendance */}
-          <Route path="attendance/student" element={<StudentAttendance />} />
-          <Route path="attendance/teacher" element={<TeacherAttendance />} />
-          <Route path="attendance/report" element={<AttendanceReport />} />
+            {/* Attendance */}
+            <Route path="attendance/student" element={<StudentAttendance />} />
+            <Route path="attendance/teacher" element={<TeacherAttendance />} />
+            <Route path="attendance/report" element={<AttendanceReport />} />
 
-          {/* Timetable */}
-          <Route path="timetable" element={<AdminTimetable initialScope="class" />} />
-          <Route path="timetable/teacher" element={<AdminTimetable initialScope="teacher" />} />
-          <Route path="timetable/room" element={<AdminTimetable initialScope="room" />} />
-          <Route path="timetable/conflicts" element={<AdminTimetable initialScope="conflicts" />} />
+            {/* Timetable */}
+            <Route path="timetable" element={<AdminTimetable initialScope="class" />} />
+            <Route path="timetable/teacher" element={<AdminTimetable initialScope="teacher" />} />
+            <Route path="timetable/room" element={<AdminTimetable initialScope="room" />} />
+            <Route path="timetable/conflicts" element={<AdminTimetable initialScope="conflicts" />} />
 
-          {/* Examinations */}
-          <Route path="exams" element={<ExamList />} />
-          <Route path="exams/marks" element={<AdminMarks />} />
-          <Route path="exams/results" element={<AdminResults />} />
-          <Route path="exams/report-card" element={<ReportCard />} />
+            {/* Examinations */}
+            <Route path="exams" element={<ExamList />} />
+            <Route path="exams/marks" element={<AdminMarks />} />
+            <Route path="exams/results" element={<AdminResults />} />
+            <Route path="exams/report-card" element={<ReportCard />} />
 
-          {/* Fees Management */}
-          <Route path="fees/structure" element={<FeeStructure />} />
-          <Route path="fees/collect" element={<CollectFees />} />
-          <Route path="fees/pending" element={<PendingFees />} />
-          <Route path="fees/receipts" element={<Receipts />} />
+            {/* Fees Management */}
+            <Route path="fees/structure" element={<FeeStructure />} />
+            <Route path="fees/collect" element={<CollectFees />} />
+            <Route path="fees/pending" element={<PendingFees />} />
+            <Route path="fees/receipts" element={<Receipts />} />
 
-          {/* Homework, Notices, Reports, Settings */}
-          <Route path="homework" element={<AdminHomework />} />
-          <Route path="notices" element={<AdminNotices />} />
-          <Route path="notices/broadcast" element={<AdminBroadcast />} />
-          <Route path="notices/mailbox" element={<AdminMailbox />} />
-          <Route path="reports" element={<AdminReports />} />
-          <Route path="settings" element={<AdminSettings />} />
+            {/* Homework, Notices, Reports, Settings */}
+            <Route path="homework" element={<AdminHomework />} />
+            <Route path="notices" element={<AdminNotices />} />
+            <Route path="notices/broadcast" element={<AdminBroadcast />} />
+            <Route path="notices/mailbox" element={<AdminMailbox />} />
+            <Route path="reports" element={<AdminReports />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
         </Route>
 
-        {/* Teacher Routes (Directly Accessible) */}
-        <Route path="/teacher" element={<TeacherLayout />}>
-          <Route index element={<Navigate to="/teacher/dashboard" replace />} />
-          <Route path="dashboard" element={<TeacherDashboard />} />
-          <Route path="classes" element={<TeacherMyClasses />} />
-          <Route path="students" element={<TeacherMyStudents />} />
-          <Route path="attendance" element={<TeacherAttendancePage />} />
-          <Route path="timetable" element={<TeacherTimetable />} />
-          <Route path="homework" element={<TeacherHomework />} />
-          <Route path="exams" element={<TeacherExams />} />
-          <Route path="marks" element={<TeacherMarks />} />
-          <Route path="notices" element={<TeacherNotices />} />
-          <Route path="notices/broadcast" element={<TeacherBroadcast />} />
-          <Route path="notices/doubts" element={<TeacherDoubts />} />
-          <Route path="profile" element={<TeacherProfile />} />
+        {/* Protected Teacher Routes - Only loaded for authorized Teacher */}
+        <Route element={<ProtectedRoute allowedRole="teacher" />}>
+          <Route path="/teacher" element={<TeacherLayout />}>
+            <Route index element={<Navigate to="/teacher/dashboard" replace />} />
+            <Route path="dashboard" element={<TeacherDashboard />} />
+            <Route path="classes" element={<TeacherMyClasses />} />
+            <Route path="students" element={<TeacherMyStudents />} />
+            <Route path="attendance" element={<TeacherAttendancePage />} />
+            <Route path="timetable" element={<TeacherTimetable />} />
+            <Route path="homework" element={<TeacherHomework />} />
+            <Route path="exams" element={<TeacherExams />} />
+            <Route path="marks" element={<TeacherMarks />} />
+            <Route path="notices" element={<TeacherNotices />} />
+            <Route path="notices/broadcast" element={<TeacherBroadcast />} />
+            <Route path="notices/doubts" element={<TeacherDoubts />} />
+            <Route path="profile" element={<TeacherProfile />} />
+          </Route>
         </Route>
 
-        {/* Student Routes (Directly Accessible) */}
-        <Route path="/student" element={<StudentLayout />}>
-          <Route index element={<Navigate to="/student/dashboard" replace />} />
-          <Route path="dashboard" element={<StudentDashboard />} />
-          <Route path="profile" element={<MyProfile />} />
-          <Route path="attendance" element={<MyAttendance />} />
-          <Route path="timetable" element={<MyTimetable />} />
-          <Route path="homework" element={<MyHomework />} />
-          <Route path="exams" element={<MyExams />} />
-          <Route path="results" element={<MyResults />} />
-          <Route path="fees" element={<MyFees />} />
-          <Route path="notices" element={<StudentNotices />} />
-          <Route path="notices/ask-doubt" element={<AskDoubt />} />
-          <Route path="notices/inquiries" element={<MyInquiries />} />
+        {/* Protected Student Routes - Only loaded for authorized Student */}
+        <Route element={<ProtectedRoute allowedRole="student" />}>
+          <Route path="/student" element={<StudentLayout />}>
+            <Route index element={<Navigate to="/student/dashboard" replace />} />
+            <Route path="dashboard" element={<StudentDashboard />} />
+            <Route path="profile" element={<MyProfile />} />
+            <Route path="attendance" element={<MyAttendance />} />
+            <Route path="timetable" element={<MyTimetable />} />
+            <Route path="homework" element={<MyHomework />} />
+            <Route path="exams" element={<MyExams />} />
+            <Route path="results" element={<MyResults />} />
+            <Route path="fees" element={<MyFees />} />
+            <Route path="notices" element={<StudentNotices />} />
+            <Route path="notices/ask-doubt" element={<AskDoubt />} />
+            <Route path="notices/inquiries" element={<MyInquiries />} />
+          </Route>
         </Route>
 
         {/* 404 Catch-All */}
